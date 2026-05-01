@@ -1,0 +1,9 @@
+langchain
+transformers
+langchain-huggingface
+huggingface_hub
+deepagents
+dotenv
+tavily
+torch
+langchain-openrouter
