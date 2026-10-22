@@ -34,13 +34,21 @@
     <h1>AI-Lifecycle</h1>
     <p class="lead">
       Ein KI-Modell ist kein «einmal bauen, fertig». Es braucht einen <b>Lebenszyklus</b> — von der
-      Problemdefinition über Training &amp; Deployment bis zu <b>Monitoring</b> und Iteration. Für das
-      Management zählt: klare Prozesse, Governance und das frühzeitige Erkennen von <b>Drift</b>.
+      Problemdefinition über Training &amp; Deployment bis zu <b>Monitoring</b> und Iteration. Wir begleiten
+      das <b>Kündigungsvermeidungs-Modell der Alpenblick AG</b> durch den ganzen Zyklus: klare Prozesse,
+      Governance und das frühzeitige Erkennen von <b>Drift</b>.
     </p>
     <div class="row mt">
       <div class="progressbar" style="width:240px"><span data-progress="k6" data-total="4" style="width:0%"></span></div>
       <span class="small muted" data-progress-label="k6">0 / 4 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- LERNZIELE (Rec. E) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch6-obj"></div>
   </div>
 </section>
 
@@ -70,11 +78,14 @@
         <div class="icon">🔄</div>
         <div><div class="type">Aufgabe 1 · Zuordnen</div><h3>Welche Phase?</h3></div>
       </div>
-      <p class="instr">Ordne jede Tätigkeit der passenden CRISP-DM-Phase zu.</p>
+      <p class="instr">Ordne jede Tätigkeit der passenden CRISP-DM-Phase zu — alle sechs Phasen.</p>
       <div class="grid cols-3" style="margin-top:8px">
-        <div class="dz" id="dz-bu"><span class="dz-label">🎯 Business Understanding</span><div class="dz-items"></div></div>
-        <div class="dz" id="dz-dp"><span class="dz-label">🧹 Data Preparation</span><div class="dz-items"></div></div>
-        <div class="dz" id="dz-dep"><span class="dz-label">🚀 Deployment</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-bu"><span class="dz-label">1 · 🎯 Business Understanding</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-du"><span class="dz-label">2 · 🔍 Data Understanding</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-dp"><span class="dz-label">3 · 🧹 Data Preparation</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-mod"><span class="dz-label">4 · 🧠 Modeling</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-eval"><span class="dz-label">5 · 📏 Evaluation</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-dep"><span class="dz-label">6 · 🚀 Deployment</span><div class="dz-items"></div></div>
       </div>
       <div class="dnd-pool mt" id="crisp-pool"><span class="hint">Hier liegen die Tätigkeiten.</span></div>
       <div class="row">
@@ -176,6 +187,7 @@
       </div>
       <p class="instr">Wähle die beste Massnahme für die Situation.</p>
       <div id="sc-lifecycle"></div>
+      <div id="reason-lifecycle" style="margin-top:16px"></div>
     </div>
   </div>
 </section>
@@ -209,19 +221,28 @@
     document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
   }
 
-  // Aufgabe 1: CRISP-DM
+  // Aufgabe 1: CRISP-DM (alle 6 Phasen)
   const cChips = [
     {id:"c1", text:"Ziele &amp; Kennzahlen mit Fachexperten festlegen", key:"bu"},
-    {id:"c2", text:"Fachrealität &amp; Zusammenhänge verstehen", key:"bu"},
-    {id:"c3", text:"Daten reinigen, transformieren, Datenschutz", key:"dp"},
-    {id:"c4", text:"Fehlende Werte &amp; Dubletten bereinigen", key:"dp"},
-    {id:"c5", text:"Modell in Produktion bringen &amp; überwachen", key:"dep"},
-    {id:"c6", text:"Integration in bestehende Systeme", key:"dep"}
+    {id:"c2", text:"Fachrealität &amp; Business-Ziel verstehen", key:"bu"},
+    {id:"c3", text:"Daten begreifen, Qualität &amp; Quellen prüfen", key:"du"},
+    {id:"c4", text:"Verteilungen &amp; Zusammenhänge der Daten erkunden", key:"du"},
+    {id:"c5", text:"Fehlende Werte &amp; Dubletten bereinigen", key:"dp"},
+    {id:"c6", text:"Datenschutz &amp; Transformation anwenden", key:"dp"},
+    {id:"c7", text:"Algorithmus wählen, trainieren, testen", key:"mod"},
+    {id:"c8", text:"Modelle vergleichen und auswählen", key:"mod"},
+    {id:"c9", text:"Passt das Ergebnis zum Business-Ziel?", key:"eval"},
+    {id:"c10", text:"Kennzahlen gegen Ziel messen", key:"eval"},
+    {id:"c11", text:"Modell in Produktion bringen &amp; überwachen", key:"dep"},
+    {id:"c12", text:"Integration in bestehende Systeme", key:"dep"}
   ];
-  const cZones = [{id:"dz-bu",key:"bu"},{id:"dz-dp",key:"dp"},{id:"dz-dep",key:"dep"}];
+  const cZones = [
+    {id:"dz-bu",key:"bu"},{id:"dz-du",key:"du"},{id:"dz-dp",key:"dp"},
+    {id:"dz-mod",key:"mod"},{id:"dz-eval",key:"eval"},{id:"dz-dep",key:"dep"}
+  ];
   const kitC = KI.dragKit({ poolId:"crisp-pool", chips:cChips, zones:cZones });
   bindCheck("crisp-check","crisp-reset",kitC, document.getElementById("crisp-fb"), "k6","t1",
-    "Sehr gut! Business Understanding zuerst, dann Data Preparation, schliesslich Deployment.");
+    "Sehr gut! Alle sechs Phasen: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.");
 
   // Aufgabe 3: Drift
   const dChips = [
@@ -252,7 +273,7 @@ KI.initMC({
 KI.initScenario({
   containerId:"sc-lifecycle", chapter:"k6", taskId:"t4",
   role:"Management-Entscheidung",
-  prompt:"Euer Churn-Modell lief ein Jahr lang stabil. Seit 3 Monaten sinkt die Vorhersagequalität spürbar — die Kündigungsmuster haben sich nach einem Preismodell-Wechsel verändert. Was ist die richtige nächste Massnahme?",
+  prompt:"Das Churn-Modell der Alpenblick AG lief ein Jahr lang stabil. Seit 3 Monaten sinkt die Vorhersagequalität spürbar — die Kündigungsmuster haben sich nach einem Preismodell-Wechsel verändert. Was ist die richtige nächste Massnahme?",
   options:[
     {text:"Monitoring analysieren: Concept Drift prüfen (Kausalität geändert) und Features/Fachwissen anpassen", good:true,
      consequence:"Richtig. Ein Preismodell-Wechsel verändert die Beziehung Input→Output — das ist Concept Drift. Die Lösung: Features anpassen und Fachexperten einbinden."},
@@ -260,6 +281,21 @@ KI.initScenario({
      consequence:"Zu grob. Wenn sich die Kausalität geändert hat (Concept Drift), reicht neu Trainieren mit denselben Features nicht. Erst analysieren, was sich geändert hat."},
     {text:"Das Modell abschalten, bis das Problem von allein verschwindet", good:false,
      consequence:"Keine Option. Drift verschwindet nicht von allein — und ein schlechtes Modell trifft weiterhin falsche Entscheidungen. Früh erkennen &amp; handeln ist der Punkt."}
+  ]
+});
+KI.reasonBox({
+  containerId:"reason-lifecycle", chapter:"k6", taskId:"t4-reason",
+  prompt:"Begründe in einem Satz: Warum reicht hier «neu trainieren» nicht, wenn sich die Kausalität geändert hat?"
+});
+
+/* Lernziele (Rec. E) */
+KI.initObjectives({
+  containerId:"ch6-obj", chapter:"k6",
+  items:[
+    {text:"Ich kenne die 6 Phasen von CRISP-DM und ihre Reihenfolge.", check:"Ich ordne Tätigkeiten den Phasen zu."},
+    {text:"Ich kann MLOps und LLMOps unterscheiden.", check:"Ich erkläre den Unterschied."},
+    {text:"Ich erkenne die drei Drift-Typen (Data/Concept/Model).", check:"Ich ordne Situationen zu."},
+    {text:"Ich verstehe, warum Monitoring und Governance kritisch sind.", check:"Ich begründe den Lifecycle-Entscheid."}
   ]
 });
 </script>

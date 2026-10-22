@@ -35,12 +35,20 @@
     <p class="lead">
       Analytik ist eine Treppe mit <b>fünf Stufen</b> — von «Was ist passiert?» bis «Was sollen wir tun?».
       Generative KI ist dabei ein <b>eigenes, separates</b> Feld. Für das Management ist wichtig zu wissen,
-      auf welcher Stufe man steht und welche Frage jede Stufe beantwortet.
+      auf welcher Stufe man steht und welche Frage jede Stufe beantwortet. Wir führen die
+      <b>Alpenblick AG</b> (Kapitel 1) die Treppe hinauf — von der ersten Kennzahl bis zur Empfehlung.
     </p>
     <div class="row mt">
       <div class="progressbar" style="width:240px"><span data-progress="k2" data-total="4" style="width:0%"></span></div>
       <span class="small muted" data-progress-label="k2">0 / 4 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- LERNZIELE (Rec. E) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch2-obj"></div>
   </div>
 </section>
 
@@ -156,8 +164,9 @@
   <div class="wrap">
     <h2 class="sec">Hands-on: Der nächste Schritt</h2>
     <p class="sub">
-      Ein Detailhändler hat bereits Dashboards. Die Geschäftsführung fragt: «Warum ist der Umsatz
-      in Europa um 15% gesunken?» — Welche Stufe ist der sinnvolle nächste Schritt?
+      Die <b>Alpenblick AG</b> hat aus Kapitel 1 ein Dashboard mit dem Umsatz pro Vertriebsgebiet
+      (descriptive). Die Geschäftsführung fragt: «Warum ist die Marge im Gebiet Zentral so niedrig
+      (7.9 %), während West bei 14.9 % liegt?» — Welche Stufe ist der sinnvolle nächste Schritt?
     </p>
     <div class="task">
       <div class="task-head">
@@ -165,6 +174,7 @@
         <div><div class="type">Aufgabe 4 · Entscheidung</div><h3>Management-Entscheidung</h3></div>
       </div>
       <div id="maturity-sc-box"></div>
+      <div id="reason-maturity" style="margin-top:16px"></div>
     </div>
   </div>
 </section>
@@ -246,14 +256,30 @@ KI.initMC({
 KI.initScenario({
   containerId:"maturity-sc-box", chapter:"k2", taskId:"t4",
   role:"Management-Entscheidung",
-  prompt:"Der Detailhändler hat bereits Dashboards (descriptive). Was ist der sinnvolle NÄCHSTE Schritt, um die Frage «warum?» zu beantworten?",
+  prompt:"Alpenblick hat ein Dashboard mit der Marge pro Vertriebsgebiet (descriptive). Was ist der sinnvolle NÄCHSTE Schritt, um die Frage «warum ist die Marge in Zentral so niedrig?» zu beantworten?",
   options:[
-    {text:"Diagnostic Analytics – die Ursachen des Umsatzrückgangs untersuchen", good:true,
+    {text:"Diagnostic Analytics – die Ursachen der niedrigen Marge in Zentral untersuchen", good:true,
      consequence:"Genau das fehlt: das «Warum». Diagnostic ist der direkte Schritt nach descriptive – erst dann sind Vorhersagen und Empfehlungen belastbar."},
     {text:"Prescriptive Analytics – sofort Handlungsempfehlungen ausgeben", good:false,
      consequence:"Zu früh. Ohne Ursachen (diagnostic) und Vorhersage (predictive) sind Empfehlungen wenig belastbar."},
     {text:"Generative AI – einen Chatbot für die Kunden bauen", good:false,
-     consequence:"GenAI erzeugt Inhalte, beantwortet aber nicht die Frage «warum schwankt der Umsatz?»."}
+     consequence:"GenAI erzeugt Inhalte, beantwortet aber nicht die Frage «warum ist die Marge so niedrig?»."}
+  ]
+});
+KI.reasonBox({
+  containerId:"reason-maturity", chapter:"k2", taskId:"t4-reason",
+  prompt:"Begründe in einem Satz: Warum ist das der richtige nächste Schritt für Alpenblick?"
+});
+
+/* Lernziele (Rec. E) */
+KI.initObjectives({
+  containerId:"ch2-obj", chapter:"k2",
+  items:[
+    {text:"Ich kann die fünf Stufen der Analytik (descriptive bis generative) erklären.", check:"Ich ordne die 5 Stufen zu."},
+    {text:"Ich weiss, welche Frage jede Stufe beantwortet.", check:"Ich kenne die Leitfrage jeder Stufe."},
+    {text:"Ich verstehe, warum Generative KI eine eigene Stufe ist.", check:"Ich begründe die GenAI-Stufe."},
+    {text:"Ich kann die passende Methode einer Stufe zuordnen.", check:"Ich ordne Methoden zu."},
+    {text:"Ich kann als Manager den sinnvollen nächsten Analytik-Schritt begründen.", check:"Ich treffe eine begründete Entscheidung."}
   ]
 });
 </script>

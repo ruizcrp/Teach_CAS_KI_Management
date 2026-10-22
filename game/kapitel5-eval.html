@@ -35,12 +35,20 @@
     <p class="lead">
       Ein Modell ist nur so gut, wie es auf <b>neue Daten</b> generalisiert. Dieses Kapitel erklärt die
       zwei Grundfehler — <b>Bias</b> (zu simpel) und <b>Varianz</b> (zu komplex) — und wie man Modellqualität
-      ehrlich misst, ohne sich von <b>Accuracy</b> täuschen zu lassen.
+      ehrlich misst, ohne sich von <b>Accuracy</b> täuschen zu lassen. Wir messen dabei das
+      <b>Sentiment-Modell aus Kapitel 4</b> — das bewusst unvollständige Labeling der Alpenblick-Kundenstimmen.
     </p>
     <div class="row mt">
-      <div class="progressbar" style="width:240px"><span data-progress="k5" data-total="5" style="width:0%"></span></div>
-      <span class="small muted" data-progress-label="k5">0 / 5 Aufgaben</span>
+      <div class="progressbar" style="width:240px"><span data-progress="k5" data-total="7" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k5">0 / 7 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- LERNZIELE (Rec. E) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch5-obj"></div>
   </div>
 </section>
 
@@ -176,6 +184,50 @@
   </div>
 </section>
 
+<!-- BEGRIFF 5b: Hyperparameter & Benchmarks (Rec. D) -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Hyperparameter &amp; Benchmarks</h2>
+    <p class="sub">
+      Ein Modell ist nicht «fertig», wenn es einmal trainiert ist. Man <b>stellt es ein</b> (Hyperparameter)
+      und <b>misst es fair</b> (Benchmarks). Für das Management sind das zwei zentrale Hebel.
+    </p>
+
+    <div class="concept">
+      <h4>Hyperparameter: Das Modell einstellen</h4>
+      <p><b>Hyperparameter</b> sind die Stellschrauben <b>aussen</b> am Modell — sie werden nicht gelernt, sondern vom Menschen gesetzt: z.&nbsp;B. wie «streng» das Modell sein darf (Regularisierung), wie viele Schritte es lernen darf (Learning Rate, Epochen) oder wie komplex es sein darf.</p>
+      <p><b>Tuning</b> heisst: verschiedene Einstellungen testen und die beste auf den <b>Test-Set</b> wählen. Zu streng → Bias. Zu locker → Varianz. Genau das Dilemma aus Aufgabe 1.</p>
+      <div class="drill"><b>Drill-in · Grid Search:</b> Man testet systematisch viele Kombinationen (z.&nbsp;B. 5 Learning Rates × 3 Komplexitäten = 15 Modelle) und wählt die beste. Das kostet Rechenzeit — ein typischer Kosten-/Qualitäts-Trade-off.</div>
+    </div>
+
+    <!-- AUFGABE 6: Hyperparameter MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎛️</div>
+        <div><div class="type">Aufgabe 6 · Multiple Choice</div><h3>Was ist ein Hyperparameter?</h3></div>
+      </div>
+      <div id="mc-hyper"></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="concept" style="margin-top:24px">
+      <h4>Benchmarks: Fair vergleichen</h4>
+      <p>Ein <b>Benchmark</b> ist ein standardisierter Test — wie eine Prüfungsfrage, die alle Modelle lösen. So kann man Modelle <b>äpfel-äpfel</b> vergleichen. Bekannte Sprachmodel-Benchmarks sind <b>GLUE</b> (Sprachverständnis) und <b>MMLU</b> (allgemeines Wissen).</p>
+      <div class="drill"><b>Drill-in · Benchmark-Gaming:</b> Ein Modell kann auf einen Benchmark «trainiert» werden, ohne wirklich besser zu sein (Overfitting auf den Test). Deshalb misst man immer auch an eigenen, unbekannten Daten — genau wie beim Train-/Test-Split.</div>
+    </div>
+
+    <!-- AUFGABE 7: Benchmarks MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">📊</div>
+        <div><div class="type">Aufgabe 7 · Multiple Choice</div><h3>Benchmarks</h3></div>
+      </div>
+      <div id="mc-bench"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
 <!-- BEGRIFF 5: Hands-On -->
 <section class="section">
   <div class="wrap">
@@ -193,6 +245,7 @@
       </div>
       <p class="instr">Wähle die entscheidende Metrik für jedes Szenario.</p>
       <div id="sc-metric"></div>
+      <div id="reason-metric" style="margin-top:16px"></div>
     </div>
   </div>
 </section>
@@ -277,7 +330,7 @@ KI.initMC({
 KI.initScenario({
   containerId:"sc-metric", chapter:"k5", taskId:"t5",
   role:"Metrik wählen",
-  prompt:"Szenario: Kündigungsvermeidung. Es ist TEURER, eine Kündigung zu übersehen (FN), als gelegentlich einen falschen Alarm (FP) zu haben. Welche Metrik ist für das Management entscheidend?",
+  prompt:"Szenario Alpenblick: Kündigungsvermeidung. Es ist TEURER, eine Kundenkündigung zu übersehen (FN), als gelegentlich einen falschen Alarm (FP) zu haben. Welche Metrik ist für das Management entscheidend?",
   options:[
     {text:"Recall — möglichst viele echte Kündigungen erkennen (FN minimieren)", good:true,
      consequence:"Richtig. Wenn übersehene Kündigungen teuer sind, zählt Recall: Wie viele echten Kündigungen fangen wir? FN werden minimiert."},
@@ -285,6 +338,49 @@ KI.initScenario({
      consequence:"Precision minimiert FP (falsche Alarme). Aber hier sind es die FN (übersehene Kündigungen), die teuer sind — also zählt Recall."},
     {text:"Accuracy — der Gesamtanteil richtiger Vorhersagen", good:false,
      consequence:"Accuracy ist bei seltener Kündigung irreführend. Die entscheidende Frage ist, ob wir Kündigungen erkennen — das misst Recall."}
+  ]
+});
+KI.reasonBox({
+  containerId:"reason-metric", chapter:"k5", taskId:"t5-reason",
+  prompt:"Begründe in einem Satz: Warum zählt hier Recall mehr als Precision?"
+});
+
+/* Aufgabe 6: Hyperparameter MC */
+KI.initMC({
+  containerId:"mc-hyper", chapter:"k5", taskId:"t6",
+  options:[
+    {text:"Ein Hyperparameter ist eine Stellschraube Aussen am Modell (z.&nbsp;B. Learning Rate, Komplexität) — gesetzt vom Menschen, nicht gelernt.", correct:true,
+     reason:"Genau. Hyperparameter steuern den Trainingsprozess und werden von uns gewählt. Das Modell lernt die internen Gewichte; die Stellschrauben bleiben bei uns."},
+    {text:"Ein Hyperparameter ist ein gelernter Gewichtswert im Netzwerk — das Modell passt ihn selbst an.", correct:false,
+     reason:"Nein. Die internen Gewichte lernt das Modell. Hyperparameter sind die Aussen-Stellschrauben, die wir setzen — das Modell passt sie nicht selbst an."},
+    {text:"Ein Hyperparameter ist ein Fehlerwert, den das Modell berechnet.", correct:false,
+     reason:"Nein. Der Fehlerwert (Loss) wird berechnet, um zu lernen. Hyperparameter sind die Einstellungen, die wir davor wählen."}
+  ]
+});
+
+/* Aufgabe 7: Benchmarks MC */
+KI.initMC({
+  containerId:"mc-bench", chapter:"k5", taskId:"t7",
+  options:[
+    {text:"Ein Benchmark ist ein standardisierter Test, an dem man Modelle fair und vergleichbar misst (z.&nbsp;B. GLUE, MMLU).", correct:true,
+     reason:"Richtig. Ein gemeinsamer Test erlaubt Äpfel-äpfel-Vergleiche. Genau dafür gibt es Benchmarks."},
+    {text:"Ein Benchmark ist der Trainings-Datensatz, auf dem das Modell gelernt hat.", correct:false,
+     reason:"Nein. Der Trainings-Datensatz ist das, worauf gelernt wird. Ein Benchmark misst die Leistung — oft an unbekannten Daten."},
+    {text:"Ein Benchmark ist eine einzelne, zufällige Frage, die man dem Modell stellt.", correct:false,
+     reason:"Nein. Ein Benchmark ist ein standardisierter, wiederholbarer Test aus vielen Aufgaben — nicht eine einzelne Zufallsfrage."}
+  ]
+});
+
+/* Lernziele (Rec. E) */
+KI.initObjectives({
+  containerId:"ch5-obj", chapter:"k5",
+  items:[
+    {text:"Ich kann Bias und Varianz unterscheiden.", check:"Ich ordne Symptome zu."},
+    {text:"Ich verstehe, warum man einen Train-/Test-Split braucht.", check:"Ich erkläre den Sinn des Splits."},
+    {text:"Ich kenne die vier Felder der Confusion Matrix (TP/FP/FN/TN).", check:"Ich ordne Aussagen zu."},
+    {text:"Ich erkenne die Accuracy-Falle bei ungleichen Klassen.", check:"Ich erkläre, warum Accuracy trügt."},
+    {text:"Ich kann Hyperparameter und Benchmarks erklären.", check:"Ich unterscheide beide."},
+    {text:"Ich wähle die richtige Metrik (Precision/Recall) je nach Kosten.", check:"Ich begründe die Metrik-Entscheidung."}
   ]
 });
 </script>

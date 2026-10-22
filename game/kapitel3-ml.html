@@ -35,12 +35,20 @@
     <p class="lead">
       Machine Learning lernt aus Daten statt aus festen Regeln. Wie ein System lernt, unterscheidet sich
       in drei <b>Paradigmen</b> — und innerhalb von Supervised Learning gibt es zwei Grundformen:
-      eine <b>Kategorie</b> vorhersagen oder einen <b>Zahlwert</b>.
+      eine <b>Kategorie</b> vorhersagen oder einen <b>Zahlwert</b>. Wir wenden die Paradigmen auf
+      die <b>Alpenblick AG</b> an: Kündigungsvermeidung, Warenkorbwert, Kundengruppen.
     </p>
     <div class="row mt">
       <div class="progressbar" style="width:240px"><span data-progress="k3" data-total="5" style="width:0%"></span></div>
       <span class="small muted" data-progress-label="k3">0 / 5 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- LERNZIELE (Rec. E) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch3-obj"></div>
   </div>
 </section>
 
@@ -175,6 +183,7 @@
       </div>
       <p class="instr">Entscheide, welcher Ansatz ohne gelabelte Daten auskommt.</p>
       <div id="sc-labels"></div>
+      <div id="reason-labels" style="margin-top:16px"></div>
     </div>
   </div>
 </section>
@@ -184,8 +193,9 @@
   <div class="wrap">
     <h2 class="sec">Hands-on: Von der Frage zum Paradigma</h2>
     <p class="sub">
-      Ein Detailhändler stellt drei Fragen. Ordne jede Frage dem passenden Paradigma <b>und</b> (falls
-      supervised) der Form zu — so baust du den Weg von der Geschäftsfrage zur Modellwahl auf.
+      Die <b>Alpenblick AG</b> stellt drei Geschäftsfragen. Ordne jede Frage dem passenden Paradigma
+      <b>und</b> (falls supervised) der Form zu — so baust du den Weg von der Geschäftsfrage zur
+      Modellwahl auf.
     </p>
 
     <div class="task">
@@ -292,7 +302,7 @@ KI.initMC({
 KI.initScenario({
   containerId:"sc-labels", chapter:"k3", taskId:"t4",
   role:"Management-Entscheidung",
-  prompt:"Die Marketing-Abteilung will „Kundengruppen finden, die sich anders verhalten“ — aber es gibt KEINE Labels. Welcher Ansatz ist korrekt?",
+  prompt:"Die Marketing-Abteilung von Alpenblick will „Kundengruppen finden, die sich anders verhalten“ — aber es gibt KEINE Labels. Welcher Ansatz ist korrekt?",
   options:[
     {text:"Unsupervised Learning (Clustering) — Struktur ohne Labels finden", good:true,
      consequence:"Genau. Ohne Labels ist Unsupervised Learning der richtige Ansatz — z.&nbsp;B. K-Means, um Kundensegmente explorativ zu finden."},
@@ -300,6 +310,22 @@ KI.initScenario({
      consequence:"Supervised braucht Labels. Wenn es keine gibt und das Ziel ist, Gruppen zu FINDEN, ist Unsupervised Learning der direktere Weg."},
     {text:"Reinforcement Learning — der Agent lernt durch Belohnung", good:false,
      consequence:"RL lernt durch Belohnung in einer Umgebung (z.&nbsp;B. Roboter). Für das Finden von Kundengruppen ist Clustering (Unsupervised) korrekt."}
+  ]
+});
+KI.reasonBox({
+  containerId:"reason-labels", chapter:"k3", taskId:"t4-reason",
+  prompt:"Begründe in einem Satz: Warum passt dieser Ansatz zu Alpenblick?"
+});
+
+/* Lernziele (Rec. E) */
+KI.initObjectives({
+  containerId:"ch3-obj", chapter:"k3",
+  items:[
+    {text:"Ich kann die drei ML-Paradigmen (supervised, unsupervised, reinforcement) unterscheiden.", check:"Ich ordne Beispiele einem Paradigma zu."},
+    {text:"Ich weiss, wann Klassifikation und wann Regression passt.", check:"Ich unterscheide Kategorie vs. Zahlwert."},
+    {text:"Ich kenne die wichtigsten Algorithmen-Familien und wann sie passen.", check:"Ich wähle die passende Familie."},
+    {text:"Ich verstehe, warum Labels eine Management-Entscheidung sind.", check:"Ich begründe die Label-Entscheidung."},
+    {text:"Ich kann eine Geschäftsfrage in ein ML-Paradigma übersetzen.", check:"Ich übersetze Frage → Paradigma."}
   ]
 });
 </script>

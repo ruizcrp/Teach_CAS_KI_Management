@@ -42,6 +42,25 @@
       <a class="btn btn-primary" href="kapitel1-daten.html">Loslegen → Kapitel 1</a>
       <a class="btn btn-ghost" href="#kapitel">Alle Kapitel ansehen</a>
     </div>
+    <div class="row mt" style="align-items:center;gap:16px">
+      <div class="progressbar" style="width:240px"><span id="global-bar" style="width:0%"></span></div>
+      <span class="small muted" id="global-label">0 / 35 Aufgaben gelöst</span>
+    </div>
+  </div>
+</section>
+
+<!-- ALPENBLICK FALL (Rec. A) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="card" style="border-left:4px solid var(--blue-500,#3b6fd4)">
+      <div class="num" style="background:var(--blue-100,#e8f0fd)">🏔️</div>
+      <h3>Unser Fall: die Alpenblick AG</h3>
+      <p>Durch alle sechs Kapitel begleiten wir eine fiktive Schweizer Firma — die <b>Alpenblick AG</b> —
+      mit vier Vertriebsgebieten (Süd, West, Zentral, Ost). Du arbeitest mit <b>echten Verkaufs- und
+      Kundenstimmendaten</b> von Alpenblick: Du liest sie, interpretierst sie und triffst Management-Entscheidungen.
+      So wird abstrakte KI-Theorie zu einem konkreten Geschäftsfall, den du am Ende in deiner
+      Übertragungsarbeit auf dein eigenes Unternehmen überträgst.</p>
+    </div>
   </div>
 </section>
 
@@ -137,5 +156,24 @@
 </footer>
 
 <script src="app.js"></script>
+<script>
+/* Globaler Fortschritt über alle Kapitel (Rec. E) */
+(function(){
+  const TOTALS = {k1:7,k2:4,k3:5,k4:8,k5:7,k6:4};
+  const TOTAL = Object.values(TOTALS).reduce((a,b)=>a+b,0);
+  function render(){
+    let o={};
+    try{ o = JSON.parse(localStorage.getItem("kilearning_progress_v2")) || {}; }catch(e){}
+    let done=0;
+    for(const ch in TOTALS){ done += (o[ch] && o[ch].done ? o[ch].done.length : 0); }
+    const pct = TOTAL? Math.round(done/TOTAL*100) : 0;
+    const bar = document.getElementById("global-bar");
+    const lbl = document.getElementById("global-label");
+    if(bar) bar.style.width = pct + "%";
+    if(lbl) lbl.textContent = done + " / " + TOTAL + " Aufgaben gelöst (" + pct + " %)";
+  }
+  render();
+})();
+</script>
 </body>
 </html>

@@ -285,27 +285,30 @@
      csvLoad(url) -> Promise<Array<Object>>  (erste Zeile = Kopf)
      ============================================================ */
   function csvParse(text){
-    const lines = text.replace(/\r/g,"").split("\n").filter(l=>l.length>0);
-    const rows = lines.map(l=>{
-      const out=[]; let cur="", inQ=false;
-      for(let i=0;i<l.length;i++){
-        const ch=l[i];
-        if(inQ){
-          if(ch==='"' && l[i+1]==='"'){ cur+='"'; i++; }
-          else if(ch==='"'){ inQ=false; }
-          else cur+=ch;
-        } else {
-          if(ch==='"') inQ=true;
-          else if(ch===","){ out.push(cur); cur=""; }
-          else cur+=ch;
-        }
+    // Robuster Parser: behandelt Zebrüche INNERHALB von „"…""-Feldern korrekt.
+    const rows=[]; let row=[], cur=""; let inQ=false;
+    const s = text.replace(/\r/g,"");
+    for(let i=0;i<s.length;i++){
+      const ch=s[i];
+      if(inQ){
+        if(ch==='"'){
+          if(s[i+1]==='"'){ cur+='"'; i++; }
+          else inQ=false;
+        } else cur+=ch;
+      } else {
+        if(ch==='"') inQ=true;
+        else if(ch===','){ row.push(cur); cur=""; }
+        else if(ch==='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
+        else cur+=ch;
       }
-      out.push(cur);
-      return out;
-    });
-    if(rows.length<2) return [];
-    const head=rows[0];
-    return rows.slice(1).map(r=>{
+    }
+    // letztes Feld/zeile
+    if(cur!=="" || row.length){ row.push(cur); rows.push(row); }
+    // leere Zeilen entfernen
+    const clean = rows.filter(r=>!(r.length===1 && r[0].trim()===""));
+    if(clean.length<2) return [];
+    const head=clean[0];
+    return clean.slice(1).map(r=>{
       const o={};
       head.forEach((h,i)=>{ o[h]=(r[i]!==undefined?r[i]:"").trim(); });
       return o;

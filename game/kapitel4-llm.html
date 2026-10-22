@@ -35,12 +35,21 @@
     <p class="lead">
       Grosse Sprachmodelle (LLMs) verstehen und erzeugen Sprache. Für das Management zählt nicht die
       Matrix-Mathematik, sondern das <b>Konzeptverständnis</b>: Wie werden Wörter zu Zahlen, wie bekommt
-      ein Modell <b>aktuelles Wissen</b> (RAG), und wie kann es <b>Handlungen</b> ausführen (Agenten)?
+      ein Modell <b>aktuelles Wissen</b> (RAG), wie steuert man es mit <b>Prompts</b>, und wie kann es
+      <b>Handlungen</b> ausführen (Agenten)? Wir lassen ein LLM die <b>Kundenstimmen der Alpenblick AG</b>
+      analysieren.
     </p>
     <div class="row mt">
-      <div class="progressbar" style="width:240px"><span data-progress="k4" data-total="5" style="width:0%"></span></div>
-      <span class="small muted" data-progress-label="k4">0 / 5 Aufgaben</span>
+      <div class="progressbar" style="width:240px"><span data-progress="k4" data-total="8" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k4">0 / 8 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- LERNZIELE (Rec. E) -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch4-obj"></div>
   </div>
 </section>
 
@@ -178,6 +187,53 @@
   </div>
 </section>
 
+<!-- BEGRIFF 5b: Prompt Engineering & Multimodal (Rec. D) -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Prompt Engineering &amp; Multimodalität</h2>
+    <p class="sub">
+      Ein LLM antwortet auf den <b>Prompt</b> — die Eingabe, die du ihm gibst. Wie du formulierst,
+      verändert die Antwort massgeblich. Und moderne LLMs verstehen nicht nur Text, sondern auch
+      <b>Bilder, Töne und Tabellen</b> (Multimodalität).
+    </p>
+
+    <div class="concept">
+      <h4>System-Prompt vs. User-Prompt</h4>
+      <p><b>System-Prompt</b> — die Rolle &amp; Regeln, die dem Modell vorgegeben werden («Du bist ein freundlicher Support-Assistent von Alpenblick, antworte nur auf Deutsch, verwende keine Fachbegriffe»).</p>
+      <p><b>User-Prompt</b> — die konkrete Frage des Nutzers («Wie lange dauert der Versand in die Ostschweiz?»).</p>
+      <p><b>Zero-Shot</b> — eine Frage, ohne Beispiel. <b>Few-Shot</b> — du gibst dem Modell ein paar Beispiele, wie es antworten soll.</p>
+      <div class="drill"><b>Drill-in · Warum Prompts so wichtig sind:</b> Dieselbe Frage, zwei Formulierungen → zwei unterschiedlich gute Antworten. «Kurz: Was ist RAG?» liefert mehr als «Erkläre RAG». Für das Management heisst das: <b>Prompt-Design ist ein Qualitätshebel</b>, kein Detail.</div>
+    </div>
+
+    <!-- AUFGABE 6: Prompt MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">✍️</div>
+        <div><div class="type">Aufgabe 6 · Multiple Choice</div><h3>Prompt-Design</h3></div>
+      </div>
+      <p class="instr">Welcher Prompt liefert die beste Antwort?</p>
+      <div id="mc-prompt"></div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="concept" style="margin-top:24px">
+      <h4>Multimodalität</h4>
+      <p>Neue LLMs nehmen <b>verschiedene Modalitäten</b>: Text, Bild, Ton, sogar Tabellen. Du kannst z.&nbsp;B. ein Foto eines defekten Produkts schicken und fragen, was falsch ist — oder eine Rechnung fotografieren und die Beträge auslesen lassen.</p>
+      <div class="drill"><b>Drill-in · Grenzen:</b> Multimodale Modelle verstehen Bilder, aber sie können sich dabei <b>irren</b> (z.&nbsp;B. einen Fehler in einem Foto übersehen). Für sicherheitskritische Entscheidungen (Medizin, Technik) bleibt menschliches Review Pflicht.</div>
+    </div>
+
+    <!-- AUFGABE 7: Multimodal MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">📷</div>
+        <div><div class="type">Aufgabe 7 · Multiple Choice</div><h3>Multimodalität</h3></div>
+      </div>
+      <div id="mc-multi"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
 <!-- BEGRIFF 5: MCP + Hands-On -->
 <section class="section">
   <div class="wrap">
@@ -195,6 +251,48 @@
       </div>
       <p class="instr">Wähle das passende Konzept für jede Situation.</p>
       <div id="sc-llm"></div>
+      <div id="reason-llm" style="margin-top:16px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ECHTE DATEN: Kundenstimmen (Rec. B) -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Echte Daten lesen: die Kundenstimmen von Alpenblick</h2>
+    <p class="sub">
+      Hier sind <b>250 echte Kundenstimmen</b> der Alpenblick AG — frei eingegebene Texte. Ein LLM kann
+      jede Stimme automatisch in <b>Positiv / Neutral / Negativ</b> einstufen (Sentiment-Analyse).
+      Unten siehst du, wie ein Modell die 250 Stimmen verteilt hat.
+    </p>
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🗣️</div>
+        <div><div class="type">Aufgabe 8 · Echte Daten</div><h3>Sentiment der Kundenstimmen</h3></div>
+      </div>
+      <div class="explorer" id="review-explorer">
+        <div class="panel">
+          <h4>Modell-Output (bewusst unvollständig) <span class="pill" id="review-count" style="margin-left:8px">lädt…</span></h4>
+          <div class="barchart" id="review-chart" style="margin-top:12px"></div>
+          <div class="legend" style="margin-top:10px">
+            <span class="lg-flag" style="background:#2f8f5b"></span> Positiv
+            <span class="lg-flag" style="background:#c9a227"></span> Neutral
+            <span class="lg-flag" style="background:#c0563f"></span> Negativ
+          </div>
+        </div>
+        <div class="panel">
+          <h4>Beispielstimmen</h4>
+          <div class="table-wrap" style="margin-top:10px">
+            <table class="datatable" id="review-table">
+              <thead><tr><th>Produkt</th><th>Kategorie</th><th>Stimmung</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="findings" id="review-findings" style="margin-top:14px"></div>
+      <div id="mc-review" style="margin-top:18px"></div>
+      <div class="feedback"></div>
     </div>
   </div>
 </section>
@@ -281,7 +379,7 @@ KI.initMC({
 KI.initScenario({
   containerId:"sc-llm", chapter:"k4", taskId:"t5",
   role:"Konzept wählen",
-  prompt:"Die IT-Firma will, dass ihr Chatbot intern auf aktuelle HR-Richtlinien antwortet (PDFs im Intranet). Welches Konzept ist der Kern?",
+  prompt:"Die HR-Abteilung von Alpenblick will, dass ein Chatbot intern auf aktuelle HR-Richtlinien antwortet (PDFs im Intranet). Welches Konzept ist der Kern?",
   options:[
     {text:"RAG — holt die passenden HR-PDF-Chunks ab und antwortet darauf", good:true,
      consequence:"Richtig. Aktuelle interne Dokumente + Quellenangabe = RAG. Der Klassiker für «Fragen an unsere eigenen Dokumente»."},
@@ -289,6 +387,103 @@ KI.initScenario({
      consequence:"Zu viel. Für das Beantworten von Fragen an Dokumente reicht RAG. Ein Agent, der selbst handelt, wäre hier überdimensioniert und riskant."},
     {text:"MCP — das ist der Standard, um das LLM an die HR-DB anzubinden", good:false,
      consequence:"MCP ist ein Anschluss-Standard (wie «USB für KI»), nicht die Lösung für «Fragen an Dokumente». RAG ist hier der Kern."}
+  ]
+});
+KI.reasonBox({
+  containerId:"reason-llm", chapter:"k4", taskId:"t5-reason",
+  prompt:"Begründe in einem Satz: Warum ist RAG hier der richtige Kern — und kein Agent?"
+});
+
+/* Aufgabe 6: Prompt-Design MC */
+KI.initMC({
+  containerId:"mc-prompt", chapter:"k4", taskId:"t6",
+  options:[
+    {text:"«Du bist der Support von Alpenblick. Antworte kurz, freundlich, nur auf Deutsch. Frage: Wie lange dauert der Versand in die Ostschweiz?»", correct:true,
+     reason:"Genau. Rolle (System-Prompt) + konkrete Frage (User-Prompt) + Stilvorgaben. Das gibt dem Modell einen klaren Rahmen — die Antwort wird konsistent und nützlich."},
+    {text:"«Versand Ostschweiz»", correct:false,
+     reason:"Zu knapp. Ohne Rolle, Stil und Kontext antwortet das Modell frei — mal zu lang, mal im falschen Ton. Prompt-Design ist ein Qualitätshebel."},
+    {text:"«Erkläre mir alles über Versand, Logistik und die Alpenblick AG in einem Roman»", correct:false,
+     reason:"Zu offen. Das Modell produziert viel Text, aber wenig Nützliches. Grosse, offene Prompts sind teuer und unpräzise — besser: konkret und gerahmt."}
+  ]
+});
+
+/* Aufgabe 7: Multimodalität MC */
+KI.initMC({
+  containerId:"mc-multi", chapter:"k4", taskId:"t7",
+  options:[
+    {text:"Multimodale LLMs verstehen mehrere Eingabearten — z.&nbsp;B. Text UND Bild. Man kann ein Foto eines defekten Produkts schicken und fragen, was falsch ist.", correct:true,
+     reason:"Richtig. Multimodalität = mehrere Modalitäten (Text, Bild, Ton, Tabelle). Ein Foto als Eingabe ist der typische Fall."},
+    {text:"Multimodal heisst, dass das Modell in mehreren Sprachen gleichzeitig antwortet.", correct:false,
+     reason:"Nein. Mehrsprachigkeit ist etwas anderes. «Multimodal» bezieht sich auf die ART der Eingabe (Text/Bild/Ton), nicht auf die Sprache."},
+    {text:"Multimodalität bedeutet, dass zwei LLMs gleichzeitig antworten und sich gegenseitig prüfen.", correct:false,
+     reason:"Nein. Das wäre ein Multi-Agenten-Setup. Multimodalität beschreibt die Eingabearten, die ein einzelnes Modell versteht."}
+  ]
+});
+
+/* Aufgabe 8: Echte Kundenstimmen (Sentiment) — Rec. B */
+(function(){
+  const chart  = document.getElementById("review-chart");
+  const count  = document.getElementById("review-count");
+  const tbody  = document.querySelector("#review-table tbody");
+  const find   = document.getElementById("review-findings");
+  const fmt = n => Math.round(n).toLocaleString("de-CH");
+  const colors = {"Positiv":"#2f8f5b","Neutral":"#c9a227","Negativ":"#c0563f"};
+  KI.csvLoad("../files/alpenblick_kundenstimmen.csv").then(rows=>{
+    const c = {Positiv:0, Neutral:0, Negativ:0};
+    rows.forEach(r=>{ const s=r["Stimmung"]; if(c[s]!==undefined) c[s]++; });
+    const total = rows.length;
+    const order = ["Positiv","Neutral","Negativ"];
+    const max = Math.max(...order.map(k=>c[k]))||1;
+
+    count.textContent = fmt(total)+" Stimmen";
+    chart.innerHTML = order.map(k=>`
+      <div class="bar-col">
+        <div class="bar-val">${c[k]}</div>
+        <div class="bar" style="height:${Math.max(4, c[k]/max*100)}%;background:${colors[k]}"></div>
+        <div class="bar-lbl">${k}</div>
+      </div>`).join("");
+
+    // Beispielstimmen: je 2 pro Stimmung
+    const pick = {};
+    order.forEach(k=>pick[k]=[]);
+    rows.forEach(r=>{ const s=r["Stimmung"]; if(pick[s]&&pick[s].length<2) pick[s].push(r); });
+    tbody.innerHTML = order.flatMap(k=>pick[k]).map(r=>`
+      <tr><td>${r["Produkt"]}</td><td>${r["Kategorie"]}</td>
+      <td><span class="pill" style="background:${colors[r["Stimmung"]]};color:#fff">${r["Stimmung"]}</span></td></tr>`).join("");
+
+    const posPct = (c.Positiv/total*100).toFixed(0);
+    find.innerHTML = `
+      <li><span class="fi">1</span> ${fmt(total)} Stimmen: ${c.Positiv} Positiv (${posPct} %), ${c.Neutral} Neutral, ${c.Negativ} Negativ.</li>
+      <li><span class="fi">2</span> Ein LLM kann jede Stimme automatisch einstufen — das spart händisches Lesen von 250 (oder 250'000) Texten.</li>
+      <li><span class="fi">3</span> Die Labels sind <b>bewusst unvollständig</b> — im nächsten Kapitel (Evaluation) lernst du, wie man solche Modelle richtig misst.</li>`;
+
+    KI.initMC({
+      containerId:"mc-review", chapter:"k4", taskId:"t8",
+      options:[
+        {text:"Das Modell hat die meisten Stimmen als Positiv eingestuft.", correct:true,
+         reason:`Genau. ${c.Positiv} von ${total} (${posPct} %) sind Positiv — die Kundenstimmen fallen überwiegend positiv aus.`},
+        {text:"Die meisten Stimmen sind Negativ — das Produkt wird schlecht bewertet.", correct:false,
+         reason:`Nein. Negativ sind nur ${c.Negativ} von ${total}. Positiv (${c.Positiv}) ist die grösste Gruppe. Lies den Balken ab, bevor du urteilst.`},
+        {text:"Es gibt gar keine Positiven — das Modell funktioniert nicht.", correct:false,
+         reason:`Nein. ${c.Positiv} Stimmen sind klar als Positiv erkannt. Das Modell arbeitet — die Labels sind nur bewusst unvollständig (Kapitel 5).`}
+      ]
+    });
+  }).catch(err=>{
+    count.textContent = "Fehler beim Laden";
+    find.innerHTML = `<li><span class="fi">!</span> Die Kundenstimmen konnten nicht geladen werden (${err}).</li>`;
+  });
+})();
+
+/* Lernziele (Rec. E) */
+KI.initObjectives({
+  containerId:"ch4-obj", chapter:"k4",
+  items:[
+    {text:"Ich verstehe, wie LLMs mit Tokens arbeiten (Next-Token-Prediction).", check:"Ich erkläre, was ein Token ist."},
+    {text:"Ich kenne die Kette Tokens → Embeddings → Transformer.", check:"Ich ordne die Bausteine der Kette zu."},
+    {text:"Ich weiss, wie RAG einem Modell aktuelles Wissen gibt.", check:"Ich unterscheide RAG von neuem Training."},
+    {text:"Ich verstehe, wie Prompts die Antwort steuern (System vs. User).", check:"Ich formuliere einen guten Prompt."},
+    {text:"Ich kenne Multimodalität und Agenten (Brain/Plan/Action).", check:"Ich erkenne Agenten-Bausteine."},
+    {text:"Ich kann ein LLM auf echte Kundenstimmen anwenden (Sentiment).", check:"Ich lese das Sentiment-Chart ab."}
   ]
 });
 </script>
