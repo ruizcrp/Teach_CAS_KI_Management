@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapitel 5 · Training &amp; Evaluation — Lernspiel KI-Management</title>
+<meta name="description" content="Bias/Varianz, Over-/Underfitting, Train-/Test-Split, Confusion Matrix, Precision/Recall — interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html">2 · Analytics</a>
+      <a href="kapitel3-ml.html">3 · ML</a>
+      <a href="kapitel4-llm.html">4 · LLM</a>
+      <a href="kapitel5-eval.html" class="active">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Kapitel 5 · Session 4</span>
+    <h1>Training &amp; Evaluation</h1>
+    <p class="lead">
+      Ein Modell ist nur so gut, wie es auf <b>neue Daten</b> generalisiert. Dieses Kapitel erklärt die
+      zwei Grundfehler — <b>Bias</b> (zu simpel) und <b>Varianz</b> (zu komplex) — und wie man Modellqualität
+      ehrlich misst, ohne sich von <b>Accuracy</b> täuschen zu lassen.
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="k5" data-total="5" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k5">0 / 5 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 1: Bias & Varianz -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Bias &amp; Varianz: Die zwei Grundfehler</h2>
+    <p class="sub">
+      Das <b>Bias-Varianz-Dilemma</b> beschreibt die Balance zwischen zwei Fehlerarten. Der
+      <b>Dart-Vergleich</b> macht es greifbar: Wo landen die Pfeile?
+    </p>
+    <div class="concept">
+      <h4>Bias vs. Varianz</h4>
+      <p><b>Bias (Underfitting / Unteranpassung)</b> — das Modell ist <b>zu simpel</b>, macht immer dieselben systematischen Fehler. Es trifft den Trainings-Dart, verfehlt aber neue Daten.</p>
+      <p><b>Varianz (Overfitting / Überanpassung)</b> — das Modell ist <b>zu komplex</b>, lernt das Trainings-Set auswendig und generalisiert schlecht auf neue Daten.</p>
+      <div class="drill"><b>Drill-in · Lösungen:</b> Zu viel Bias → Feature Engineering, komplexeres Modell. Zu viel Varianz → Regularisierung (Penalty auf die Loss-Funktion), Cross-Validation. Ziel: der «Goldilocks-Punkt» dazwischen.</div>
+    </div>
+
+    <!-- AUFGABE 1: Bias/Varianz Zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 1 · Zuordnen</div><h3>Bias oder Varianz?</h3></div>
+      </div>
+      <p class="instr">Ziehe jedes Symptom zum passenden Fehlertyp.</p>
+      <div class="grid cols-3" style="grid-template-columns:repeat(2,1fr);margin-top:8px">
+        <div class="dz" id="dz-bias"><span class="dz-label">📉 Bias (Underfitting)</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-var"><span class="dz-label">📈 Varianz (Overfitting)</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="bv-pool"><span class="hint">Hier liegen die Symptome.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="bv-check">Prüfen</button>
+        <button class="btn btn-ghost" id="bv-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="bv-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 2: Train/Test Split -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Train- &amp; Test-Split: Ehrlich messen</h2>
+    <p class="sub">
+      Man trainiert auf einem Teil der Daten und <b>testet auf Daten, die das Modell nie gesehen hat</b>.
+      So misst man, wie gut es <b>generalisiert</b> — statt nur, wie gut es auswendig gelernt hat.
+    </p>
+    <div class="concept">
+      <h4>Warum ein Split?</h4>
+      <p><b>Train</b> — das Modell lernt die Muster.</p>
+      <p><b>Test</b> — unbekannte Daten, die die echte Leistung zeigen.</p>
+      <p>Ohne Split wäre ein «gutes Ergebnis» nur Auswendiglernen — kein Beweis für nützliche Vorhersagen.</p>
+      <div class="drill"><b>Drill-in · Cross-Validation:</b> Statt einem einzigen Split teilt man die Daten in mehrere Folds und rotiert — so entsteht ein stabileres, faireres Mass der Generalisierung.</div>
+    </div>
+
+    <!-- AUFGABE 2: Train/Test MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">✂️</div>
+        <div><div class="type">Aufgabe 2 · Multiple Choice</div><h3>Warum der Split?</h3></div>
+      </div>
+      <div id="mc-split"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 3: Confusion Matrix -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Confusion Matrix: Die vier Felder</h2>
+    <p class="sub">
+      Bei Klassifikation zählt man vier Dinge. Das «Positive» ist dabei, was uns <b>besonders interessiert</b>
+      (z.&nbsp;B. Betrug, Kündigung).
+    </p>
+    <div class="concept">
+      <h4>Die vier Felder</h4>
+      <p><b>True Positive (TP)</b> — richtig erkannt, dass es <b>passiert</b>.</p>
+      <p><b>False Positive (FP)</b> — fälschlich alarmiert (es passiert <b>nicht</b>).</p>
+      <p><b>False Negative (FN)</b> — <b>übersehen</b>, dass es passiert (gefährlich!).</p>
+      <p><b>True Negative (TN)</b> — richtig erkannt, dass es <b>nicht</b> passiert.</p>
+      <div class="drill"><b>Drill-in · Das «Positive» wählen:</b> Bei Betrugserkennung ist «Betrug» das Positive. Ein übersehener Betrug (FN) ist teuer. Deshalb zählt hier <b>Recall</b> (TP / (TP+FN)) mehr als Accuracy.</div>
+    </div>
+
+    <!-- AUFGABE 3: Confusion Matrix Zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🔢</div>
+        <div><div class="type">Aufgabe 3 · Zuordnen</div><h3>Welches Feld?</h3></div>
+      </div>
+      <p class="instr">Ordne jede Aussage zum richtigen Feld der Confusion Matrix.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-tp"><span class="dz-label">✅ True Positive</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-fp"><span class="dz-label">⚠️ False Positive</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-fn"><span class="dz-label">❌ False Negative</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-tn"><span class="dz-label">⬜ True Negative</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="cm-pool"><span class="hint">Hier liegen die Aussagen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="cm-check">Prüfen</button>
+        <button class="btn btn-ghost" id="cm-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="cm-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 4: Accuracy-Falle -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Die Accuracy-Falle</h2>
+    <p class="sub">
+      <b>Accuracy</b> (Anteil richtiger Vorhersagen) klingt überzeugend — kann aber <b>irreführend</b> sein,
+      wenn die Klassen sehr ungleich verteilt sind.
+    </p>
+    <div class="concept">
+      <h4>99.9% Accuracy — gut oder schlecht?</h4>
+      <p>10'000 Transaktionen, davon 10 Betrug. Ein Modell, das <b>alles</b> «kein Betrug» sagt, hat 99.9% Accuracy — und <b>keinen einzigen Betrug</b> erkannt.</p>
+      <p>Genau deshalb braucht es <b>Precision</b> (wie viele Alarme stimmen?) und <b>Recall</b> (wie viele Beträge habe ich erkannt?) — und man wählt je nach Kosten die richtige Metrik.</p>
+      <div class="drill"><b>Drill-in · F1-Score:</b> Der F1-Score ist der harmonische Mittelwert aus Precision und Recall — ein guter Kompromiss, wenn beide wichtig sind.</div>
+    </div>
+
+    <!-- AUFGABE 4: Accuracy-Falle MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🪤</div>
+        <div><div class="type">Aufgabe 4 · Multiple Choice</div><h3>Accuracy trügt</h3></div>
+      </div>
+      <p class="instr">10'000 Transaktionen, 10 Betrug. Das Modell sagt alles «kein Betrug». Was gilt?</p>
+      <div id="mc-acc"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 5: Hands-On -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Hands-on: Die richtige Metrik wählen</h2>
+    <p class="sub">
+      Je nach Anwendungsfall sind übersehene Fälle (FN) oder falsche Alarme (FP) teurer.
+      Wähle für jedes Szenario die <b>Metrik, die für das Management zählt</b>.
+    </p>
+
+    <!-- AUFGABE 5: Metrik-Szenarien -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 5 · Entscheidung</div><h3>Welche Metrik zählt?</h3></div>
+      </div>
+      <p class="instr">Wähle die entscheidende Metrik für jedes Szenario.</p>
+      <div id="sc-metric"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel4-llm.html">← Kapitel 4 · LLM</a>
+      <a class="btn btn-primary" href="kapitel6-lifecycle.html">Weiter → Kapitel 6: AI-Lifecycle</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · Kapitel 5 · Training &amp; Evaluation</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  function bindCheck(checkBtn, resetBtn, kit, fbEl, ch, task, doneMsg){
+    document.getElementById(checkBtn).addEventListener("click",()=>{
+      const r = kit.check();
+      if(!r.allPlaced){ KI.feedback(fbEl,false,"Bitte zuerst alle Elemente ziehen. Du kannst jederzeit nachziehen."); return; }
+      if(r.allCorrect){ KI.feedback(fbEl,true,doneMsg); KI.Store.mark(ch,task); }
+      else { KI.feedback(fbEl,false,"Noch nicht alles richtig – die markierten Kategorien sind falsch. Korrigiere und prüfe erneut."); }
+    });
+    document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
+  }
+
+  // Aufgabe 1: Bias/Varianz
+  const bvChips = [
+    {id:"b1", text:"Modell ist zu simpel, macht immer dieselben Fehler", key:"bias"},
+    {id:"b2", text:"Systematische Abweichung von den echten Werten", key:"bias"},
+    {id:"b3", text:"Tritt im Training, daneben bei neuen Daten", key:"bias"},
+    {id:"b4", text:"Modell ist zu komplex, lernt auswendig", key:"var"},
+    {id:"b5", text:"Hohe Sensibilität gegenüber Trainings-Schwankungen", key:"var"},
+    {id:"b6", text:"Generalisiert schlecht auf neue Daten", key:"var"}
+  ];
+  const bvZones = [{id:"dz-bias",key:"bias"},{id:"dz-var",key:"var"}];
+  const kitBV = KI.dragKit({ poolId:"bv-pool", chips:bvChips, zones:bvZones });
+  bindCheck("bv-check","bv-reset",kitBV, document.getElementById("bv-fb"), "k5","t1",
+    "Sehr gut! Bias = zu simpel, Varianz = zu komplex. Der Goldilocks-Punkt dazwischen.");
+
+  // Aufgabe 3: Confusion Matrix
+  const cmChips = [
+    {id:"m1", text:"Betrug erkannt — und es war wirklich Betrug", key:"tp"},
+    {id:"m2", text:"Alarm ausgelöst — aber es war kein Betrug", key:"fp"},
+    {id:"m3", text:"Betrug übersehen — Modell sagte «kein Betrug»", key:"fn"},
+    {id:"m4", text:"Kein Alarm — und es war auch kein Betrug", key:"tn"}
+  ];
+  const cmZones = [{id:"dz-tp",key:"tp"},{id:"dz-fp",key:"fp"},{id:"dz-fn",key:"fn"},{id:"dz-tn",key:"tn"}];
+  const kitCM = KI.dragKit({ poolId:"cm-pool", chips:cmChips, zones:cmZones });
+  bindCheck("cm-check","cm-reset",kitCM, document.getElementById("cm-fb"), "k5","t3",
+    "Korrekt! TP, FP, FN, TN — die vier Felder der Confusion Matrix.");
+})();
+
+/* Aufgabe 2: Train/Test MC */
+KI.initMC({
+  containerId:"mc-split", chapter:"k5", taskId:"t2",
+  options:[
+    {text:"Der Test-Teil ist Daten, die das Modell nie gesehen hat — so misst man die echte Generalisierung.", correct:true, reason:"Richtig. Nur an unbekannten Daten sieht man, ob das Modell gelernt hat oder nur auswendig. Genau das ist der Sinn des Splits."},
+    {text:"Der Test-Teil dient dem Modell als zusätzliche Trainingsdaten.", correct:false, reason:"Nein. Würde das Modell auf Testdaten trainieren, wäre es sie «gesehen» — die Messung wäre unehrlich. Test bleibt strikt unberührt."},
+    {text:"Man braucht keinen Split, wenn die Daten gross genug sind.", correct:false, reason:"Nein. Selbst bei grossen Daten misst der Split die Generalisierung. Ohne ihn ist ein gutes Ergebnis nur Auswendiglernen."}
+  ]
+});
+
+/* Aufgabe 4: Accuracy-Falle MC */
+KI.initMC({
+  containerId:"mc-acc", chapter:"k5", taskId:"t4",
+  options:[
+    {text:"Accuracy 99.9% — aber Recall 0%: Kein einziger Betrug wurde erkannt.", correct:true, reason:"Genau. Das Modell sagt alles «kein Betrug» → 9'990 richtig (TN) + 0 TP = 99.9% Accuracy, aber es hat KEINEN Betrug gefangen. Recall = 0."},
+    {text:"Accuracy 99.9% — das Modell ist exzellent, Betrug wird zuverlässig erkannt.", correct:false, reason:"Nein. 99.9% Accuracy täuscht: Es hat alle 10 Beträge übersehen (FN). Bei seltener Positiver-Klasse ist Accuracy das falsche Mass."},
+    {text:"Accuracy 50% — das Modell ist völlig nutzlos.", correct:false, reason:"Nein. Es sagt 9'990 von 10'000 korrekt «kein Betrug» → 99.9% Accuracy. Die Zahl ist hoch, aber die Leistung (Betrug erkennen) ist null."}
+  ]
+});
+
+/* Aufgabe 5: Metrik-Szenarien */
+KI.initScenario({
+  containerId:"sc-metric", chapter:"k5", taskId:"t5",
+  role:"Metrik wählen",
+  prompt:"Szenario: Kündigungsvermeidung. Es ist TEURER, eine Kündigung zu übersehen (FN), als gelegentlich einen falschen Alarm (FP) zu haben. Welche Metrik ist für das Management entscheidend?",
+  options:[
+    {text:"Recall — möglichst viele echte Kündigungen erkennen (FN minimieren)", good:true,
+     consequence:"Richtig. Wenn übersehene Kündigungen teuer sind, zählt Recall: Wie viele echten Kündigungen fangen wir? FN werden minimiert."},
+    {text:"Precision — möglichst wenige falsche Alarme", good:false,
+     consequence:"Precision minimiert FP (falsche Alarme). Aber hier sind es die FN (übersehene Kündigungen), die teuer sind — also zählt Recall."},
+    {text:"Accuracy — der Gesamtanteil richtiger Vorhersagen", good:false,
+     consequence:"Accuracy ist bei seltener Kündigung irreführend. Die entscheidende Frage ist, ob wir Kündigungen erkennen — das misst Recall."}
+  ]
+});
+</script>
+</body>
+</html>

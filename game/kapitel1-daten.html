@@ -13,7 +13,7 @@
   <div class="wrap">
     <a class="brand" href="index.html">
       <span class="logo">+</span>
-      <span>Lernspiel KI-Management<small>CAS KI-Management · Dr. Christian Ruiz</small></span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
     </a>
     <nav class="nav">
       <a href="index.html">Start</a>
@@ -38,8 +38,8 @@
       über den Erfolg jedes KI-Projekts entscheidet.
     </p>
     <div class="row mt">
-      <div class="progressbar" style="width:240px"><span data-progress="k1" data-total="5" style="width:0%"></span></div>
-      <span class="small muted" data-progress-label="k1">0 / 5 Aufgaben</span>
+      <div class="progressbar" style="width:240px"><span data-progress="k1" data-total="6" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k1">0 / 6 Aufgaben</span>
     </div>
   </div>
 </section>
@@ -49,18 +49,18 @@
   <div class="wrap">
     <h2 class="sec">Von Daten zu Entscheidungen: die DIKW-Pyramide</h2>
     <p class="sub">
-      „Daten" ist ein Oberbegriff. In der Praxis spricht man von der <b>DIKW-Pyramide</b>
-      (Data → Information → Knowledge → Wisdom): je höher man steigt, desto mehr <b>Mehrwert</b>
-      steckt in den Daten — und desto mehr <b>Arbeit, Kontext und Wissen</b> braucht es, um dorthin zu kommen.
+      „Daten” ist ein Oberbegriff. In der Praxis spricht man von der <b>DIKW-Pyramide</b>
+      (Data → Information → Knowledge → Wisdom): Je höher man steigt, desto mehr <b>Mehrwert</b>
+      steckt in den Daten — und desto mehr <b>Kontext, Verständnis und Arbeit</b> braucht es, um dorthin zu kommen.
     </p>
 
     <div class="concept">
       <h4>Die vier Stufen</h4>
-      <p><b>Daten</b> — rohe, isolierte Werte ohne Kontext. (Beispiel: „185'118'309" — was heisst das?)</p>
-      <p><b>Information</b> — Daten mit Kontext und Struktur. („Die Graubündner PV-Produktion 2024 war 185 Mio. kWh.")</p>
-      <p><b>Wissen</b> — Informationen, die man versteht und einordnen kann. („PV wächst seit 2011 um den Faktor 20 — der Mix verschiebt sich.")</p>
-      <p><b>Weisheit / Handlung</b> — fundierte Entscheidungen. („Wir investieren in PV-Ausbau, weil der Trend robust ist.")</p>
-      <div class="drill"><b>Drill-in:</b> Im Einzelhandels-Beispiel der Folien: „Kauf um 14:20" (Daten) → „Kunde kauft abends mehr" (Information) → „Abendkäufer kaufen teurere Produkte" (Wissen) → „Personal &amp; Sortiment abends ausbauen" (Handlung).</div>
+      <p><b>Daten</b> — rohe, isolierte Werte ohne Kontext. (z.B. ein einzelner Messwert)</p>
+      <p><b>Information</b> — Daten mit Kontext und Struktur. („Die PV-Produktion 2024 lag bei 185 Mio. kWh.”)</p>
+      <p><b>Wissen</b> — Informationen, die man versteht und einordnen kann. („PV wächst seit 2011 um den Faktor 20 — der Mix verschiebt sich.”)</p>
+      <p><b>Weisheit / Handlung</b> — fundierte Entscheidungen. („Wir investieren in PV-Ausbau, weil der Trend robust ist.”)</p>
+      <div class="drill"><b>Drill-in:</b> Im Einzelhandels-Beispiel der Folien: „Kauf um 14:20” (Daten) → „Abends wird mehr gekauft” (Information) → „Abendkäufer kaufen teurere Produkte” (Wissen) → „Personal &amp; Sortiment abends ausbauen” (Handlung).</div>
     </div>
 
     <!-- AUFGABE 1: DIKW Drag & Drop -->
@@ -70,34 +70,30 @@
         <div><div class="type">Aufgabe 1 · Drag &amp; Drop</div><h3>Orte die Beispiele in der DIKW-Pyramide</h3></div>
       </div>
       <p class="instr">
-        Ziehe jedes Beispiel mit der Maus (oder per Finger) auf die <b>richtige Stufe</b> der Pyramide.
-        Nach dem Ziehen: <b>Prüfen</b>.
+        Ziehe jedes Beispiel per Maus oder Finger auf die <b>richtige Stufe</b> der Pyramide.
+        Du kannst Chips jederzeit wieder verschieben (auch nach dem Prüfen). Doppelklick schickt einen Chip zurück in den Pool.
       </p>
 
       <div class="pyramid" id="dikw">
-        <div class="pyr-level pyr-1" data-level="wisdom">
-          <div class="pl-name">Weisheit / Handlung</div>
-          <div class="pl-q">Fundiert entscheiden</div>
-          <div class="pl-drops dropzone" data-accept="wisdom"></div>
+        <div class="pyr-level pyr-1">
+          <div class="pl-head"><span class="pl-badge">STUFE 4</span><span class="pl-name">Weisheit / Handlung</span><span class="pl-q">Fundiert entscheiden</span></div>
+          <div class="dz" id="dz-wisdom"><div class="dz-items"></div></div>
         </div>
-        <div class="pyr-level pyr-2" data-level="knowledge">
-          <div class="pl-name">Wissen</div>
-          <div class="pl-q">Verstanden &amp; eingeordnet</div>
-          <div class="pl-drops dropzone" data-accept="knowledge"></div>
+        <div class="pyr-level pyr-2">
+          <div class="pl-head"><span class="pl-badge">STUFE 3</span><span class="pl-name">Wissen</span><span class="pl-q">Verstanden &amp; eingeordnet</span></div>
+          <div class="dz" id="dz-knowledge"><div class="dz-items"></div></div>
         </div>
-        <div class="pyr-level pyr-3" data-level="information">
-          <div class="pl-name">Information</div>
-          <div class="pl-q">Daten + Kontext</div>
-          <div class="pl-drops dropzone" data-accept="information"></div>
+        <div class="pyr-level pyr-3">
+          <div class="pl-head"><span class="pl-badge">STUFE 2</span><span class="pl-name">Information</span><span class="pl-q">Daten + Kontext</span></div>
+          <div class="dz" id="dz-information"><div class="dz-items"></div></div>
         </div>
-        <div class="pyr-level pyr-4" data-level="data">
-          <div class="pl-name">Daten</div>
-          <div class="pl-q">Roh, ohne Kontext</div>
-          <div class="pl-drops dropzone" data-accept="data"></div>
+        <div class="pyr-level pyr-4">
+          <div class="pl-head"><span class="pl-badge">STUFE 1</span><span class="pl-name">Daten</span><span class="pl-q">Roh, ohne Kontext</span></div>
+          <div class="dz" id="dz-data"><div class="dz-items"></div></div>
         </div>
       </div>
 
-      <div class="dnd-pool" id="dikw-pool"></div>
+      <div class="dnd-pool" id="dikw-pool"><span class="hint">Hier liegen die Beispiele — ziehe sie in die Pyramide.</span></div>
       <div class="row">
         <button class="btn btn-primary" id="dikw-check">Prüfen</button>
         <button class="btn btn-ghost" id="dikw-reset">Zurücksetzen</button>
@@ -110,7 +106,7 @@
 <!-- ============ BEGRIFF 2: Datentypen ============ -->
 <section class="section">
   <div class="wrap">
-    <h2 class="sec">Wie „strukturiert" sind deine Daten?</h2>
+    <h2 class="sec">Wie „strukturiert” sind deine Daten?</h2>
     <p class="sub">
       Daten kommen in unterschiedlichen <b>Formen</b>. Je strukturiert sie sind, desto einfacher (und günstiger)
       lassen sie sich mit klassischer Analytik und ML verarbeiten. Unstrukturierte Daten brauchen oft
@@ -132,24 +128,15 @@
         <div class="icon">🗂️</div>
         <div><div class="type">Aufgabe 2 · Zuordnen</div><h3>Strukturiert, semi- oder unstrukturiert?</h3></div>
       </div>
-      <p class="instr">Ziehe jede Datengruppe in die passende Kategorie.</p>
+      <p class="instr">Ziehe jede Datengruppe in die passende Kategorie. Chips sind jederzeit wieder verschiebbar.</p>
 
       <div class="grid cols-3" style="margin-top:8px">
-        <div class="dropzone" id="dz-struct">
-          <div class="dz-label">📊 Strukturiert</div>
-          <div class="dz-items" data-accept="struct"></div>
-        </div>
-        <div class="dropzone" id="dz-semi">
-          <div class="dz-label">🧩 Semi-strukturiert</div>
-          <div class="dz-items" data-accept="semi"></div>
-        </div>
-        <div class="dropzone" id="dz-unstruct">
-          <div class="dz-label">📄 Unstrukturiert</div>
-          <div class="dz-items" data-accept="unstruct"></div>
-        </div>
+        <div class="dz" id="dz-struct"><span class="dz-label">📊 Strukturiert</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-semi"><span class="dz-label">🧩 Semi-strukturiert</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-unstruct"><span class="dz-label">📄 Unstrukturiert</span><div class="dz-items"></div></div>
       </div>
 
-      <div class="dnd-pool mt" id="type-pool"></div>
+      <div class="dnd-pool mt" id="type-pool"><span class="hint">Hier liegen die Datengruppen.</span></div>
       <div class="row">
         <button class="btn btn-primary" id="type-check">Prüfen</button>
         <button class="btn btn-ghost" id="type-reset">Zurücksetzen</button>
@@ -159,7 +146,7 @@
   </div>
 </section>
 
-<!-- ============ BEGRIFF 3: Das gekaufte Datensatz-Szenario ============ -->
+<!-- ============ BEGRIFF 3: Der gekaufte Datensatz ============ -->
 <section class="section">
   <div class="wrap">
     <h2 class="sec">Fallbeispiel: Der gekaufte Datensatz</h2>
@@ -202,7 +189,7 @@
   <div class="wrap">
     <h2 class="sec">Die 5Vs von Big Data</h2>
     <p class="sub">
-      „Big Data" heisst nicht einfach „viele Daten". Es sind fünf Eigenschaften, die ein Datenvolumen
+      „Big Data” heisst nicht einfach „viele Daten”. Es sind fünf Eigenschaften, die ein Datenvolumen
       zu einer echten Herausforderung machen.
     </p>
     <div class="concept">
@@ -218,17 +205,17 @@
         <div class="icon">🎯</div>
         <div><div class="type">Aufgabe 5 · Zuordnen</div><h3>Welches V steckt im Beispiel?</h3></div>
       </div>
-      <p class="instr">Ziehe jedes Beispiel auf das passende V.</p>
+      <p class="instr">Ziehe jedes Beispiel auf das passende V. Chips sind jederzeit wieder verschiebbar.</p>
 
-      <div class="grid cols-5" id="fivev-grid" style="grid-template-columns:repeat(5,1fr)">
-        <div class="dropzone" id="v-volume"><div class="dz-label">Volume</div><div class="dz-items" data-accept="volume"></div></div>
-        <div class="dropzone" id="v-velocity"><div class="dz-label">Velocity</div><div class="dz-items" data-accept="velocity"></div></div>
-        <div class="dropzone" id="v-variety"><div class="dz-label">Variety</div><div class="dz-items" data-accept="variety"></div></div>
-        <div class="dropzone" id="v-veracity"><div class="dz-label">Veracity</div><div class="dz-items" data-accept="veracity"></div></div>
-        <div class="dropzone" id="v-value"><div class="dz-label">Value</div><div class="dz-items" data-accept="value"></div></div>
+      <div class="grid" id="fivev-grid" style="grid-template-columns:repeat(5,1fr)">
+        <div class="dz" id="v-volume"><span class="dz-label">Volume</span><div class="dz-items"></div></div>
+        <div class="dz" id="v-velocity"><span class="dz-label">Velocity</span><div class="dz-items"></div></div>
+        <div class="dz" id="v-variety"><span class="dz-label">Variety</span><div class="dz-items"></div></div>
+        <div class="dz" id="v-veracity"><span class="dz-label">Veracity</span><div class="dz-items"></div></div>
+        <div class="dz" id="v-value"><span class="dz-label">Value</span><div class="dz-items"></div></div>
       </div>
 
-      <div class="dnd-pool mt" id="fivev-pool"></div>
+      <div class="dnd-pool mt" id="fivev-pool"><span class="hint">Hier liegen die Beispiele.</span></div>
       <div class="row">
         <button class="btn btn-primary" id="fivev-check">Prüfen</button>
         <button class="btn btn-ghost" id="fivev-reset">Zurücksetzen</button>
@@ -238,50 +225,74 @@
   </div>
 </section>
 
-<!-- ============ BEGRIFF 5: Echte Daten bearbeiten ============ -->
+<!-- ============ BEGRIFF 5: Hands-on Data-Explorer ============ -->
 <section class="section">
   <div class="wrap">
-    <h2 class="sec">Hands-on: Echte Daten aus Graubünden</h2>
+    <h2 class="sec">Hands-on: Data-Explorer</h2>
     <p class="sub">
-      Hier sind <b>echte Daten</b>: die erneuerbare Stromproduktion des Kantons Graubünden nach Quelle.
-      Klicke in die Spalte <b>Photovoltaik</b> und ändere einen Wert — das Diagramm reagiert live.
-      Du siehst, wie aus einer Zahl ein Bild wird.
+      Du bekommst einen <b>Roh-Datensatz</b> aus der Energie-Abteilung — und er ist <b>nicht sauber</b>.
+ In der Praxis ist genau das die Realität: Daten müssen erst erkundet und bereinigt werden,
+ bevor man etwas Sinnvolles daraus macht.
     </p>
 
     <div class="task">
       <div class="task-head">
-        <div class="icon">✏️</div>
-        <div><div class="type">Aufgabe 6 · Echte Daten</div><h3>Verändere die Daten, sieh den Effekt</h3></div>
+        <div class="icon">🔍</div>
+        <div><div class="type">Aufgabe 6 · Daten erkunden &amp; bereinigen</div><h3>Finde die Fehler in den Daten</h3></div>
       </div>
       <p class="instr">
-        <b>Klicke</b> auf einen Wert in der gelben <span class="pill orange">Photovoltaik</span>-Spalte und ändere ihn
-        (z.B. den Wert 2024). Das Balkendiagramm zeigt die PV-Produktion pro Jahr — und aktualisiert sich sofort.
+        <b>Schritt 1:</b> Erkunde die Tabelle. <b>Schritt 2:</b> Klicke auf jede Zelle, die dir
+        auffällt (Fehlwert, Ausreisser, falsche Einheit, unmöglicher Wert) — sie wird markiert.
+        <b>Schritt 3:</b> Korrigiere den markierten Wert direkt in der Zelle.
       </p>
-      <div class="table-wrap">
-        <table class="datatable" id="energie">
-          <thead>
-            <tr>
-              <th>Jahr</th>
-              <th>Wasserkraft</th>
-              <th>Biogas/Biomasse</th>
-              <th>Wind</th>
-              <th data-col="pv">Photovoltaik ✏️</th>
-            </tr>
-          </thead>
-          <tbody id="energie-body"></tbody>
-        </table>
+
+      <div class="explorer">
+        <div class="panel">
+          <h4>Energie-Abteilung · Jahreswerte (Mio. kWh)</h4>
+          <div class="table-wrap">
+            <table class="datatable" id="explore">
+              <thead>
+                <tr><th>Jahr</th><th>Wasserkraft</th><th>Photovoltaik</th><th>Wind</th></tr>
+              </thead>
+              <tbody id="explore-body"></tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span class="lg-flag"><i></i> markiert (vermütet)</span>
+            <span class="lg-bad"><i></i> noch falsch</span>
+            <span class="lg-fix"><i></i> korrekt</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h4>Deine Funde</h4>
+          <ul class="findings" id="findings">
+            <li data-issue="missing"><span class="fi">1</span> Fehlwert gefunden &amp; ergänzt</li>
+            <li data-issue="outlier"><span class="fi">2</span> Ausreisser korrigiert</li>
+            <li data-issue="unit"><span class="fi">3</span> Falsche Einheit behoben</li>
+            <li data-issue="negative"><span class="fi">4</span> Unmöglicher (negativer) Wert behoben</li>
+          </ul>
+          <div class="feedback" id="explore-fb" style="margin-top:14px"></div>
+        </div>
       </div>
-      <p class="small muted mt">Werte in Mio. kWh (abgekürzt). Quelle: energie_graubuenden.csv.</p>
-      <div class="barchart mt" id="pv-chart"></div>
-      <div class="feedback" id="pv-fb"></div>
+
+      <!-- Teil B: Pyramide hochsteigen -->
+      <div class="hr-soft"></div>
+      <h3 class="blk mt">Nun steig die Pyramide hoch</h3>
+      <p class="blk-sub">
+        Aus den <b>bereinigten</b> Daten wird schrittweise Mehrwert. Wähle bei jeder Stufe die
+        Aussage, die zu dieser Stufe passt — so baust du den Weg von Daten zur Entscheidung auf.
+      </p>
+      <div id="climb"></div>
+      <div class="feedback" id="climb-fb"></div>
     </div>
 
     <div class="concept">
       <h4>Warum das wichtig ist</h4>
-      <p>Datenqualität ist die Grundlage von allem. „Mist rein, Mist raus" (Garbage in, Garbage out).
+      <p>Datenqualität ist die Grundlage von allem. „Mist rein, Mist raus” (Garbage in, Garbage out).
       Fehlwerte, Ausreisser oder inkonsistente Einheiten verfälschen jede Analyse — und jede KI,
       die darauf trainiert wird. Deshalb spricht man heute von <b>Data-centric AI</b>: Nicht nur das Modell
-      optimieren, sondern die <b>Daten</b> systematisch verbessern.</p>
+      optimieren, sondern die <b>Daten</b> systematisch verbessern. Genau das hast du soeben geübt —
+      und genau das wirst du in der Übertragungsarbeit mit den Daten deiner Firma wiederholen.</p>
     </div>
   </div>
 </section>
@@ -298,140 +309,83 @@
 <footer class="footer">
   <div class="wrap">
     <span>Lernspiel KI-Management · Kapitel 1 · Daten &amp; Datenqualität</span>
-    <span>Grundlagen Teil 2 · Wintersemester 2025/2026</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
   </div>
 </footer>
 
 <script src="app.js"></script>
 <script>
 /* ============================================================
-   Kapitel 1 — Task-Configs
+   Kapitel 1 — Task-Configs (nutzt die gemeinsame KI-Engine)
    ============================================================ */
 
-/* ---------- Aufgabe 1: DIKW Drag & Drop ---------- */
+/* ---------- Aufgabe 1: DIKW Drag & Drop (dragKit) ---------- */
 (function(){
   const chips = [
-    {id:"c1", text:"„185'118'309“ (nur eine Zahl)", correct:"data"},
-    {id:"c2", text:"„PV-Produktion Graubünden 2024“", correct:"information"},
-    {id:"c3", text:"„PV wächst seit 2011 ×20, Mix verschiebt sich“", correct:"knowledge"},
-    {id:"c4", text:"„PV-Ausbau ausbauen“ (Investitionsentscheid)", correct:"wisdom"},
-    {id:"c5", text:"„7'383'000'000“ (nur eine Zahl)", correct:"data"},
-    {id:"c6", text:"„Wasserkraft dominiert noch heute“ (eingeordnet)", correct:"knowledge"}
+    {id:"d1", text:"Einzelner Kassenschlag: 12.40 CHF", key:"data"},
+    {id:"d2", text:"Messwert um 14:20 Uhr", key:"data"},
+    {id:"i1", text:"Abends (14–18h) wird 3× mehr verkauft", key:"information"},
+    {id:"i2", text:"PV-Produktion 2024: 185 Mio. kWh", key:"information"},
+    {id:"k1", text:"PV wächst seit 2011 um den Faktor 20", key:"knowledge"},
+    {id:"k2", text:"Abendkäufer kaufen teurere Produkte", key:"knowledge"},
+    {id:"w1", text:"Personal & Sortiment für den Abend ausbauen", key:"wisdom"},
+    {id:"w2", text:"In PV-Ausbau investieren (robuster Trend)", key:"wisdom"}
   ];
-  // Pool befüllen
-  const pool = document.getElementById("dikw-pool");
-  chips.forEach(c=>{
-    const el = document.createElement("div");
-    el.className="chip"; el.draggable=true; el.dataset.id=c.id; el.dataset.correct=c.correct;
-    el.textContent=c.text; pool.appendChild(el);
-  });
-  // Dropzonen in der Pyramide
-  const zones = [...document.querySelectorAll("#dikw .dropzone")];
-
-  function wire(pool, zoneEls){
-    let dragEl=null, ghost=null;
-    function start(e,chip){
-      dragEl=chip; chip.classList.add("dragging");
-      ghost=chip.cloneNode(true); ghost.classList.add("dragging");
-      ghost.style.cssText="position:fixed;z-index:999;pointer-events:none;width:"+chip.offsetWidth+"px;left:"+(e.clientX-chip.offsetWidth/2)+"px;top:"+(e.clientY-18)+"px";
-      document.body.appendChild(ghost); e.preventDefault();
-    }
-    function move(e){
-      if(!ghost) return;
-      ghost.style.left=(e.clientX-ghost.offsetWidth/2)+"px";
-      ghost.style.top=(e.clientY-18)+"px";
-      zoneEls.forEach(z=>z.closest(".pyr-level,.dropzone").classList.remove("over"));
-      const u=under(e.clientX,e.clientY); if(u) u.closest(".pyr-level,.dropzone").classList.add("over");
-    }
-    function under(x,y){ const h=document.elementFromPoint(x,y); if(!h) return null; const dz=h.closest(".dropzone"); return dz||null; }
-    function end(e){
-      if(ghost){ghost.remove();ghost=null;}
-      zoneEls.forEach(z=>z.closest(".pyr-level,.dropzone").classList.remove("over"));
-      if(!dragEl) return; dragEl.classList.remove("dragging");
-      const t=under(e.clientX,e.clientY);
-      if(t){ t.appendChild(dragEl); dragEl.classList.add("placed"); }
-      dragEl=null;
-    }
-    pool.addEventListener("pointerdown",e=>{ const c=e.target.closest(".chip"); if(c&&!c.classList.contains("placed")) start(e,c); });
-    document.addEventListener("pointermove",move,{passive:false});
-    document.addEventListener("pointerup",end);
-    document.addEventListener("pointercancel",end);
-    pool.addEventListener("dblclick",e=>{ const c=e.target.closest(".chip"); if(c){c.classList.remove("placed");pool.appendChild(c);} });
-  }
-  wire(pool, zones);
-
+  const zones = [
+    {id:"dz-wisdom", key:"wisdom"},
+    {id:"dz-knowledge", key:"knowledge"},
+    {id:"dz-information", key:"information"},
+    {id:"dz-data", key:"data"}
+  ];
+  const kit = KI.dragKit({ poolId:"dikw-pool", chips, zones });
+  const fb = document.getElementById("dikw-fb");
   document.getElementById("dikw-check").addEventListener("click",()=>{
-    let ok=true, placed=0;
-    zones.forEach(z=>{
-      z.closest(".pyr-level").classList.remove("correct","wrong");
-      const items=z.querySelectorAll(".chip"); if(items.length) placed+=items.length;
-      let zoneOk=true;
-      items.forEach(ch=>{ if(ch.dataset.correct!==z.dataset.accept){zoneOk=false;ok=false;} });
-      z.closest(".pyr-level").classList.add(zoneOk?"correct":"wrong");
-    });
-    if(placed<chips.length){ KI.feedback(document.getElementById("dikw-fb"),false,"Bitte zuerst alle Beispiele in die Pyramide ziehen ("+placed+"/"+chips.length+")."); return; }
-    KI.feedback(document.getElementById("dikw-fb"), ok, ok? "Perfekt — du verstehst, wie aus Daten Handlung wird.":"Fast! Rote Stufen sind falsch — prüfe die Begriffe oben." );
-    if(ok) KI.Store.mark("k1","t1");
+    const r = kit.check();
+    if(!r.allPlaced){ KI.feedback(fb,false,"Bitte zuerst alle Beispiele in die Pyramide ziehen."); return; }
+    KI.feedback(fb, r.allCorrect, r.allCorrect
+      ? "Perfekt — du verstehst, wie aus Daten schrittweise Handlung wird."
+      : "Fast! Rote Stufen sind falsch — du kannst die Chips einfach neu sortieren und erneut prüfen.");
+    if(r.allCorrect) KI.Store.mark("k1","t1");
   });
-  document.getElementById("dikw-reset").addEventListener("click",()=>{
-    zones.forEach(z=>{ z.innerHTML=""; z.closest(".pyr-level").classList.remove("correct","wrong"); });
-    chips.forEach(c=>{ const el=pool.querySelector('[data-id="'+c.id+'"]'); el.classList.remove("placed"); });
-    document.getElementById("dikw-fb").className="feedback";
-  });
+  document.getElementById("dikw-reset").addEventListener("click",()=>{ kit.reset(); fb.className="feedback"; });
 })();
 
-/* ---------- Aufgabe 2: Datentypen ---------- */
+/* ---------- Aufgabe 2: Datentypen (dragKit) ---------- */
 (function(){
   const chips=[
-    {id:"s1",text:"Excel-Transaktionen (Kasse)",correct:"struct"},
-    {id:"s2",text:"CSV: Gemeindefinanzkennzahlen",correct:"struct"},
-    {id:"s3",text:"JSON-Log der Kampagnen",correct:"semi"},
-    {id:"s4",text:"XML-Datei vom Lieferanten",correct:"semi"},
-    {id:"s5",text:"Kunden-E-Mails & Reviews (frei)",correct:"unstruct"},
-    {id:"s6",text:"Fotos der Läden",correct:"unstruct"}
+    {id:"s1",text:"Excel-Transaktionen (Kasse)",key:"struct"},
+    {id:"s2",text:"CSV: Gemeindefinanzkennzahlen",key:"struct"},
+    {id:"s3",text:"JSON-Log der Kampagnen",key:"semi"},
+    {id:"s4",text:"XML-Datei vom Lieferanten",key:"semi"},
+    {id:"s5",text:"Kunden-E-Mails & Reviews (frei)",key:"unstruct"},
+    {id:"s6",text:"Fotos der Läden",key:"unstruct"}
   ];
-  const pool=document.getElementById("type-pool");
-  chips.forEach(c=>{ const el=document.createElement("div"); el.className="chip"; el.draggable=true; el.dataset.id=c.id; el.dataset.correct=c.correct; el.textContent=c.text; pool.appendChild(el); });
-  const zones=[...document.querySelectorAll("#dz-struct .dz-items,#dz-semi .dz-items,#dz-unstruct .dz-items")];
-  const zoneMap={struct:"dz-struct",semi:"dz-semi",unstruct:"dz-unstruct"};
-  let dragEl=null,ghost=null;
-  function start(e,chip){ dragEl=chip; chip.classList.add("dragging"); ghost=chip.cloneNode(true); ghost.classList.add("dragging"); ghost.style.cssText="position:fixed;z-index:999;pointer-events:none;width:"+chip.offsetWidth+"px;left:"+(e.clientX-chip.offsetWidth/2)+"px;top:"+(e.clientY-18)+"px"; document.body.appendChild(ghost); e.preventDefault(); }
-  function move(e){ if(!ghost)return; ghost.style.left=(e.clientX-ghost.offsetWidth/2)+"px"; ghost.style.top=(e.clientY-18)+"px"; zones.forEach(z=>z.closest(".dropzone").classList.remove("over")); const u=under(e.clientX,e.clientY); if(u)u.closest(".dropzone").classList.add("over"); }
-  function under(x,y){ const h=document.elementFromPoint(x,y); if(!h)return null; const dz=h.closest(".dropzone"); return dz?dz.querySelector(".dz-items"):null; }
-  function end(e){ if(ghost){ghost.remove();ghost=null;} zones.forEach(z=>z.closest(".dropzone").classList.remove("over")); if(!dragEl)return; dragEl.classList.remove("dragging"); const t=under(e.clientX,e.clientY); if(t){t.appendChild(dragEl);dragEl.classList.add("placed");} dragEl=null; }
-  pool.addEventListener("pointerdown",e=>{const c=e.target.closest(".chip"); if(c&&!c.classList.contains("placed"))start(e,c);});
-  document.addEventListener("pointermove",move,{passive:false});
-  document.addEventListener("pointerup",end);
-  document.addEventListener("pointercancel",end);
-  pool.addEventListener("dblclick",e=>{const c=e.target.closest(".chip"); if(c){c.classList.remove("placed");pool.appendChild(c);}});
+  const zones=[
+    {id:"dz-struct",key:"struct"},
+    {id:"dz-semi",key:"semi"},
+    {id:"dz-unstruct",key:"unstruct"}
+  ];
+  const kit = KI.dragKit({ poolId:"type-pool", chips, zones });
+  const fb = document.getElementById("type-fb");
   document.getElementById("type-check").addEventListener("click",()=>{
-    let ok=true;
-    Object.keys(zoneMap).forEach(key=>{
-      const dz=document.getElementById(zoneMap[key]);
-      dz.classList.remove("correct","wrong"); let zoneOk=true;
-      dz.querySelectorAll(".chip").forEach(ch=>{ if(ch.dataset.correct!==key){zoneOk=false;ok=false;} });
-      dz.classList.add(zoneOk?"correct":"wrong");
-    });
-    const placed=[...document.querySelectorAll(".chip.placed")].length;
-    if(placed<chips.length){ KI.feedback(document.getElementById("type-fb"),false,"Noch nicht alles zugeordnet ("+placed+"/"+chips.length+")."); return; }
-    KI.feedback(document.getElementById("type-fb"),ok, ok?"Genau — du erkennst die Datenformen.":"Einige Kategorien sind falsch (rot). Schau in die Erklärung oben.");
-    if(ok) KI.Store.mark("k1","t2");
+    const r = kit.check();
+    if(!r.allPlaced){ KI.feedback(fb,false,"Noch nicht alles zugeordnet — ziehe alle Chips in eine Kategorie."); return; }
+    KI.feedback(fb, r.allCorrect, r.allCorrect
+      ? "Genau — du erkennst die Datenformen."
+      : "Einige Kategorien sind falsch (rot). Sortiere die Chips neu und prüfe erneut.");
+    if(r.allCorrect) KI.Store.mark("k1","t2");
   });
-  document.getElementById("type-reset").addEventListener("click",()=>{
-    zones.forEach(z=>{z.innerHTML="";z.closest(".dropzone").classList.remove("correct","wrong");});
-    chips.forEach(c=>pool.querySelector('[data-id="'+c.id+'"]').classList.remove("placed"));
-    document.getElementById("type-fb").className="feedback";
-  });
+  document.getElementById("type-reset").addEventListener("click",()=>{ kit.reset(); fb.className="feedback"; });
 })();
 
 /* ---------- Aufgabe 3: MC (Dataset Pyramide) ---------- */
 KI.initMC({
   containerId:"mc-dataset", chapter:"k1", taskId:"t3",
   options:[
-    {text:"Auf der Stufe „Daten“ — wir haben Rohdaten ohne Kontext.", correct:true, reason:"Richtig. Tabellarische Werte A–D ohne Bedeutung sind reine Daten. Erst wenn du die Spalten verstehst, entsteht Information."},
-    {text:"Auf der Stufe „Wissen“ — wir haben ja schon Daten.", correct:false, reason:"Noch nicht. Wissen entsteht erst, wenn du die Daten verstehst und einordnen kannst — das fehlt hier."},
-    {text:"Auf der Stufe „Weisheit“ — wir können sofort entscheiden.", correct:false, reason:"Zu weit oben. Ohne Kontext zu den Spalten kannst du keine fundierte Entscheidung treffen."},
-    {text:"Auf der Stufe „Information“ — es ist ja tabellarisch.", correct:false, reason:"Tabellarisch ist eine Form, kein Kontext. Information braucht Bedeutung — die fehlt noch."}
+    {text:"Auf der Stufe „Daten” — wir haben Rohdaten ohne Kontext.", correct:true, reason:"Richtig. Tabellarische Werte A–D ohne Bedeutung sind reine Daten. Erst wenn du die Spalten verstehst, entsteht Information."},
+    {text:"Auf der Stufe „Wissen” — wir haben ja schon Daten.", correct:false, reason:"Noch nicht. Wissen entsteht erst, wenn du die Daten verstehst und einordnen kannst — das fehlt hier."},
+    {text:"Auf der Stufe „Weisheit” — wir können sofort entscheiden.", correct:false, reason:"Zu weit oben. Ohne Kontext zu den Spalten kannst du keine fundierte Entscheidung treffen."},
+    {text:"Auf der Stufe „Information” — es ist ja tabellarisch.", correct:false, reason:"Tabellarisch ist eine Form, kein Kontext. Information braucht Bedeutung — die fehlt noch."}
   ]
 });
 
@@ -447,81 +401,182 @@ KI.initScenario({
   ]
 });
 
-/* ---------- Aufgabe 5: 5Vs ---------- */
+/* ---------- Aufgabe 5: 5Vs (dragKit) ---------- */
 (function(){
   const chips=[
-    {id:"v1",text:"10 Mio. Events pro Stunde",correct:"velocity"},
-    {id:"v2",text:"Petabytes an Lagerdaten",correct:"volume"},
-    {id:"v3",text:"Text + Bild + Zahlen gemischt",correct:"variety"},
-    {id:"v4",text:"Viele fehlerhafte / widersprüchliche Einträge",correct:"veracity"},
-    {id:"v5",text:"Ziel: Churn-Rate senken (Nutzen)",correct:"value"}
+    {id:"v1",text:"10 Mio. Events pro Stunde",key:"velocity"},
+    {id:"v2",text:"Petabytes an Lagerdaten",key:"volume"},
+    {id:"v3",text:"Text + Bild + Zahlen gemischt",key:"variety"},
+    {id:"v4",text:"Viele fehlerhafte / widersprüchliche Einträge",key:"veracity"},
+    {id:"v5",text:"Ziel: Churn-Rate senken (Nutzen)",key:"value"}
   ];
-  const pool=document.getElementById("fivev-pool");
-  chips.forEach(c=>{ const el=document.createElement("div"); el.className="chip"; el.draggable=true; el.dataset.id=c.id; el.dataset.correct=c.correct; el.textContent=c.text; pool.appendChild(el); });
-  const zones=[...document.querySelectorAll("[id^=v-] .dz-items")];
-  const map={volume:"v-volume",velocity:"v-velocity",variety:"v-variety",veracity:"v-veracity",value:"v-value"};
-  let dragEl=null,ghost=null;
-  function start(e,chip){ dragEl=chip; chip.classList.add("dragging"); ghost=chip.cloneNode(true); ghost.classList.add("dragging"); ghost.style.cssText="position:fixed;z-index:999;pointer-events:none;width:"+chip.offsetWidth+"px;left:"+(e.clientX-chip.offsetWidth/2)+"px;top:"+(e.clientY-18)+"px"; document.body.appendChild(ghost); e.preventDefault(); }
-  function move(e){ if(!ghost)return; ghost.style.left=(e.clientX-ghost.offsetWidth/2)+"px"; ghost.style.top=(e.clientY-18)+"px"; zones.forEach(z=>z.closest(".dropzone").classList.remove("over")); const u=under(e.clientX,e.clientY); if(u)u.closest(".dropzone").classList.add("over"); }
-  function under(x,y){ const h=document.elementFromPoint(x,y); if(!h)return null; const dz=h.closest(".dropzone"); return dz?dz.querySelector(".dz-items"):null; }
-  function end(e){ if(ghost){ghost.remove();ghost=null;} zones.forEach(z=>z.closest(".dropzone").classList.remove("over")); if(!dragEl)return; dragEl.classList.remove("dragging"); const t=under(e.clientX,e.clientY); if(t){t.appendChild(dragEl);dragEl.classList.add("placed");} dragEl=null; }
-  pool.addEventListener("pointerdown",e=>{const c=e.target.closest(".chip"); if(c&&!c.classList.contains("placed"))start(e,c);});
-  document.addEventListener("pointermove",move,{passive:false});
-  document.addEventListener("pointerup",end);
-  document.addEventListener("pointercancel",end);
-  pool.addEventListener("dblclick",e=>{const c=e.target.closest(".chip"); if(c){c.classList.remove("placed");pool.appendChild(c);}});
+  const zones=[
+    {id:"v-volume",key:"volume"},
+    {id:"v-velocity",key:"velocity"},
+    {id:"v-variety",key:"variety"},
+    {id:"v-veracity",key:"veracity"},
+    {id:"v-value",key:"value"}
+  ];
+  const kit = KI.dragKit({ poolId:"fivev-pool", chips, zones });
+  const fb = document.getElementById("fivev-fb");
   document.getElementById("fivev-check").addEventListener("click",()=>{
-    let ok=true;
-    Object.keys(map).forEach(key=>{ const dz=document.getElementById(map[key]); dz.classList.remove("correct","wrong"); let zok=true; dz.querySelectorAll(".chip").forEach(ch=>{ if(ch.dataset.correct!==key){zok=false;ok=false;} }); dz.classList.add(zok?"correct":"wrong"); });
-    const placed=[...document.querySelectorAll(".chip.placed")].length;
-    if(placed<chips.length){ KI.feedback(document.getElementById("fivev-fb"),false,"Noch nicht alle V zugeteilt ("+placed+"/"+chips.length+")."); return; }
-    KI.feedback(document.getElementById("fivev-fb"),ok, ok?"Sehr gut — die 5Vs sitzen.":"Einige V sind falsch (rot). Lies die Definitionen oben." );
-    if(ok) KI.Store.mark("k1","t5");
+    const r = kit.check();
+    if(!r.allPlaced){ KI.feedback(fb,false,"Noch nicht alle V zugeteilt — ziehe alle Chips."); return; }
+    KI.feedback(fb, r.allCorrect, r.allCorrect
+      ? "Sehr gut — die 5Vs sitzen."
+      : "Einige V sind falsch (rot). Lies die Definitionen oben und sortiere neu.");
+    if(r.allCorrect) KI.Store.mark("k1","t5");
   });
-  document.getElementById("fivev-reset").addEventListener("click",()=>{
-    zones.forEach(z=>{z.innerHTML="";z.closest(".dropzone").classList.remove("correct","wrong");});
-    chips.forEach(c=>pool.querySelector('[data-id="'+c.id+'"]').classList.remove("placed"));
-    document.getElementById("fivev-fb").className="feedback";
-  });
+  document.getElementById("fivev-reset").addEventListener("click",()=>{ kit.reset(); fb.className="feedback"; });
 })();
 
-/* ---------- Aufgabe 6: Echte Daten (Graubünden) ---------- */
+/* ---------- Aufgabe 6: Data-Explorer ---------- */
 (function(){
-  // Echte Werte aus energie_graubuenden.csv (Mio. kWh, abgerundet)
+  // Jahreswerte mit 4 eingebauten Fehlern
   const rows=[
-    {jahr:2011, wasserkraft:7905, biomasse:88, wind:0, pv:9},
-    {jahr:2013, wasserkraft:7827, biomasse:116, wind:4, pv:24},
-    {jahr:2014, wasserkraft:9075, biomasse:119, wind:4, pv:30},
-    {jahr:2016, wasserkraft:7717, biomasse:34, wind:4, pv:48},
-    {jahr:2017, wasserkraft:7047, biomasse:95, wind:4, pv:54},
-    {jahr:2022, wasserkraft:5062, biomasse:75, wind:4, pv:112},
-    {jahr:2024, wasserkraft:10185, biomasse:76, wind:5, pv:185}
+    {jahr:2014, wasserkraft:9075,  pv:30,  wind:4},
+    {jahr:2015, wasserkraft:8800,  pv:"",  wind:4,   issue:"missing",  col:"pv",  target:38},
+    {jahr:2016, wasserkraft:7717,  pv:48,  wind:999, issue:"outlier",  col:"wind",target:4},
+    {jahr:2017, wasserkraft:7047,  pv:54,  wind:4},
+    {jahr:2018, wasserkraft:101850,pv:61,  wind:5,   issue:"unit",     col:"wasserkraft",target:10185},
+    {jahr:2020, wasserkraft:6200,  pv:-12, wind:5,   issue:"negative", col:"pv",  target:78}
   ];
-  const body=document.getElementById("energie-body");
-  rows.forEach((r,i)=>{
+  const body=document.getElementById("explore-body");
+  const cols=["wasserkraft","pv","wind"];
+  rows.forEach((r,ri)=>{
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td>${r.jahr}</td><td>${r.wasserkraft}</td><td>${r.biomasse}</td><td>${r.wind}</td>`+
-      `<td data-col="pv">${r.pv}</td>`;
-    tr.querySelector("td[data-col='pv']").dataset.orig=r.pv;
+    let html="<td>"+r.jahr+"</td>";
+    cols.forEach(c=>{
+      const val = (r[c]==="" ? "" : r[c]);
+      const issue = (r.issue && r.col===c) ? ' data-issue="'+r.issue+'" data-target="'+r.target+'" class="editable-cell"' : "";
+      html += "<td data-col='"+c+"'"+issue+">"+val+"</td>";
+    });
+    tr.innerHTML=html;
     body.appendChild(tr);
   });
-  function render(){
-    const tds=[...body.querySelectorAll("td[data-col='pv']")];
-    const vals=tds.map((td,i)=>({label:rows[i].jahr, v:parseFloat(td.textContent)||0}));
-    const max=Math.max(...vals.map(d=>d.v),1);
-    document.getElementById("pv-chart").innerHTML=vals.map((d,i)=>`
-      <div class="bar-col">
-        <div class="bar-val">${d.v}</div>
-        <div class="bar ${i===vals.length-1?"hl":""}" style="height:${(d.v/max*100)}%"></div>
-        <div class="bar-lbl">${d.label}</div>
-      </div>`).join("");
-    tds.forEach((td,i)=>{ td.classList.toggle("changed", (parseFloat(td.textContent)||0)!==rows[i].pv); });
-    // Feedback nach einer Änderung
-    const changed=tds.some((td,i)=>(parseFloat(td.textContent)||0)!==rows[i].pv);
-    if(changed){ KI.feedback(document.getElementById("pv-fb"),true,"Siehst du, wie sich das Bild mit einem einzigen Wert ändert? Genau so wirkt sich Datenqualität auf jede Analyse aus."); }
+
+  const findings=document.getElementById("findings");
+  const fb=document.getElementById("explore-fb");
+  let solved=0;
+
+  function num(td){ return parseFloat(String(td.textContent).replace(/\./g,"").replace(",",".")); }
+  function checkCell(td){
+    if(td.dataset.target===undefined) return;
+    const v=num(td);
+    if(!isNaN(v) && v===parseFloat(td.dataset.target)){
+      td.classList.remove("cell-flag","cell-flagged");
+      td.classList.add("cell-fixed");
+      const li=findings.querySelector('li[data-issue="'+td.dataset.issue+'"]');
+      if(li && !li.classList.contains("done")){
+        li.classList.add("done");
+        solved++;
+        if(solved===4){
+          KI.feedback(fb,true,"Ausgezeichnet — alle 4 Probleme behoben. Deine Daten sind jetzt bereinigt. Steig nun die Pyramide hoch →");
+          KI.Store.mark("k1","t6");
+        }
+      }
+    } else if(!isNaN(v) && v!==parseFloat(td.dataset.target)){
+      td.classList.add("cell-flagged");
+    }
   }
-  body.addEventListener("input",render);
-  render();
+
+  // Klick auf fehlerhafte Zelle → markieren
+  body.addEventListener("click",e=>{
+    const td=e.target.closest("td[data-issue]");
+    if(!td) return;
+    if(td.classList.contains("cell-fixed")) return;
+    td.classList.add("cell-flag");
+    td.contentEditable="true";
+    td.focus();
+    // Auswahl markieren für einfaches Überschreiben
+    const range=document.createRange(); range.selectNodeContents(td);
+    const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  });
+  body.addEventListener("input",e=>{
+    const td=e.target.closest("td[data-issue]");
+    if(td) checkCell(td);
+  });
+  body.addEventListener("blur",e=>{
+    const td=e.target.closest("td[data-issue]");
+    if(td && !td.classList.contains("cell-fixed")){
+      if(num(td)===parseFloat(td.dataset.target)) checkCell(td);
+      else td.classList.add("cell-flagged");
+    }
+  },true);
+
+  /* ---- Teil B: Pyramide hochsteigen (4 Stufen, je 1 richtige Antwort) ---- */
+  const steps=[
+    {level:"Daten", q:"Welche Aussage beschreibt die <b>bereinigten Rohdaten</b> (Stufe 1)?",
+      opts:[
+        {t:"„Wasserkraft, PV und Wind in Mio. kWh pro Jahr, 2014–2020, fehlerfrei.”", ok:true},
+        {t:"„PV wächst stark.”", ok:false},
+        {t:"„Wir sollten in PV investieren.”", ok:false}
+      ]},
+    {level:"Information", q:"Welche Aussage ist <b>Information</b> (Daten + Kontext, Stufe 2)?",
+      opts:[
+        {t:"„Die PV-Produktion stieg von 30 auf 78 Mio. kWh zwischen 2014 und 2020.”", ok:true},
+        {t:"78 (nur die Zahl)", ok:false},
+        {t:"„Wasser dominiert den Mix, PV ist am schnellsten wachsend.”", ok:false}
+      ]},
+    {level:"Wissen", q:"Welche Aussage ist <b>Wissen</b> (eingeordnetes Muster, Stufe 3)?",
+      opts:[
+        {t:"„Der Energiemix verschiebt sich: Wasserkraft stabil, PV im rasanten Wachstum.”", ok:true},
+        {t:"„Die PV-Produktion stieg von 30 auf 78 Mio. kWh.”", ok:false},
+        {t:"„Wir bauen PV aus.”", ok:false}
+      ]},
+    {level:"Weisheit / Handlung", q:"Welche Aussage ist die <b>Entscheidung</b> (Stufe 4)?",
+      opts:[
+        {t:"„Wir investieren gezielt in PV-Ausbau, weil das Wachstum robust ist.”", ok:true},
+        {t:"„Der Energiemix verschiebt sich.”", ok:false},
+        {t:"„Die PV-Produktion stieg auf 78 Mio. kWh.”", ok:false}
+      ]}
+  ];
+  const climb=document.getElementById("climb");
+  const climbFb=document.getElementById("climb-fb");
+  let climbDone=0;
+  steps.forEach((s,si)=>{
+    const box=document.createElement("div");
+    box.className="mc";
+    box.style.marginTop="14px";
+    const q=document.createElement("div");
+    q.style.cssText="font-weight:700;font-size:14.5px;margin-bottom:8px";
+    q.innerHTML="<span class='pill teal'>"+s.level+"</span>  "+s.q;
+    box.appendChild(q);
+    let picked=-1;
+    s.opts.forEach((o,oi)=>{
+      const el=document.createElement("div");
+      el.className="mc-opt";
+      el.innerHTML="<span class='radio'></span><span>"+o.t+"</span>";
+      el.addEventListener("click",()=>{
+        box.querySelectorAll(".mc-opt").forEach(x=>x.classList.remove("selected"));
+        el.classList.add("selected"); picked=oi;
+      });
+      box.appendChild(el);
+    });
+    const btn=document.createElement("button");
+    btn.className="btn btn-primary mt"; btn.textContent="Prüfen";
+    btn.addEventListener("click",()=>{
+      if(picked<0) return;
+      const opts=box.querySelectorAll(".mc-opt");
+      const ok=s.opts[picked].ok;
+      s.opts.forEach((o,oi)=>{
+        opts[oi].classList.remove("correct","wrong");
+        if(o.ok) opts[oi].classList.add("correct");
+        else if(oi===picked) opts[oi].classList.add("wrong");
+      });
+      btn.disabled=true;
+      if(ok){
+        climbDone++;
+        if(climbDone===4){
+          KI.feedback(climbFb,true,"Perfekt — du hast den Weg von Daten über Information und Wissen bis zur Entscheidung aufgebaut. Genau so funktioniert Mehrwert aus Daten.");
+        }
+      } else {
+        KI.feedback(climbFb,false,"Noch nicht — die grüne Antwort ist die richtige für diese Stufe.");
+      }
+    });
+    box.appendChild(btn);
+    climb.appendChild(box);
+  });
 })();
 </script>
 </body>

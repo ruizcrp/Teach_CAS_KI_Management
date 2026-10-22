@@ -1,8 +1,8 @@
 /* ============================================================
    Lernspiel KI-Management — Gemeinsame Task-Engine (app.js)
-   Wiederverwendbare Komponenten: Drag&Drop, Multiple-Choice,
-   Entscheidungsszenarien, editierbare Datentabelle, Fortschritt.
-   Kein Build-Schritt, Vanilla JS. Touch-tauglich.
+   Wiederverwendbare Komponenten: dragKit (robustes DnD),
+   Multiple-Choice, Entscheidungsszenarien, editierbare Tabelle,
+   Fortschritt. Kein Build-Schritt, Vanilla JS, Touch-tauglich.
    ============================================================ */
 
 (function(){
@@ -10,15 +10,14 @@
 
   /* ---------- Fortschritt (localStorage) ---------- */
   const Store = {
-    key: "kilearning_progress_v1",
+    key: "kilearning_progress_v2",
     read(){ try{ return JSON.parse(localStorage.getItem(this.key)) || {}; }catch(e){ return {}; } },
     write(o){ try{ localStorage.setItem(this.key, JSON.stringify(o)); }catch(e){} },
     mark(chapter, taskId){
       const o = this.read();
       o[chapter] = o[chapter] || {done:[]};
       if(!o[chapter].done.includes(taskId)){ o[chapter].done.push(taskId); }
-      this.write(o);
-      this.refresh();
+      this.write(o); this.refresh();
     },
     reset(chapter){
       const o = this.read();
@@ -41,96 +40,126 @@
 
   /* ---------- Feedback-Helfer ---------- */
   function feedback(el, ok, msg){
+    if(!el) return;
     el.classList.remove("ok","no");
     el.classList.add("show", ok?"ok":"no");
     el.innerHTML = `<span class="fb-ico">${ok?"✅":"❌"}</span><span>${msg}</span>`;
   }
 
   /* ============================================================
-     Drag & Drop (Pointer Events → funktioniert auf Touch + Maus)
-     Config: { poolId, zones:[{id, label, accept:[chipId,...]}], onCheck }
+     dragKit — robustes, wiederverwendbares Drag & Drop
+     opts: {
+       poolId,                          // Element, das die Chips enthält
+       chips: [{id, text, key}],        // key = korrekte Zone
+       zones: [{id, key}],              // ganze Zone-Elemente sind Drop-Ziele
+       onAllPlaced: fn                  // optional
+     }
+     Rückgabe: { check, reset, placed, allPlaced, pool }
+     - Ganze Zone ist Drop-Fläche (grosses Trefferfeld)
+     - Chips sind JEDERZEIT wieder verschiebbar (auch nach Check)
+     - Doppelklick: Chip zurück in den Pool
      ============================================================ */
-  function initDnD(cfg){
-    const pool = document.getElementById(cfg.poolId);
-    if(!pool) return;
-    const zones = cfg.zones.map(z=>({ ...z, el: document.getElementById(z.id) })).filter(z=>z.el);
-    let dragEl = null, ghost = null;
+  function dragKit(opts){
+    const pool = document.getElementById(opts.poolId);
+    if(!pool) return null;
+    const zones = (opts.zones||[])
+      .map(z=>({ id:z.id, key:z.key, el:document.getElementById(z.id) }))
+      .filter(z=>z.el);
+    zones.forEach(z=>z.el.classList.add("dz"));
 
-    // Chips erzeugen aus cfg.chips = [{id, text, correctZone}]
-    (cfg.chips||[]).forEach(c=>{
-      const chip = document.createElement("div");
-      chip.className = "chip";
-      chip.draggable = true;
-      chip.dataset.id = c.id;
-      chip.dataset.correct = c.correctZone;
-      chip.textContent = c.text;
-      pool.appendChild(chip);
+    (opts.chips||[]).forEach(c=>{
+      const el = document.createElement("div");
+      el.className = "chip";
+      el.dataset.id = c.id;
+      el.dataset.key = c.key;
+      el.textContent = c.text;
+      pool.appendChild(el);
     });
 
-    function startDrag(e, chip){
+    let dragEl = null, ghost = null;
+
+    function zoneAt(x,y){
+      const h = document.elementFromPoint(x,y);
+      if(!h) return null;
+      const dz = h.closest(".dz");
+      return zones.find(z=>z.el===dz) || null;
+    }
+    function start(e, chip){
       dragEl = chip;
       chip.classList.add("dragging");
       ghost = chip.cloneNode(true);
       ghost.classList.add("dragging");
-      ghost.style.position = "fixed";
-      ghost.style.zIndex = 999;
-      ghost.style.pointerEvents = "none";
-      ghost.style.width = chip.offsetWidth + "px";
-      ghost.style.left = (e.clientX - chip.offsetWidth/2) + "px";
-      ghost.style.top = (e.clientY - 18) + "px";
+      ghost.style.cssText = "position:fixed;z-index:1000;pointer-events:none;margin:0;width:"+chip.offsetWidth+"px;left:"+(e.clientX-chip.offsetWidth/2)+"px;top:"+(e.clientY-20)+"px;";
       document.body.appendChild(ghost);
       e.preventDefault();
     }
-    function moveDrag(e){
+    function move(e){
       if(!ghost) return;
       ghost.style.left = (e.clientX - ghost.offsetWidth/2) + "px";
-      ghost.style.top = (e.clientY - 18) + "px";
-      // Highlight Zone unter Cursor
+      ghost.style.top = (e.clientY - 20) + "px";
       zones.forEach(z=>z.el.classList.remove("over"));
-      const under = zoneUnder(e.clientX, e.clientY);
-      if(under) under.el.classList.add("over");
+      const z = zoneAt(e.clientX, e.clientY);
+      if(z) z.el.classList.add("over");
     }
-    function zoneUnder(x,y){
-      const hit = document.elementFromPoint(x,y);
-      if(!hit) return null;
-      const dz = hit.closest(".dropzone");
-      if(!dz) return null;
-      return zones.find(z=>z.el===dz) || null;
-    }
-    function endDrag(e){
-      if(ghost){ ghost.remove(); ghost=null; }
+    function end(e){
+      if(ghost){ ghost.remove(); ghost = null; }
       zones.forEach(z=>z.el.classList.remove("over"));
       if(!dragEl) return;
       dragEl.classList.remove("dragging");
-      const target = zoneUnder(e.clientX, e.clientY);
-      if(target){
-        target.el.querySelector(".dz-items").appendChild(dragEl);
+      const z = zoneAt(e.clientX, e.clientY);
+      if(z){
+        const items = z.el.querySelector(".dz-items") || z.el;
+        items.appendChild(dragEl);
         dragEl.classList.add("placed");
       }
       dragEl = null;
-      // Auto-Check, wenn alle Chips platziert
-      const remaining = pool.querySelectorAll(".chip").length;
-      if(remaining===0 && cfg.onCheck) cfg.onCheck();
+      if(opts.onAllPlaced) maybeAllPlaced();
+    }
+    function maybeAllPlaced(){
+      if(pool.querySelectorAll(".chip").length===0 && opts.onAllPlaced) opts.onAllPlaced();
     }
 
     pool.addEventListener("pointerdown", e=>{
-      const chip = e.target.closest(".chip");
-      if(chip && !chip.classList.contains("placed")) startDrag(e, chip);
+      const c = e.target.closest(".chip");
+      if(c) start(e, c);
     });
-    document.addEventListener("pointermove", moveDrag, {passive:false});
-    document.addEventListener("pointerup", endDrag);
-    document.addEventListener("pointercancel", endDrag);
+    document.addEventListener("pointermove", move, {passive:false});
+    document.addEventListener("pointerup", end);
+    document.addEventListener("pointercancel", end);
+    document.addEventListener("dblclick", e=>{
+      const c = e.target.closest(".chip");
+      if(c && c.parentElement !== pool){ c.classList.remove("placed"); pool.appendChild(c); }
+    });
 
-    // Doppelklick / 2x-Tap: Chip zurück in Pool
-    pool.addEventListener("dblclick", e=>{
-      const chip = e.target.closest(".chip");
-      if(chip){ chip.classList.remove("placed"); pool.appendChild(chip); }
-    });
+    function placed(){ return document.querySelectorAll(".chip").length - pool.querySelectorAll(".chip").length; }
+    function allPlaced(){ return pool.querySelectorAll(".chip").length===0; }
+    function check(){
+      let allCorrect = true;
+      const wrongZones = [];
+      zones.forEach(z=>{
+        z.el.classList.remove("correct","wrong");
+        const items = z.el.querySelectorAll(".chip");
+        if(items.length===0) return; // neutral, wenn leer
+        let ok = true;
+        items.forEach(ch=>{ if(ch.dataset.key!==z.key) ok=false; });
+        if(!ok){ allCorrect=false; wrongZones.push(z.id); }
+        z.el.classList.add(ok?"correct":"wrong");
+      });
+      return { allPlaced: allPlaced(), allCorrect: allPlaced() && allCorrect, wrongZones };
+    }
+    function reset(){
+      zones.forEach(z=>{
+        z.el.classList.remove("correct","wrong");
+        const items = z.el.querySelector(".dz-items") || z.el;
+        items.querySelectorAll(".chip").forEach(ch=>{ ch.classList.remove("placed"); pool.appendChild(ch); });
+      });
+    }
+    return { check, reset, placed, allPlaced, pool };
   }
 
   /* ============================================================
      Multiple Choice
-     Config: { containerId, options:[{text, correct, reason}] }
+     cfg: { containerId, chapter, taskId, options:[{text, correct, reason}] }
      ============================================================ */
   function initMC(cfg){
     const box = document.getElementById(cfg.containerId);
@@ -165,7 +194,8 @@
         if(o.correct) opts[i].classList.add("correct");
         else if(i===selected) opts[i].classList.add("wrong");
       });
-      const fb = box.closest(".task").querySelector(".feedback");
+      const scope = box.closest(".task") || box.parentElement;
+      const fb = scope ? scope.querySelector(".feedback") : null;
       feedback(fb, ok, cfg.options[selected].reason || (ok?"Richtig!":"Leider nicht ganz."));
       reason.textContent = cfg.options[selected].reason || "";
       if(ok && cfg.taskId) Store.mark(cfg.chapter, cfg.taskId);
@@ -176,7 +206,7 @@
 
   /* ============================================================
      Entscheidungsszenario
-     Config: { containerId, prompt, options:[{text, good, consequence}] }
+     cfg: { containerId, chapter, taskId, role, prompt, options:[{text, good, consequence}] }
      ============================================================ */
   function initScenario(cfg){
     const box = document.getElementById(cfg.containerId);
@@ -209,29 +239,18 @@
 
   /* ============================================================
      Editierbare Datentabelle + Live-Balkendiagramm
-     Config: { tableId, chartId, rows:[{label, values:{col:val}}], col, unit }
+     cfg: { tableId, chartId, col }  (Zellen: <td data-col="col">)
      ============================================================ */
   function initEditableTable(cfg){
     const table = document.getElementById(cfg.tableId);
     if(!table) return;
     const col = cfg.col;
-    // Werte in Zellen eintragen, editierbar
-    table.querySelectorAll("td[data-col]").forEach(td=>{
-      if(td.dataset.col===col){
-        td.classList.add("editable");
-        td.contentEditable = "true";
-        td.dataset.orig = td.textContent;
-      }
+    table.querySelectorAll("td[data-col='"+col+"']").forEach(td=>{
+      td.classList.add("editable");
+      td.contentEditable = "true";
+      td.dataset.orig = td.textContent;
     });
-    table.addEventListener("input", ()=>{
-      const changed = table.querySelectorAll("td[data-col='"+col+"']");
-      changed.forEach(td=>{
-        const v = parseFloat(td.textContent.replace(/\./g,"").replace(",", "."));
-        td.classList.toggle("changed", !isNaN(v) && v !== parseFloat(td.dataset.orig));
-      });
-      renderChart();
-    });
-    function renderChart(){
+    function render(){
       const chart = document.getElementById(cfg.chartId);
       if(!chart) return;
       const rows = [...table.querySelectorAll("tbody tr")];
@@ -242,27 +261,18 @@
       const max = Math.max(...vals.map(d=>d.v), 1);
       chart.innerHTML = vals.map((d,i)=>`
         <div class="bar-col">
-          <div class="bar-val">${d.v? (d.v/1e6).toFixed(0)+"M":""}</div>
+          <div class="bar-val">${d.v}</div>
           <div class="bar ${i===vals.length-1?"hl":""}" style="height:${(d.v/max*100)}%"></div>
           <div class="bar-lbl">${d.label}</div>
         </div>`).join("");
     }
-    renderChart();
+    table.addEventListener("input", render);
+    render();
   }
 
-  /* ---------- Auto-Init ----------
-     Kapitel-Seiten rufen die Funktionen direkt auf, z.B.:
-       KI.initDnD({ poolId:"pool", chips:[...], zones:[...], onCheck });
-       KI.initMC({ containerId:"mc1", chapter:"k1", taskId:"t1", options:[...] });
-       KI.initScenario({ containerId:"sc1", prompt:"...", options:[...] });
-       KI.initEditableTable({ tableId:"tbl", chartId:"chart", col:"photovoltaik_kwh" });
-     autoInit() kümmert sich nur um den Fortschritt. */
-  function autoInit(){
-    Store.refresh();
-  }
+  function autoInit(){ Store.refresh(); }
 
-  // Öffentliche API
-  window.KI = { Store, initDnD, initMC, initScenario, initEditableTable, feedback };
+  window.KI = { Store, feedback, dragKit, initMC, initScenario, initEditableTable };
 
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", autoInit);

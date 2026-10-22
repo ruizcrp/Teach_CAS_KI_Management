@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapitel 3 · ML-Paradigmen — Lernspiel KI-Management</title>
+<meta name="description" content="Supervised, Unsupervised, Reinforcement Learning; Klassifikation vs. Regression; Algorithmen — interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html">2 · Analytics</a>
+      <a href="kapitel3-ml.html" class="active">3 · ML</a>
+      <a href="kapitel4-llm.html">4 · LLM</a>
+      <a href="kapitel5-eval.html">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Kapitel 3 · Session 2</span>
+    <h1>ML-Paradigmen</h1>
+    <p class="lead">
+      Machine Learning lernt aus Daten statt aus festen Regeln. Wie ein System lernt, unterscheidet sich
+      in drei <b>Paradigmen</b> — und innerhalb von Supervised Learning gibt es zwei Grundformen:
+      eine <b>Kategorie</b> vorhersagen oder einen <b>Zahlwert</b>.
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="k3" data-total="5" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k3">0 / 5 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGRIFF 1: Die drei Paradigmen ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Die drei Paradigmen des Machine Learning</h2>
+    <p class="sub">
+      Die wichtigste erste Frage bei jeder Anwendung: <b>Habe ich Labels?</b> Labels sind die „richtigen
+      Antworten“, die das Modell beim Lernen kennen darf. Je nachdem, wie das Modell lernt, spricht man
+      von drei Paradigmen.
+    </p>
+
+    <div class="concept">
+      <h4>Supervised · Unsupervised · Reinforcement</h4>
+      <p><b>Supervised</b> — lernt aus <b>gelabelten</b> Daten (Eingabe → bekannte Ausgabe). Der grösste Teil aller Anwendungen.</p>
+      <p><b>Unsupervised</b> — findet <b>Struktur ohne Labels</b>, z.&nbsp;B. Kundengruppen (Clustering).</p>
+      <p><b>Reinforcement</b> — lernt <b>durch Belohnung/Bestrafung</b> in einer Umgebung (Roboter, Agenten).</p>
+      <div class="drill"><b>Drill-in · Self-Supervised:</b> Eigentlich keine Algorithmenfamilie, sondern eine Technik — das Modell erstellt sich selbst „Rätsel“ (z.&nbsp;B. ein Wort im Satz wegnehmen und es erraten). Deshalb können grosse Sprachmodelle aus riesigen unbeschrifteten Textmengen lernen. Kosteneffizient &amp; skalierbar.</div>
+    </div>
+
+    <!-- AUFGABE 1: Paradigmen zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🧠</div>
+        <div><div class="type">Aufgabe 1 · Zuordnen</div><h3>Welches Paradigma passt?</h3></div>
+      </div>
+      <p class="instr">Ziehe jedes Beispiel zum passenden Paradigma. Chips sind jederzeit wieder verschiebbar.</p>
+
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-sup"><span class="dz-label">🏷️ Supervised</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-unsup"><span class="dz-label">🔍 Unsupervised</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-rl"><span class="dz-label">🎮 Reinforcement</span><div class="dz-items"></div></div>
+      </div>
+
+      <div class="dnd-pool mt" id="paradigm-pool"><span class="hint">Hier liegen die Beispiele.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="paradigm-check">Prüfen</button>
+        <button class="btn btn-ghost" id="paradigm-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="paradigm-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGRIFF 2: Klassifikation vs. Regression ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Klassifikation oder Regression?</h2>
+    <p class="sub">
+      Innerhalb von <b>Supervised Learning</b> gibt es zwei Grundformen: eine <b>Kategorie</b> vorhersagen
+      (Klassifikation) oder einen <b>Zahlwert</b> (Regression). Die Antwort entscheidet über die Wahl
+      von Algorithmen und Metriken.
+    </p>
+
+    <div class="concept">
+      <h4>Die Unterscheidung</h4>
+      <p><b>Klassifikation</b> — diskrete Klassen: ja/nein, Kundenkategorie, Betrug/kein Betrug.</p>
+      <p><b>Regression</b> — kontinuierlicher Zahlwert: Preis in CHF, verkaufte Einheiten, Temperatur.</p>
+      <div class="drill"><b>Drill-in · Schnelle Heuristik:</b> Kann die Antwort „nein“ oder „Standard“ sein? → Klassifikation. Muss die Antwort eine Zahl sein, die beliebig fein sein darf? → Regression. Logistische Regression klingt nach Regression, ist aber Klassifikation (sie liefert ja/nein-Wahrscheinlichkeiten).</div>
+    </div>
+
+    <!-- AUFGABE 2: Klassifikation vs. Regression -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">⚖️</div>
+        <div><div class="type">Aufgabe 2 · Zuordnen</div><h3>Kategorie oder Zahlwert?</h3></div>
+      </div>
+      <p class="instr">Ziehe jede Vorhersage-Aufgabe zur passenden Form.</p>
+
+      <div class="grid cols-3" style="grid-template-columns:repeat(2,1fr);margin-top:8px">
+        <div class="dz" id="dz-class"><span class="dz-label">📦 Klassifikation (Kategorie)</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-reg"><span class="dz-label">📈 Regression (Zahlwert)</span><div class="dz-items"></div></div>
+      </div>
+
+      <div class="dnd-pool mt" id="classreg-pool"><span class="hint">Hier liegen die Vorhersage-Aufgaben.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="classreg-check">Prüfen</button>
+        <button class="btn btn-ghost" id="classreg-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="classreg-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGRIFF 3: Algorithmus-Galerie ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Die Algorithmus-Galerie</h2>
+    <p class="sub">
+      Es gibt viele Algorithmen. Für das Management reicht es, die <b>Familien</b> zu kennen und zu wissen,
+      wann welche typischerweise passt — das Detail übernimmt das Data-Science-Team.
+    </p>
+
+    <div class="concept">
+      <h4>Die wichtigsten Familien</h4>
+      <p><b>Lineare Regression</b> — eine Trendlinie durch die Daten (Zahlwert vorhersagen).</p>
+      <p><b>Entscheidungsbäume</b> — if-then-Regeln, sehr interpretierbar.</p>
+      <p><b>Ensembles</b> — viele Bäume zusammen: <b>Random Forest</b> (Mehrheitsentscheid) &amp; <b>Gradient Boosting</b> (Stafette, jeder Baum korrigiert den letzten).</p>
+      <p><b>Support Vector Machines</b> — finden die beste Trennlinie zwischen Klassen.</p>
+      <p><b>Deep Learning</b> — neuronale Netze; stark bei Bildern, Sprache und grossen Datensätzen.</p>
+      <div class="drill"><b>Drill-in · Warum Ensembles?</b> Ein einzelner Baum macht Fehler. Ein „Wald“ aus vielen, leicht unterschiedlichen Bäumen gleicht diese aus — die „Weisheit der Masse“. Genau deshalb sind Random Forest &amp; Gradient Boosting in der Praxis oft die erste Wahl bei tabellarischen Daten.</div>
+    </div>
+
+    <!-- AUFGABE 3: Algorithmus zuordnen (MC) -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🧰</div>
+        <div><div class="type">Aufgabe 3 · Multiple Choice</div><h3>Welcher Algorithmus passt?</h3></div>
+      </div>
+      <p class="instr">Wähle die passende Algorithmus-Familie für die Aufgabe.</p>
+      <div id="mc-algo"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGRIFF 4: Labels-Entscheidung ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Die erste Management-Frage: Habe ich Labels?</h2>
+    <p class="sub">
+      Bevor eine KI gebaut wird, entscheidet die Verfügbarkeit von Labels über den gesamten Ansatz.
+      Das ist eine <b>Management-Entscheidung</b> — nicht nur eine technische.
+    </p>
+
+    <!-- AUFGABE 4: Szenario Labels -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">💡</div>
+        <div><div class="type">Aufgabe 4 · Entscheidung</div><h3>Labels ja oder nein?</h3></div>
+      </div>
+      <p class="instr">Entscheide, welcher Ansatz ohne gelabelte Daten auskommt.</p>
+      <div id="sc-labels"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEGRIFF 5: Hands-On ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Hands-on: Von der Frage zum Paradigma</h2>
+    <p class="sub">
+      Ein Detailhändler stellt drei Fragen. Ordne jede Frage dem passenden Paradigma <b>und</b> (falls
+      supervised) der Form zu — so baust du den Weg von der Geschäftsfrage zur Modellwahl auf.
+    </p>
+
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 5 · Zuordnen</div><h3>Frage → Paradigma</h3></div>
+      </div>
+      <p class="instr">Ziehe jede Geschäftsfrage zum passenden Paradigma.</p>
+
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-q-sup"><span class="dz-label">Supervised</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-q-unsup"><span class="dz-label">Unsupervised</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-q-rl"><span class="dz-label">Reinforcement</span><div class="dz-items"></div></div>
+      </div>
+
+      <div class="dnd-pool mt" id="q-pool"><span class="hint">Hier liegen die Geschäftsfragen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="q-check">Prüfen</button>
+        <button class="btn btn-ghost" id="q-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="q-fb"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel2-analytics.html">← Kapitel 2 · Analytics</a>
+      <a class="btn btn-primary" href="kapitel4-llm.html">Weiter → Kapitel 4: LLM-Konzepte</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · Kapitel 3 · ML-Paradigmen</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  function bindCheck(checkBtn, resetBtn, kit, fbEl, ch, task, doneMsg){
+    document.getElementById(checkBtn).addEventListener("click",()=>{
+      const r = kit.check();
+      if(!r.allPlaced){ KI.feedback(fbEl,false,"Bitte zuerst alle Beispiele ziehen. Du kannst jederzeit nachziehen."); return; }
+      if(r.allCorrect){ KI.feedback(fbEl,true,doneMsg); KI.Store.mark(ch,task); }
+      else { KI.feedback(fbEl,false,"Noch nicht alles richtig – die markierten Kategorien sind falsch. Korrigiere und prüfe erneut."); }
+    });
+    document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
+  }
+
+  // Aufgabe 1: Paradigmen
+  const pChips = [
+    {id:"p1", text:"Kreditwürdigkeit: zahlungsfähig oder nicht (gelabelt)", key:"sup"},
+    {id:"p2", text:"Wohnungspreis in CHF vorhersagen (gelabelt)", key:"sup"},
+    {id:"p3", text:"Kunden in Gruppen einteilen, ohne bekannte Labels", key:"unsup"},
+    {id:"p4", text:"Anomalien in Transaktionen erkennen (Clustering)", key:"unsup"},
+    {id:"p5", text:"Roboterarm lernt Greifen durch Belohnungssignal", key:"rl"},
+    {id:"p6", text:"Spiel-Agent lernt Strategie durch Sieg/Niederlage", key:"rl"}
+  ];
+  const pZones = [{id:"dz-sup",key:"sup"},{id:"dz-unsup",key:"unsup"},{id:"dz-rl",key:"rl"}];
+  const kitP = KI.dragKit({ poolId:"paradigm-pool", chips:pChips, zones:pZones });
+  bindCheck("paradigm-check","paradigm-reset",kitP, document.getElementById("paradigm-fb"), "k3","t1",
+    "Sehr gut! Supervised (Labels), Unsupervised (Struktur), Reinforcement (Belohnung).");
+
+  // Aufgabe 2: Klassifikation vs. Regression
+  const cChips = [
+    {id:"c1", text:"Wird dieser Kunde das Abo kündigen (ja/nein)?", key:"class"},
+    {id:"c2", text:"Zu welcher Kundenkategorie (Premium/Standard/Neu)?", key:"class"},
+    {id:"c3", text:"Wie hoch ist der voraussichtliche Warenkorbwert in CHF?", key:"reg"},
+    {id:"c4", text:"Wie viele Einheiten Produkt Y im nächsten Monat?", key:"reg"}
+  ];
+  const cZones = [{id:"dz-class",key:"class"},{id:"dz-reg",key:"reg"}];
+  const kitC = KI.dragKit({ poolId:"classreg-pool", chips:cChips, zones:cZones });
+  bindCheck("classreg-check","classreg-reset",kitC, document.getElementById("classreg-fb"), "k3","t2",
+    "Korrekt! Kategorien → Klassifikation, Zahlwerte → Regression.");
+
+  // Aufgabe 5: Geschäftsfragen → Paradigma
+  const qChips = [
+    {id:"q1", text:"„Wer wird nächste Woche kündigen?“ (vergangene Kündigungen als Labels)", key:"sup"},
+    {id:"q2", text:"„Welche Kundengruppen gibt es bei uns?“ (keine Labels)", key:"unsup"},
+    {id:"q3", text:"„Wie plant ein Roboter den effizientesten Lagerweg?“ (Belohnung)", key:"rl"}
+  ];
+  const qZones = [{id:"dz-q-sup",key:"sup"},{id:"dz-q-unsup",key:"unsup"},{id:"dz-q-rl",key:"rl"}];
+  const kitQ = KI.dragKit({ poolId:"q-pool", chips:qChips, zones:qZones });
+  bindCheck("q-check","q-reset",kitQ, document.getElementById("q-fb"), "k3","t5",
+    "Perfekt! Du kannst Geschäftsfragen in ML-Paradigmen übersetzen.");
+})();
+
+/* Aufgabe 3: MC Algorithmus */
+KI.initMC({
+  containerId:"mc-algo", chapter:"k3", taskId:"t3",
+  options:[
+    {text:"Tabellarische Kundendaten, Kündigungsverlauf → Random Forest / Gradient Boosting", correct:true, reason:"Richtig. Bei tabellarischen Daten sind Ensembles (Random Forest, Gradient Boosting) in der Praxis oft die erste Wahl — robust und gut interpretierbar."},
+    {text:"Einfach ein Deep Learning-Netz — das ist immer am besten", correct:false, reason:"Nein. Deep Learning glänzt bei Bildern/Sprache/grossen Daten. Bei tabellarischen Daten sind Ensembles meist besser und günstiger."},
+    {text:"Lineare Regression — die passt für alles", correct:false, reason:"Nein. Lineare Regression ist für Zahlwerte und einfache Zusammenhänge. Für Kündigungsverlauf (Klassifikation, komplexe Muster) ist sie zu simpel."}
+  ]
+});
+
+/* Aufgabe 4: Szenario Labels */
+KI.initScenario({
+  containerId:"sc-labels", chapter:"k3", taskId:"t4",
+  role:"Management-Entscheidung",
+  prompt:"Die Marketing-Abteilung will „Kundengruppen finden, die sich anders verhalten“ — aber es gibt KEINE Labels. Welcher Ansatz ist korrekt?",
+  options:[
+    {text:"Unsupervised Learning (Clustering) — Struktur ohne Labels finden", good:true,
+     consequence:"Genau. Ohne Labels ist Unsupervised Learning der richtige Ansatz — z.&nbsp;B. K-Means, um Kundensegmente explorativ zu finden."},
+    {text:"Supervised Learning — wir müssen erst Labels erstellen", good:false,
+     consequence:"Supervised braucht Labels. Wenn es keine gibt und das Ziel ist, Gruppen zu FINDEN, ist Unsupervised Learning der direktere Weg."},
+    {text:"Reinforcement Learning — der Agent lernt durch Belohnung", good:false,
+     consequence:"RL lernt durch Belohnung in einer Umgebung (z.&nbsp;B. Roboter). Für das Finden von Kundengruppen ist Clustering (Unsupervised) korrekt."}
+  ]
+});
+</script>
+</body>
+</html>

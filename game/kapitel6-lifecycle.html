@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapitel 6 · AI-Lifecycle — Lernspiel KI-Management</title>
+<meta name="description" content="CRISP-DM, MLOps/LLMOps, Drift, Monitoring, Data Governance — interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html">2 · Analytics</a>
+      <a href="kapitel3-ml.html">3 · ML</a>
+      <a href="kapitel4-llm.html">4 · LLM</a>
+      <a href="kapitel5-eval.html">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html" class="active">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Kapitel 6 · Session 5</span>
+    <h1>AI-Lifecycle</h1>
+    <p class="lead">
+      Ein KI-Modell ist kein «einmal bauen, fertig». Es braucht einen <b>Lebenszyklus</b> — von der
+      Problemdefinition über Training &amp; Deployment bis zu <b>Monitoring</b> und Iteration. Für das
+      Management zählt: klare Prozesse, Governance und das frühzeitige Erkennen von <b>Drift</b>.
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="k6" data-total="4" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k6">0 / 4 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 1: CRISP-DM -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">CRISP-DM: Der Standard-Prozess</h2>
+    <p class="sub">
+      <b>CRISP-DM</b> (Cross-Industry Standard Process for Data Mining) beschreibt die Phasen eines
+      Daten-/ML-Projekts. Der wichtigste Punkt für das Management: <b>Business Understanding</b> kommt
+      <b>zuerst</b> — mit Fachexperten, die die Fachrealität kennen.
+    </p>
+    <div class="concept">
+      <h4>Die Phasen</h4>
+      <p><b>1. Business Understanding</b> — Ziele &amp; Kennzahlen, Fachwissen einholen.</p>
+      <p><b>2. Data Understanding</b> — Daten begreifen, Qualität prüfen.</p>
+      <p><b>3. Data Preparation</b> — Reinigung, Transformation, Datenschutz.</p>
+      <p><b>4. Modeling</b> — Algorithmus wählen, trainieren, testen.</p>
+      <p><b>5. Evaluation</b> — Passt es zum Business-Ziel?</p>
+      <p><b>6. Deployment</b> — in Produktion bringen &amp; überwachen.</p>
+      <div class="drill"><b>Drill-in · Warum Business Understanding zuerst?</b> Ohne klare Ziele und Fachwissen entstehen «coole Modelle», die niemand braucht. Die Kennzahlen (z.&nbsp;B. «Kündigung reduzieren») steuern alles Weitere — von der Datenwahl bis zur Metrik.</div>
+    </div>
+
+    <!-- AUFGABE 1: CRISP-DM Phasen ordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🔄</div>
+        <div><div class="type">Aufgabe 1 · Zuordnen</div><h3>Welche Phase?</h3></div>
+      </div>
+      <p class="instr">Ordne jede Tätigkeit der passenden CRISP-DM-Phase zu.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-bu"><span class="dz-label">🎯 Business Understanding</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-dp"><span class="dz-label">🧹 Data Preparation</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-dep"><span class="dz-label">🚀 Deployment</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="crisp-pool"><span class="hint">Hier liegen die Tätigkeiten.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="crisp-check">Prüfen</button>
+        <button class="btn btn-ghost" id="crisp-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="crisp-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 2: MLOps vs LLMOps -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">MLOps vs. LLMOps</h2>
+    <p class="sub">
+      <b>MLOps</b> ist der Standard für klassische ML-Projekte (Entwicklung → Produktion → Monitoring).
+      <b>LLMOps</b> ist eine Spezialform für LLM-Systeme — mit Inference, Prompt-Engineering, RAG-Management
+      und Guardrails. Die beiden sind <b>nicht austauschbar</b>.
+    </p>
+    <div class="concept">
+      <h4>Unterschiede, die fürs Management zählen</h4>
+      <p><b>MLOps</b> — Kostenkontrolle (Compute), klare Rollen (Data Scientists, Engineers, Ops).</p>
+      <p><b>LLMOps</b> — Risiken: Halluzinationen, Datenschutz, Kostenexplosion bei Inference, Ethik &amp; Bias.</p>
+      <div class="drill"><b>Drill-in · LLMOps-Schlüsselkomponenten:</b> Datenverwaltung (inkl. RAG-Aktualität), Architektonisches Design, Deployment, Datenschutz &amp; -sicherheit, Ethik &amp; Fairness. Dazu Prompt-Engineering und ggf. Fine-Tuning.</div>
+    </div>
+
+    <!-- AUFGABE 2: MLOps vs LLMOps MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">⚖️</div>
+        <div><div class="type">Aufgabe 2 · Multiple Choice</div><h3>MLOps oder LLMOps?</h3></div>
+      </div>
+      <div id="mc-mlops"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 3: Drift -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Drift: Warum Modelle altern</h2>
+    <p class="sub">
+      Ein trainiertes Modell wird mit der Zeit schlechter — die Welt ändert sich. Es gibt drei Arten
+      von <b>Drift</b>, und Monitoring muss sie <b>früh</b> erkennen.
+    </p>
+    <div class="concept">
+      <h4>Die drei Drifts</h4>
+      <p><b>Data Drift</b> — die Eingabedaten sehen anders aus als beim Training (z.&nbsp;B. verteilte Einkommen). → Mit neuen Daten aktualisieren.</p>
+      <p><b>Concept Drift</b> — die Beziehung zwischen Input &amp; Output ändert sich (Kausalzusammenhang veraltet). → Features anpassen, Fachexperten einbinden.</p>
+      <p><b>Model Drift</b> — das Modell wird insgesamt schlechter (Daten, Kausalität oder mangelnde Wartung). → Gründlich analysieren, warum.</p>
+      <div class="drill"><b>Drill-in · Früh erkennen:</b> «Auf alle Fälle ist es essenziell, Drifts frühzeitig zu erkennen!» Regelmässiges Monitoring erkennt Abweichungen, bevor sie teuer werden — analog zu Stresstests («reif für die Produktion?»).</div>
+    </div>
+
+    <!-- AUFGABE 3: Drift Zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">📉</div>
+        <div><div class="type">Aufgabe 3 · Zuordnen</div><h3>Welcher Drift?</h3></div>
+      </div>
+      <p class="instr">Ordne jede Situation zum passenden Drift-Typ.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-dd"><span class="dz-label">📊 Data Drift</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-cd"><span class="dz-label">🔀 Concept Drift</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-md"><span class="dz-label">📉 Model Drift</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="drift-pool"><span class="hint">Hier liegen die Situationen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="drift-check">Prüfen</button>
+        <button class="btn btn-ghost" id="drift-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="drift-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 4: Governance + Hands-On -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Data Governance &amp; AI Readiness</h2>
+    <p class="sub">
+      <b>Data Governance</b> ist die systematische Verwaltung von Daten — Qualität, Sicherheit, Compliance.
+      Analogie: Verkehrsregeln im Strassenverkehr. <b>AI Readiness</b> heisst: Ist die Organisation bereit
+      (Daten, Prozesse, Kompetenzen)?
+    </p>
+    <div class="concept">
+      <h4>Warum Governance kritisch ist</h4>
+      <p>Klare Governance verhindert Voreingenommenheit (Bias) und Nichteinhaltung von Standards wie <b>DSGVO</b> oder <b>ISO 27001</b>.</p>
+      <p>Sie schafft Verantwortlichkeiten, Kompetenzen und einen sicheren Rahmen — die Grundlage für belastbare KI.</p>
+      <div class="drill"><b>Drill-in · AI Readiness:</b> Bevor ein KI-Projekt startet: Sind die Daten sauber (Kapitel 1)? Gibt es klare Ziele (Business Understanding)? Sind die Rollen besetzt (MLOps/LLMOps)? Das sind die Hebel, die ein Projekt tragen.</div>
+    </div>
+
+    <!-- AUFGABE 4: Szenario Lifecycle -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 4 · Entscheidung</div><h3>Der Lifecycle-Entscheid</h3></div>
+      </div>
+      <p class="instr">Wähle die beste Massnahme für die Situation.</p>
+      <div id="sc-lifecycle"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel5-eval.html">← Kapitel 5 · Evaluation</a>
+      <a class="btn btn-primary" href="uebertragungsarbeit.html">Weiter → 🎓 Übertragungsarbeit</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · Kapitel 6 · AI-Lifecycle</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  function bindCheck(checkBtn, resetBtn, kit, fbEl, ch, task, doneMsg){
+    document.getElementById(checkBtn).addEventListener("click",()=>{
+      const r = kit.check();
+      if(!r.allPlaced){ KI.feedback(fbEl,false,"Bitte zuerst alle Elemente ziehen. Du kannst jederzeit nachziehen."); return; }
+      if(r.allCorrect){ KI.feedback(fbEl,true,doneMsg); KI.Store.mark(ch,task); }
+      else { KI.feedback(fbEl,false,"Noch nicht alles richtig – die markierten Kategorien sind falsch. Korrigiere und prüfe erneut."); }
+    });
+    document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
+  }
+
+  // Aufgabe 1: CRISP-DM
+  const cChips = [
+    {id:"c1", text:"Ziele &amp; Kennzahlen mit Fachexperten festlegen", key:"bu"},
+    {id:"c2", text:"Fachrealität &amp; Zusammenhänge verstehen", key:"bu"},
+    {id:"c3", text:"Daten reinigen, transformieren, Datenschutz", key:"dp"},
+    {id:"c4", text:"Fehlende Werte &amp; Dubletten bereinigen", key:"dp"},
+    {id:"c5", text:"Modell in Produktion bringen &amp; überwachen", key:"dep"},
+    {id:"c6", text:"Integration in bestehende Systeme", key:"dep"}
+  ];
+  const cZones = [{id:"dz-bu",key:"bu"},{id:"dz-dp",key:"dp"},{id:"dz-dep",key:"dep"}];
+  const kitC = KI.dragKit({ poolId:"crisp-pool", chips:cChips, zones:cZones });
+  bindCheck("crisp-check","crisp-reset",kitC, document.getElementById("crisp-fb"), "k6","t1",
+    "Sehr gut! Business Understanding zuerst, dann Data Preparation, schliesslich Deployment.");
+
+  // Aufgabe 3: Drift
+  const dChips = [
+    {id:"d1", text:"Eingabedaten sehen anders aus als beim Training", key:"dd"},
+    {id:"d2", text:"Verteilung der Einkommen hat sich verändert", key:"dd"},
+    {id:"d3", text:"Beziehung zwischen Input &amp; Output ändert sich", key:"cd"},
+    {id:"d4", text:"Kausalzusammenhang ist veraltet", key:"cd"},
+    {id:"d5", text:"Modell wird insgesamt mit der Zeit schlechter", key:"md"},
+    {id:"d6", text:"Vorhersagen leiden durch mangelnde Wartung", key:"md"}
+  ];
+  const dZones = [{id:"dz-dd",key:"dd"},{id:"dz-cd",key:"cd"},{id:"dz-md",key:"md"}];
+  const kitD = KI.dragKit({ poolId:"drift-pool", chips:dChips, zones:dZones });
+  bindCheck("drift-check","drift-reset",kitD, document.getElementById("drift-fb"), "k6","t3",
+    "Korrekt! Data Drift (Daten), Concept Drift (Kausalität), Model Drift (gesamt schlechter).");
+})();
+
+/* Aufgabe 2: MLOps vs LLMOps MC */
+KI.initMC({
+  containerId:"mc-mlops", chapter:"k6", taskId:"t2",
+  options:[
+    {text:"MLOps ist der Standard für klassische ML-Projekte; LLMOps ist eine Spezialform für LLM-Systeme — die beiden sind nicht austauschbar.", correct:true, reason:"Richtig. LLMOps hat einen anderen Zyklus: Inference, Prompt-Engineering, RAG-Management, Guardrails, ggf. Fine-Tuning. MLOps fokussiert auf Modelllebenszyklus, CI/CD, Rollen."},
+    {text:"MLOps und LLMOps sind dasselbe — nur der Name ist anders.", correct:false, reason:"Nein. LLMOps braucht spezialisierte Ressourcen und klare Compliance-Richtlinien (Halluzinationen, Kostenexplosion, Ethik). MLOps und LLMOps erfordern unterschiedliche Strategien."},
+    {text:"LLMOps ist nur für das Training von Modellen relevant, nicht für den Betrieb.", correct:false, reason:"Nein. LLMOps deckt den gesamten Zyklus ab — inkl. Inference, RAG-Aktualität, Ethik &amp; Fairness. Gerade der Betrieb (Inference-Kosten, Guardrails) ist der Schwerpunkt."}
+  ]
+});
+
+/* Aufgabe 4: Lifecycle-Szenario */
+KI.initScenario({
+  containerId:"sc-lifecycle", chapter:"k6", taskId:"t4",
+  role:"Management-Entscheidung",
+  prompt:"Euer Churn-Modell lief ein Jahr lang stabil. Seit 3 Monaten sinkt die Vorhersagequalität spürbar — die Kündigungsmuster haben sich nach einem Preismodell-Wechsel verändert. Was ist die richtige nächste Massnahme?",
+  options:[
+    {text:"Monitoring analysieren: Concept Drift prüfen (Kausalität geändert) und Features/Fachwissen anpassen", good:true,
+     consequence:"Richtig. Ein Preismodell-Wechsel verändert die Beziehung Input→Output — das ist Concept Drift. Die Lösung: Features anpassen und Fachexperten einbinden."},
+    {text:"Das Modell einfach neu trainieren und hoffen, dass es besser wird", good:false,
+     consequence:"Zu grob. Wenn sich die Kausalität geändert hat (Concept Drift), reicht neu Trainieren mit denselben Features nicht. Erst analysieren, was sich geändert hat."},
+    {text:"Das Modell abschalten, bis das Problem von allein verschwindet", good:false,
+     consequence:"Keine Option. Drift verschwindet nicht von allein — und ein schlechtes Modell trifft weiterhin falsche Entscheidungen. Früh erkennen &amp; handeln ist der Punkt."}
+  ]
+});
+</script>
+</body>
+</html>

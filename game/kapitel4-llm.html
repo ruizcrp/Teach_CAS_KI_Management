@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapitel 4 · LLM-Konzepte — Lernspiel KI-Management</title>
+<meta name="description" content="Tokens, Embeddings, Transformers, RAG, Agenten, MCP — interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html">2 · Analytics</a>
+      <a href="kapitel3-ml.html">3 · ML</a>
+      <a href="kapitel4-llm.html" class="active">4 · LLM</a>
+      <a href="kapitel5-eval.html">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Kapitel 4 · Session 3</span>
+    <h1>LLM-Konzepte</h1>
+    <p class="lead">
+      Grosse Sprachmodelle (LLMs) verstehen und erzeugen Sprache. Für das Management zählt nicht die
+      Matrix-Mathematik, sondern das <b>Konzeptverständnis</b>: Wie werden Wörter zu Zahlen, wie bekommt
+      ein Modell <b>aktuelles Wissen</b> (RAG), und wie kann es <b>Handlungen</b> ausführen (Agenten)?
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="k4" data-total="5" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k4">0 / 5 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 1: Tokens -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Tokens: Wie ein LLM „liest“</h2>
+    <p class="sub">
+      Ein LLM verarbeitet Sprache nicht in ganzen Wörtern, sondern in <b>Tokens</b> — kleinen Bausteinen
+      (Wörter, Wortteile, Zeichen). Das Modell sagt immer nur <b>das nächste Token</b> voraus.
+    </p>
+    <div class="concept">
+      <h4>Next-Token-Prediction</h4>
+      <p>«Hannah ist eine ___» → das Modell schätzt, welches Token am wahrscheinlichsten folgt (Schwester, Freundin, Marketingexpertin …).</p>
+      <p>Kontext ist entscheidend: Je mehr vorherige Tokens, desto präziser die Vorhersage.</p>
+      <div class="drill"><b>Drill-in · Warum Tokens statt Wörter?</b> Wörter wie „Verantwortung“ oder „Überflieger“ sind selten und lang. Als Tokens (z.&nbsp;B. „Ver-ant-wor-tung“) kann das Modell aus einem begrenzten Vokabular kombinieren — effizienter und flexibler.</div>
+    </div>
+
+    <!-- AUFGABE 1: Tokens MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🧩</div>
+        <div><div class="type">Aufgabe 1 · Multiple Choice</div><h3>Was ist ein Token?</h3></div>
+      </div>
+      <div id="mc-tokens"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 2: Embeddings & Transformers -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Embeddings &amp; Transformers</h2>
+    <p class="sub">
+      Tokens werden zu <b>Embeddings</b> — mehrdimensionale Zahlenwerte, die Bedeutung abbilden.
+      <b>Transformers</b> (2017, «Attention is all you need») nutzen <b>Self-Attention</b>, um die Bedeutung
+      jedes Wortes je nach <b>Kontext</b> zu gewichten.
+    </p>
+    <div class="concept">
+      <h4>Kontext macht die Bedeutung</h4>
+      <p>«Die <b>Bank</b> am Fluss» vs. «Ich habe ein Konto bei der <b>Bank</b>» — dasselbe Wort, zwei Bedeutungen.</p>
+      <p>Bei BERT/Transformers hat ein Wort <b>unterschiedliche Embeddings je nach Kontext</b>. Genau deshalb verstehen LLMs Nuancen.</p>
+      <div class="drill"><b>Drill-in · GPT vs. ChatGPT:</b> GPT ist das <b>Modell</b> (die Maschine). ChatGPT ist das <b>Produkt</b> drumherum — mit Guardrails, RAG, Tools und Formatierung. Dieses Unterscheiden ist für Einkauf &amp; Architektur entscheidend.</div>
+    </div>
+
+    <!-- AUFGABE 2: Embeddings Zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🔢</div>
+        <div><div class="type">Aufgabe 2 · Zuordnen</div><h3>Was passiert in der Kette?</h3></div>
+      </div>
+      <p class="instr">Ordne jedem Schritt die richtige Beschreibung zu.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-tok"><span class="dz-label">🧩 Tokens</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-emb"><span class="dz-label">📊 Embeddings</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-tr"><span class="dz-label">🔗 Transformer</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="emb-pool"><span class="hint">Hier liegen die Beschreibungen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="emb-check">Prüfen</button>
+        <button class="btn btn-ghost" id="emb-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="emb-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 3: RAG -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">RAG: Aktuelles Wissen nachliefern</h2>
+    <p class="sub">
+      LLMs haben ein eingebautes Wissensstand-Datum und können halluzinieren. <b>RAG</b> (Retrieval
+      Augmented Generation) löst das: Das Modell <b>sucht zuerst</b> in deinen Datenquellen (PDFs,
+      Intranet, Datenbanken) und antwortet <b>auf Basis der gefundenen Chunks</b>.
+    </p>
+    <div class="concept">
+      <h4>Wie RAG funktioniert</h4>
+      <p><b>1.</b> Dokumente werden in Chunks zerlegt und als Embeddings in einer <b>Vector-DB</b> gespeichert.</p>
+      <p><b>2.</b> Bei einer Frage werden die <b>passendsten Chunks</b> abgerufen (Retrieval).</p>
+      <p><b>3.</b> Das LLM generiert die Antwort <b>aus diesen Chunks</b> — mit Quellenangabe.</p>
+      <div class="drill"><b>Drill-in · RAG-Schwächen:</b> Das Modell versteht nur die gefundenen Chunks, nicht das ganze Dokument. Und es kann <b>trotzdem halluzinieren</b>. Deshalb bleibt Quellenangabe &amp; Review Pflicht. «RAG 2.0» wurde oft versucht — RAG bleibt der Standard.</div>
+    </div>
+
+    <!-- AUFGABE 3: RAG MC -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">📚</div>
+        <div><div class="type">Aufgabe 3 · Multiple Choice</div><h3>Wann RAG?</h3></div>
+      </div>
+      <p class="instr">Wähle die beste Aussage zu RAG.</p>
+      <div id="mc-rag"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 4: Agents -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Agenten: Vom Antworten zum Handeln</h2>
+    <p class="sub">
+      Ein <b>Agent</b> nutzt das LLM als «Gehirn» und führt in einer <b>Loop</b> Handlungen aus:
+      <b>Thought → Action → Observation</b>. Das LLM schreibt nur Text — ein <b>Programm</b> wertet aus
+      und führt die Aktionen (Tools) aus.
+    </p>
+    <div class="concept">
+      <h4>Die Agenten-Schleife</h4>
+      <p><b>Thought</b> — Was will der User? Was ist der nächste Schritt?</p>
+      <p><b>Action</b> — Eine definierte Tool-Aktion (z.&nbsp;B. «google», «db_query») wird ausgeführt.</p>
+      <p><b>Observation</b> — Das Ergebnis fliesst zurück ins Prompt; der Loop läuft weiter, bis das Ziel erreicht ist.</p>
+      <div class="drill"><b>Drill-in · Auch hier Datenqualität:</b> Ein Agent, der auf fehlerhaften Daten oder fehlenden Quellen operiert, «halluziniert» Handlungen. Quellenangabe &amp; Guardrails sind auch bei Agenten Pflicht.</div>
+    </div>
+
+    <!-- AUFGABE 4: Agenten Zuordnen -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🤖</div>
+        <div><div class="type">Aufgabe 4 · Zuordnen</div><h3>Welcher Baustein?</h3></div>
+      </div>
+      <p class="instr">Ordne jedem Agenten-Baustein die richtige Rolle zu.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-brain"><span class="dz-label">🧠 Brain</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-plan"><span class="dz-label">📋 Planning</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-act"><span class="dz-label">⚙️ Actions</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="agent-pool"><span class="hint">Hier liegen die Rollen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="agent-check">Prüfen</button>
+        <button class="btn btn-ghost" id="agent-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="agent-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF 5: MCP + Hands-On -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">MCP &amp; die grosse Übersicht</h2>
+    <p class="sub">
+      <b>MCP</b> (Model Context Protocol) ist ein <b>Standard</b>, wie Modelle mit Tools &amp; Kontext
+      verbunden werden — wie «USB für KI». Damit Agenten und RAG überall anschlussfähig sind.
+    </p>
+
+    <!-- AUFGABE 5: Szenario RAG vs. Agent vs. MCP -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 5 · Entscheidung</div><h3>Welches Konzept passt?</h3></div>
+      </div>
+      <p class="instr">Wähle das passende Konzept für jede Situation.</p>
+      <div id="sc-llm"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel3-ml.html">← Kapitel 3 · ML</a>
+      <a class="btn btn-primary" href="kapitel5-eval.html">Weiter → Kapitel 5: Training &amp; Evaluation</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · Kapitel 4 · LLM-Konzepte</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  function bindCheck(checkBtn, resetBtn, kit, fbEl, ch, task, doneMsg){
+    document.getElementById(checkBtn).addEventListener("click",()=>{
+      const r = kit.check();
+      if(!r.allPlaced){ KI.feedback(fbEl,false,"Bitte zuerst alle Elemente ziehen. Du kannst jederzeit nachziehen."); return; }
+      if(r.allCorrect){ KI.feedback(fbEl,true,doneMsg); KI.Store.mark(ch,task); }
+      else { KI.feedback(fbEl,false,"Noch nicht alles richtig – die markierten Kategorien sind falsch. Korrigiere und prüfe erneut."); }
+    });
+    document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
+  }
+
+  // Aufgabe 2: Embeddings Kette
+  const eChips = [
+    {id:"e1", text:"Sprache in kleine Bausteine zerlegen", key:"tok"},
+    {id:"e2", text:"Das nächste Token vorhersagen (Kontext)", key:"tok"},
+    {id:"e3", text:"Tokens zu mehrdimensionalen Zahlenwerten", key:"emb"},
+    {id:"e4", text:"Wortbedeutung je nach Kontext (Self-Attention)", key:"emb"},
+    {id:"e5", text:"«Attention is all you need» (2017, Google)", key:"tr"},
+    {id:"e6", text:"Basis für GPT &amp; BERT", key:"tr"}
+  ];
+  const eZones = [{id:"dz-tok",key:"tok"},{id:"dz-emb",key:"emb"},{id:"dz-tr",key:"tr"}];
+  const kitE = KI.dragKit({ poolId:"emb-pool", chips:eChips, zones:eZones });
+  bindCheck("emb-check","emb-reset",kitE, document.getElementById("emb-fb"), "k4","t2",
+    "Sehr gut! Tokens → Embeddings → Transformer: die Kette sitzt.");
+
+  // Aufgabe 4: Agenten Bausteine
+  const aChips = [
+    {id:"a1", text:"Koordiniert und trifft Entscheidungen", key:"brain"},
+    {id:"a2", text:"Das LLM als Kern des Agents", key:"brain"},
+    {id:"a3", text:"Plant zukünftige Handlungen (Chain of Thought)", key:"plan"},
+    {id:"a4", text:"Denkt in Schritten: Was als Nächstes?", key:"plan"},
+    {id:"a5", text:"Führt definierte Tools aus (z.&nbsp;B. «google»)", key:"act"},
+    {id:"a6", text:"Programm wertet Text aus und führt aus", key:"act"}
+  ];
+  const aZones = [{id:"dz-brain",key:"brain"},{id:"dz-plan",key:"plan"},{id:"dz-act",key:"act"}];
+  const kitA = KI.dragKit({ poolId:"agent-pool", chips:aChips, zones:aZones });
+  bindCheck("agent-check","agent-reset",kitA, document.getElementById("agent-fb"), "k4","t4",
+    "Korrekt! Brain (LLM), Planning (Schritte), Actions (Tools) — die Agenten-Schleife.");
+})();
+
+/* Aufgabe 1: Tokens MC */
+KI.initMC({
+  containerId:"mc-tokens", chapter:"k4", taskId:"t1",
+  options:[
+    {text:"Ein Token ist ein kleiner Baustein (Wort, Wortteil, Zeichen) — das LLM sagt immer das nächste Token voraus.", correct:true, reason:"Richtig. LLMs arbeiten mit Next-Token-Prediction auf Token-Ebene. Kontext bestimmt, welches Token als Nächstes wahrscheinlich ist."},
+    {text:"Ein Token ist immer exakt ein ganzes Wort — nie mehr, nie weniger.", correct:false, reason:"Nein. Tokens können Wortteile oder Zeichen sein (z.&nbsp;B. «Ver-ant-wor-tung»). Das macht das Modell flexibler und effizienter."},
+    {text:"Tokens sind die Embeddings des Modells — die Zahlenwerte im Netzwerk.", correct:false, reason:"Nein. Tokens sind die Eingabe-Bausteine; Embeddings sind die Zahlenwerte, die aus Tokens entstehen. Zwei verschiedene Stufen."}
+  ]
+});
+
+/* Aufgabe 3: RAG MC */
+KI.initMC({
+  containerId:"mc-rag", chapter:"k4", taskId:"t3",
+  options:[
+    {text:"RAG holt aktuelle Informationen aus deinen Datenquellen ab, bevor das LLM antwortet — mit Quellenangabe.", correct:true, reason:"Genau. RAG löst das Wissensstand-Problem: Retrieval aus Vector-DB, dann Generierung aus den gefundenen Chunks. Quellenangabe bleibt Pflicht."},
+    {text:"RAG trainiert das LLM neu, damit es alles weiss — ein einmaliger Schritt.", correct:false, reason:"Nein. RAG trainiert nicht neu. Es holt zur Laufzeit passende Chunks ab — deshalb bleibt es aktuell und nachvollziehbar."},
+    {text:"RAG ersetzt das LLM vollständig durch eine Datenbankabfrage.", correct:false, reason:"Nein. RAG ergänzt das LLM: Die DB liefert Kontext, das LLM formuliert die Antwort. Beide zusammen — nicht das eine oder das andere."}
+  ]
+});
+
+/* Aufgabe 5: Szenario RAG vs. Agent vs. MCP */
+KI.initScenario({
+  containerId:"sc-llm", chapter:"k4", taskId:"t5",
+  role:"Konzept wählen",
+  prompt:"Die IT-Firma will, dass ihr Chatbot intern auf aktuelle HR-Richtlinien antwortet (PDFs im Intranet). Welches Konzept ist der Kern?",
+  options:[
+    {text:"RAG — holt die passenden HR-PDF-Chunks ab und antwortet darauf", good:true,
+     consequence:"Richtig. Aktuelle interne Dokumente + Quellenangabe = RAG. Der Klassiker für «Fragen an unsere eigenen Dokumente»."},
+    {text:"Ein Agent, der selbstständig HR-Änderungen in der Datenbank vornimmt", good:false,
+     consequence:"Zu viel. Für das Beantworten von Fragen an Dokumente reicht RAG. Ein Agent, der selbst handelt, wäre hier überdimensioniert und riskant."},
+    {text:"MCP — das ist der Standard, um das LLM an die HR-DB anzubinden", good:false,
+     consequence:"MCP ist ein Anschluss-Standard (wie «USB für KI»), nicht die Lösung für «Fragen an Dokumente». RAG ist hier der Kern."}
+  ]
+});
+</script>
+</body>
+</html>

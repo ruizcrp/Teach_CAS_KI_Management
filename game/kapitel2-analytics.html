@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kapitel 2 · Analytics — Lernspiel KI-Management</title>
+<meta name="description" content="Die fünf Stufen der Analytik: Descriptive, Diagnostic, Predictive, Prescriptive, Generative — interaktiv.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html" class="active">2 · Analytics</a>
+      <a href="kapitel3-ml.html">3 · ML</a>
+      <a href="kapitel4-llm.html">4 · LLM</a>
+      <a href="kapitel5-eval.html">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Kapitel 2 · Session 2</span>
+    <h1>Analytics-Maturity</h1>
+    <p class="lead">
+      Analytik ist eine Treppe mit <b>fünf Stufen</b> — von «Was ist passiert?» bis «Was sollen wir tun?».
+      Generative KI ist dabei ein <b>eigenes, separates</b> Feld. Für das Management ist wichtig zu wissen,
+      auf welcher Stufe man steht und welche Frage jede Stufe beantwortet.
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="k2" data-total="4" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k2">0 / 4 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- DIE FÜNF STUFEN -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Die fünf Stufen</h2>
+    <div class="pyr-ladder">
+      <div class="ladder-level lv1">
+        <div class="pl-head"><b>1 · Descriptive</b><span class="muted small">Was ist passiert?</span></div>
+        <p class="small">Historische Daten sammeln &amp; darstellen. Trends, Muster, Anomalien. Dashboards, Business Intelligence.</p>
+        <div class="dz" id="dz-desc"><span class="dz-label">Beispiele ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv2">
+        <div class="pl-head"><b>2 · Diagnostic</b><span class="muted small">Warum ist es passiert?</span></div>
+        <p class="small">Ursachen isolieren, tiefer in die Daten gehen. Statistische Tests, Drill-downs.</p>
+        <div class="dz" id="dz-diag"><span class="dz-label">Beispiele ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv3">
+        <div class="pl-head"><b>3 · Predictive</b><span class="muted small">Was wird passieren?</span></div>
+        <p class="small">Wahrscheinlichkeiten für Szenarien berechnen. Statistische Modelle, Machine Learning.</p>
+        <div class="dz" id="dz-pred"><span class="dz-label">Beispiele ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv4">
+        <div class="pl-head"><b>4 · Prescriptive</b><span class="muted small">Was sollen wir tun?</span></div>
+        <p class="small">Handlungsempfehlungen &amp; optimale Szenarien. z.&nbsp;B. Lagerbestand, Nachbestellung, Churn.</p>
+        <div class="dz" id="dz-presc"><span class="dz-label">Beispiele ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv5">
+        <div class="pl-head"><b>5 · Generative AI</b><span class="muted small">Neu erschaffen</span></div>
+        <p class="small">Neue Inhalte erzeugen (Text, Bild, Code, Musik). Braucht im Prinzip keine eigenen Daten.</p>
+        <div class="dz" id="dz-genai"><span class="dz-label">Beispiele ziehen →</span><div class="dz-items"></div></div>
+      </div>
+    </div>
+    <div class="drill"><b>Drill-in · GenAI ist separat:</b> Die ersten vier Stufen arbeiten auf <b>deinen Daten</b> (beschreiben, erklären, vorhersagen, empfehlen). Generative KI <b>erzeugt</b> stattdessen neues Material und braucht dafür keine eigenen Daten — deshalb steht sie auf eigener Stufe.</div>
+  </div>
+</section>
+
+<!-- AUFGABE 1: Ladder Zuordnen -->
+<section class="section">
+  <div class="wrap">
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🪜</div>
+        <div><div class="type">Aufgabe 1 · Zuordnen</div><h3>Welche Stufe?</h3></div>
+      </div>
+      <p class="instr">Ziehe jedes Beispiel zur passenden Stufe der Analytik-Treppe.</p>
+      <div class="dnd-pool mt" id="maturity-pool"><span class="hint">Hier liegen die Beispiele.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="maturity-check">Prüfen</button>
+        <button class="btn btn-ghost" id="maturity-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="maturity-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF: Die Fragen pro Stufe -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Jede Stufe beantwortet eine andere Frage</h2>
+    <div class="concept">
+      <h4>Vom Bericht zur Empfehlung</h4>
+      <p><b>Descriptive</b> — «Wie entwickelt sich der Umsatz?» → Dashboard mit den letzten 12 Monaten.</p>
+      <p><b>Diagnostic</b> — «Warum ist die Conversion gesunken?» → Ursache: Zahlungs-Gateway.</p>
+      <p><b>Predictive</b> — «Wie hoch ist das Unfallrisiko pro Kunde?» → Wahrscheinlichkeit für Prämien.</p>
+      <p><b>Prescriptive</b> — «Wie viele Einheiten bestellen wir?» → Empfehlung: 320 Stück, Lieferant X.</p>
+      <div class="drill"><b>Drill-in · Reife messen:</b> Viele Organisationen stehen auf Stufe 1–2 (Dashboards &amp; Ursachen). Der Sprung zu Predictive/Prescriptive braucht saubere Daten (Kapitel 1) und passende Modelle (Kapitel 3).</div>
+    </div>
+
+    <!-- AUFGABE 2: MC GenAI -->
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🧠</div>
+        <div><div class="type">Aufgabe 2 · Multiple Choice</div><h3>Generative KI</h3></div>
+      </div>
+      <div id="mc-genai"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEGRIFF: Typische Methoden -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Typische Methoden pro Stufe</h2>
+    <p class="sub">
+      Jede Stufe nutzt charakteristische Techniken. Ordne der Stufe die passende Methode zu.
+    </p>
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🔧</div>
+        <div><div class="type">Aufgabe 3 · Zuordnen</div><h3>Methode → Stufe</h3></div>
+      </div>
+      <p class="instr">Ziehe jede Methode zur passenden Stufe.</p>
+      <div class="grid cols-3" style="margin-top:8px">
+        <div class="dz" id="dz-m1"><span class="dz-label">📊 Dashboard / BI</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-m2"><span class="dz-label">🔍 Statistische Tests</span><div class="dz-items"></div></div>
+        <div class="dz" id="dz-m3"><span class="dz-label">📈 ML-Modell</span><div class="dz-items"></div></div>
+      </div>
+      <div class="dnd-pool mt" id="method-pool"><span class="hint">Hier liegen die Methoden.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="method-check">Prüfen</button>
+        <button class="btn btn-ghost" id="method-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="method-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HANDS-ON: Szenario -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Hands-on: Der nächste Schritt</h2>
+    <p class="sub">
+      Ein Detailhändler hat bereits Dashboards. Die Geschäftsführung fragt: «Warum ist der Umsatz
+      in Europa um 15% gesunken?» — Welche Stufe ist der sinnvolle nächste Schritt?
+    </p>
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">🎯</div>
+        <div><div class="type">Aufgabe 4 · Entscheidung</div><h3>Management-Entscheidung</h3></div>
+      </div>
+      <div id="maturity-sc-box"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel1-daten.html">← Kapitel 1 · Daten</a>
+      <a class="btn btn-primary" href="kapitel3-ml.html">Weiter → Kapitel 3: ML-Paradigmen</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · Kapitel 2 · Analytics-Maturity</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  function bindCheck(checkBtn, resetBtn, kit, fbEl, ch, task, doneMsg){
+    document.getElementById(checkBtn).addEventListener("click",()=>{
+      const r = kit.check();
+      if(!r.allPlaced){ KI.feedback(fbEl,false,"Bitte zuerst alle Beispiele ziehen. Du kannst jederzeit nachziehen."); return; }
+      if(r.allCorrect){ KI.feedback(fbEl,true,doneMsg); KI.Store.mark(ch,task); }
+      else { KI.feedback(fbEl,false,"Noch nicht alles richtig – die markierten Stufen sind falsch. Korrigiere und prüfe erneut."); }
+    });
+    document.getElementById(resetBtn).addEventListener("click",()=>{ kit.reset(); fbEl.className="feedback"; fbEl.innerHTML=""; });
+  }
+
+  // Aufgabe 1: Maturity ladder
+  const mChips = [
+    {id:"m1", text:"Monatsbericht über die Einnahmen der letzten 6 Monate", key:"desc"},
+    {id:"m2", text:"Dashboard: Umsatz pro Filiale, letzte 12 Monate", key:"desc"},
+    {id:"m3", text:"Ursache isoliert: Zahlungen scheiterten am Gateway", key:"diag"},
+    {id:"m4", text:"Drill-down: Warum ist die Conversion in CH gesunken?", key:"diag"},
+    {id:"m5", text:"Wahrscheinlichkeit eines Autounfalls pro Kunde", key:"pred"},
+    {id:"m6", text:"Nächste Woche: 320 Einheiten Produkt X nachordern", key:"presc"},
+    {id:"m7", text:"Empfehlung: Lagerbestand optimieren, Lieferanten wechseln", key:"presc"},
+    {id:"m8", text:"GPT schreibt einen neuen Produkttext für die Website", key:"genai"}
+  ];
+  const mZones = [
+    {id:"dz-desc", key:"desc"}, {id:"dz-diag", key:"diag"},
+    {id:"dz-pred", key:"pred"}, {id:"dz-presc", key:"presc"}, {id:"dz-genai", key:"genai"}
+  ];
+  const kitM = KI.dragKit({ poolId:"maturity-pool", chips:mChips, zones:mZones });
+  bindCheck("maturity-check","maturity-reset",kitM, document.getElementById("maturity-fb"), "k2","t1",
+    "Perfekt! Du kannst die fünf Stufen sicher zuordnen – von beschreibend bis generativ.");
+
+  // Aufgabe 3: Methoden
+  const meChips = [
+    {id:"me1", text:"Klassische Datenanalyse, Reports, Trends", key:"m1"},
+    {id:"me2", text:"Business-Intelligence-Dashboards", key:"m1"},
+    {id:"me3", text:"Drill-downs und statistische Tests", key:"m2"},
+    {id:"me4", text:"Ursachenanalyse, Korrelationen", key:"m2"},
+    {id:"me5", text:"Wahrscheinlichkeitsmodelle, Feature Importance", key:"m3"},
+    {id:"me6", text:"Machine-Learning-Modelle für Vorhersagen", key:"m3"}
+  ];
+  const meZones = [{id:"dz-m1",key:"m1"},{id:"dz-m2",key:"m2"},{id:"dz-m3",key:"m3"}];
+  const kitMe = KI.dragKit({ poolId:"method-pool", chips:meChips, zones:meZones });
+  bindCheck("method-check","method-reset",kitMe, document.getElementById("method-fb"), "k2","t3",
+    "Sehr gut! Dashboards/BI (descriptive), statistische Tests (diagnostic), ML-Modelle (predictive).");
+})();
+
+/* Aufgabe 2: GenAI MC */
+KI.initMC({
+  containerId:"mc-genai", chapter:"k2", taskId:"t2",
+  options:[
+    {text:"Generative KI erzeugt neue Inhalte (Text, Bild, Code) und braucht im Prinzip keine eigenen Daten.", correct:true, reason:"Richtig. GenAI «generiert» das nächste Element — es ist ein separates Feld neben den vier datenbasierten Stufen."},
+    {text:"Generative KI ist einfach eine weiterentwickelte Form der prescriptiven Analytik.", correct:false, reason:"Nein. Prescriptive empfiehlt Handlungen auf Basis deiner Daten. GenAI erzeugt neue Inhalte und braucht dafür keine eigenen Daten — deshalb eigene Stufe."},
+    {text:"Generative KI beantwortet die Frage «warum ist etwas passiert?»", correct:false, reason:"Nein. Das «Warum» ist die diagnostic Stufe. GenAI erschafft Inhalte, es erklärt keine Ursachen."}
+  ]
+});
+
+/* Aufgabe 4: Maturity scenario */
+KI.initScenario({
+  containerId:"maturity-sc-box", chapter:"k2", taskId:"t4",
+  role:"Management-Entscheidung",
+  prompt:"Der Detailhändler hat bereits Dashboards (descriptive). Was ist der sinnvolle NÄCHSTE Schritt, um die Frage «warum?» zu beantworten?",
+  options:[
+    {text:"Diagnostic Analytics – die Ursachen des Umsatzrückgangs untersuchen", good:true,
+     consequence:"Genau das fehlt: das «Warum». Diagnostic ist der direkte Schritt nach descriptive – erst dann sind Vorhersagen und Empfehlungen belastbar."},
+    {text:"Prescriptive Analytics – sofort Handlungsempfehlungen ausgeben", good:false,
+     consequence:"Zu früh. Ohne Ursachen (diagnostic) und Vorhersage (predictive) sind Empfehlungen wenig belastbar."},
+    {text:"Generative AI – einen Chatbot für die Kunden bauen", good:false,
+     consequence:"GenAI erzeugt Inhalte, beantwortet aber nicht die Frage «warum schwankt der Umsatz?»."}
+  ]
+});
+</script>
+</body>
+</html>

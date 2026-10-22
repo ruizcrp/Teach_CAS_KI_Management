@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Übertragungsarbeit — Lernspiel KI-Management</title>
+<meta name="description" content="Übertragungsarbeit: Die Daten von Alpenblick AG in die Analytics-Pyramide einordnen und die passende Analytics-Form wählen.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">+</span>
+      <span>Lernspiel KI-Management<small>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Start</a>
+      <a href="kapitel1-daten.html">1 · Daten</a>
+      <a href="kapitel2-analytics.html">2 · Analytics</a>
+      <a href="kapitel3-ml.html">3 · ML</a>
+      <a href="kapitel4-llm.html">4 · LLM</a>
+      <a href="kapitel5-eval.html">5 · Evaluation</a>
+      <a href="kapitel6-lifecycle.html">6 · Lifecycle</a>
+      <a href="uebertragungsarbeit.html" class="active">🎓 Übertragung</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">🎓 Übertragungsarbeit</span>
+    <h1>Alpenblick AG: Daten in die Analytics-Pyramide</h1>
+    <p class="lead">
+      Du bist <b>Head of Analytics</b> bei <b>Alpenblick AG</b>, einem Schweizer Outdoor- &amp;
+      Adventure-Unternehmen (Bergsport-Ausrüstung, Touren, Verleih). Die Geschäftsführung will wissen:
+      <b>Wo stehen wir, und welche Analytics-Form brauchen wir für welche Frage?</b>
+      Ordne die Daten der Abteilungen ein und triff die richtigen Entscheidungen.
+    </p>
+    <div class="row mt">
+      <div class="progressbar" style="width:240px"><span data-progress="ua" data-total="4" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="ua">0 / 4 Aufgaben</span>
+    </div>
+  </div>
+</section>
+
+<!-- DAS UNTERNEHMEN -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Das Unternehmen &amp; seine Daten</h2>
+    <p class="sub">
+      Alpenblick AG hat fünf Abteilungen — jede mit einer anderen Art von Daten. Genau diese
+      Vielfalt ist der Ausgangspunkt deiner Übertragungsarbeit.
+    </p>
+    <div class="grid cols-3">
+      <div class="card">
+        <span class="tag">Verkauf / POS</span>
+        <p class="small">Strukturierte Kassendaten: Artikel, Preis, Menge, Filiale, Datum. ~200'000 Transaktionen/Jahr.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Marketing</span>
+        <p class="small">Halbstrukturiert: Kampagnen, Social-Media-Posts, Click-Streams, E-Mail-Öffnungen.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Kundenservice</span>
+        <p class="small">Unstrukturiert: Chat-Transkripte, E-Mails, Rückruf-Notizen, Reklamationen.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Logistik / Facility</span>
+        <p class="small">Strukturiert: Energieverbrauch der Filialen &amp; Lager, Lieferzeiten, CO₂-Bilanz.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Finanzen</span>
+        <p class="small">Strukturiert: Einnahmen, Kosten, Marge, Liquidität — monatlich, pro Filiale &amp; Produktlinie.</p>
+      </div>
+      <div class="card">
+        <span class="tag" style="background:var(--teal-100);color:var(--teal-800)">Deine Aufgabe</span>
+        <p class="small">Bestimme für jede Business-Frage, <b>welche Analytics-Form</b> (Stufe der Pyramide) die richtige Antwort liefert.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUFGABE 1: Daten → Analytics-Stufe -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Aufgabe 1 · Die Analytics-Pyramide befüllen</h2>
+    <p class="sub">
+      Für jede Business-Frage von Alpenblick wählst du die passende Stufe der Analytics-Treppe.
+      Ziehe die Fragen an die richtige Stelle.
+    </p>
+
+    <div class="pyr-ladder">
+      <div class="ladder-level lv1">
+        <div class="pl-head"><b>1 · Descriptive</b><span class="muted small">Was ist passiert?</span></div>
+        <div class="dz" id="ua-desc"><span class="dz-label">Fragen ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv2">
+        <div class="pl-head"><b>2 · Diagnostic</b><span class="muted small">Warum ist es passiert?</span></div>
+        <div class="dz" id="ua-diag"><span class="dz-label">Fragen ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv3">
+        <div class="pl-head"><b>3 · Predictive</b><span class="muted small">Was wird passieren?</span></div>
+        <div class="dz" id="ua-pred"><span class="dz-label">Fragen ziehen →</span><div class="dz-items"></div></div>
+      </div>
+      <div class="ladder-level lv4">
+        <div class="pl-head"><b>4 · Prescriptive</b><span class="muted small">Was sollen wir tun?</span></div>
+        <div class="dz" id="ua-presc"><span class="dz-label">Fragen ziehen →</span><div class="dz-items"></div></div>
+      </div>
+    </div>
+
+    <div class="task mt">
+      <div class="task-head">
+        <div class="icon">🪜</div>
+        <div><div class="type">Zuordnen</div><h3>Frage → Stufe</h3></div>
+      </div>
+      <div class="dnd-pool" id="ua-pool"><span class="hint">Hier liegen die Business-Fragen.</span></div>
+      <div class="row">
+        <button class="btn btn-primary" id="ua-check">Prüfen</button>
+        <button class="btn btn-ghost" id="ua-reset">Zurücksetzen</button>
+      </div>
+      <div class="feedback" id="ua-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUFGABE 2: MC -->
+<section class="section">
+  <div class="wrap">
+    <div class="ws-item">
+      <h3><span class="num">2</span>Die richtige Analytics-Form wählen</h3>
+      <p class="sub">Die Geschäftsführung fragt: <b>«Welche Filialen werden in den nächsten 6 Monaten
+      unter unserem Kostendeckel fallen?»</b> Welche Analytics-Form ist dafür die richtige?</p>
+      <div id="mc-ua"></div>
+      <div class="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUFGABE 3: Szenario -->
+<section class="section">
+  <div class="wrap">
+    <div class="ws-item">
+      <h3><span class="num">3</span>Make the Call</h3>
+      <p class="sub">Alpenblick will wissen, <b>warum</b> die Kundenbindung im letzten Quartal
+      zurückgegangen ist. Die Service-Abteilung hat 4'000 Chat-Transkripte und E-Mails.
+      Welche Herangehensweise schlägst du vor?</p>
+      <div id="sc-ua"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUFGABE 4: Reflexion / Writebox -->
+<section class="section">
+  <div class="wrap">
+    <div class="ws-item">
+      <h3><span class="num">4</span>Reflexion: Der Sprung nach oben</h3>
+      <p class="sub">Alpenblick steht heute auf Stufe 1 (Dashboards). Die Geschäftsführung will
+      <b>Predictive Analytics</b> einführen. Was müsste dafür erfüllt sein, bevor ihr loslegt?
+      Nenne mindestens drei Voraussetzungen und begründe sie.</p>
+      <div class="writebox" contenteditable="true" data-placeholder="Deine Antwort hier … (z.&nbsp;B. saubere &amp; vollständige Daten, klare Kennzahlen, passende Modelle, Rollen &amp; Governance …)"></div>
+      <div class="row mt">
+        <button class="btn btn-ghost" id="ua4-save">Antwort speichern</button>
+        <span class="small muted" id="ua4-status"></span>
+      </div>
+      <div class="feedback" id="ua4-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLISTE / SELF-ASSESSMENT -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Checkliste: Bist du bereit?</h2>
+    <p class="sub">
+      Hake ab, was du sicher beherrschst. (Diese Rubrik ist ein Vorschlag — sie kann vor der
+      Abgabe angepasst werden.)
+    </p>
+    <div class="ws-item">
+      <ul class="checklist" id="ua-checklist">
+        <li><span class="box"></span><span>Ich kann die fünf Stufen der Analytics-Pyramide benennen und unterscheiden (inkl. GenAI).</span></li>
+        <li><span class="box"></span><span>Ich kann eine Business-Frage der richtigen Analytics-Form zuordnen.</span></li>
+        <li><span class="box"></span><span>Ich weiss, welche Daten (strukturiert / halbstrukturiert / unstrukturiert) eine Abteilung liefert.</span></li>
+        <li><span class="box"></span><span>Ich kenne den Unterschied MLOps vs. LLMOps und wann jeweils welcher passt.</span></li>
+        <li><span class="box"></span><span>Ich verstehe Bias/Varianz, Over-/Underfitting und die Accuracy-Falle.</span></li>
+        <li><span class="box"></span><span>Ich kann Precision, Recall und F1 je nach Business-Kosten einordnen.</span></li>
+        <li><span class="box"></span><span>Ich kenne Data/Concept/Model Drift und warum Monitoring essenziell ist.</span></li>
+        <li><span class="box"></span><span>Ich kann die Phasen von CRISP-DM und die Rolle von Governance/Readiness erklären.</span></li>
+      </ul>
+      <div class="row mt">
+        <span class="pill teal" id="ua-cl-count">0 / 8 abgehakt</span>
+        <button class="btn btn-ghost" id="ua-cl-reset">Checkliste zurücksetzen</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="row">
+      <a class="btn btn-ghost" href="kapitel6-lifecycle.html">← Kapitel 6 · Lifecycle</a>
+      <a class="btn btn-primary" href="index.html">Zurück zur Übersicht</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>Lernspiel KI-Management · 🎓 Übertragungsarbeit</span>
+    <span>Kalaidos Fachhochschule · CAS KI-Management · Dr. Christian Ruiz</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  /* Aufgabe 1: Analytics-Pyramide */
+  const uaChips = [
+    {id:"u1", text:"Wie war der Umsatz der letzten 12 Monate pro Filiale?", key:"desc"},
+    {id:"u2", text:"Wie hoch war der Energieverbrauch im letzten Winter?", key:"desc"},
+    {id:"u3", text:"Warum ist die Conversion im Online-Shop im Q3 gesunken?", key:"diag"},
+    {id:"u4", text:"Welcher Faktor treibt die Reklamationen am stärksten?", key:"diag"},
+    {id:"u5", text:"Welche Filialen fallen in 6 Monaten unter den Kostendeckel?", key:"pred"},
+    {id:"u6", text:"Wie hoch ist die Wahrscheinlichkeit, dass ein Kunde kündigt?", key:"pred"},
+    {id:"u7", text:"Wie viele Einheiten Produkt X sollen wir nachbestellen?", key:"presc"},
+    {id:"u8", text:"Welche Kunden brauchen eine gezielte Retention-Massnahme?", key:"presc"}
+  ];
+  const uaZones = [
+    {id:"ua-desc", key:"desc"}, {id:"ua-diag", key:"diag"},
+    {id:"ua-pred", key:"pred"}, {id:"ua-presc", key:"presc"}
+  ];
+  const kit = KI.dragKit({ poolId:"ua-pool", chips:uaChips, zones:uaZones });
+  document.getElementById("ua-check").addEventListener("click",()=>{
+    const r = kit.check();
+    if(!r.allPlaced){ KI.feedback(document.getElementById("ua-fb"),false,"Bitte zuerst alle Fragen ziehen. Du kannst jederzeit nachziehen."); return; }
+    if(r.allCorrect){ KI.feedback(document.getElementById("ua-fb"),true,"Perfekt! Du ordnest jede Frage der richtigen Analytics-Stufe zu."); KI.Store.mark("ua","t1"); }
+    else { KI.feedback(document.getElementById("ua-fb"),false,"Noch nicht alles richtig – die markierten Stufen sind falsch. Korrigiere und prüfe erneut."); }
+  });
+  document.getElementById("ua-reset").addEventListener("click",()=>{ kit.reset(); const f=document.getElementById("ua-fb"); f.className="feedback"; f.innerHTML=""; });
+
+  /* Aufgabe 4: Writebox speichern */
+  const wb = document.querySelector(".writebox");
+  const KEY = "ua_answer_t4";
+  try{ const saved = localStorage.getItem(KEY); if(saved) wb.textContent = saved; }catch(e){}
+  document.getElementById("ua4-save").addEventListener("click",()=>{
+    const txt = wb.textContent.trim();
+    if(!txt){ KI.feedback(document.getElementById("ua4-fb"),false,"Bitte zuerst etwas schreiben."); return; }
+    try{ localStorage.setItem(KEY, txt); }catch(e){}
+    KI.feedback(document.getElementById("ua4-fb"),true,"Antwort gespeichert. Du kannst sie jederzeit weiter bearbeiten.");
+    document.getElementById("ua4-status").textContent = "Gespeichert ✓";
+    KI.Store.mark("ua","t4");
+  });
+
+  /* Checkliste */
+  const cl = document.getElementById("ua-checklist");
+  const items = [...cl.querySelectorAll("li")];
+  const countEl = document.getElementById("ua-cl-count");
+  const CLKEY = "ua_checklist";
+  try{
+    const saved = JSON.parse(localStorage.getItem(CLKEY)||"[]");
+    items.forEach((li,i)=>{ if(saved.includes(i)) li.classList.add("done"); });
+  }catch(e){}
+  function updCount(){
+    const done = items.filter(li=>li.classList.contains("done")).length;
+    countEl.textContent = done + " / " + items.length + " abgehakt";
+    if(done===items.length){ countEl.textContent += "  🎉"; }
+  }
+  items.forEach((li,i)=>{
+    li.addEventListener("click",()=>{
+      li.classList.toggle("done");
+      const done = items.filter(x=>x.classList.contains("done")).map((_,j)=>j);
+      try{ localStorage.setItem(CLKEY, JSON.stringify(done)); }catch(e){}
+      updCount();
+    });
+  });
+  document.getElementById("ua-cl-reset").addEventListener("click",()=>{
+    items.forEach(li=>li.classList.remove("done"));
+    try{ localStorage.setItem(CLKEY, JSON.stringify([])); }catch(e){}
+    updCount();
+  });
+  updCount();
+})();
+
+/* Aufgabe 2: MC */
+KI.initMC({
+  containerId:"mc-ua", chapter:"ua", taskId:"t2",
+  options:[
+    {text:"Predictive Analytics – ein ML-Modell schätzt die Wahrscheinlichkeit, dass eine Filiale den Kostendeckel unterschreitet.", correct:true, reason:"Richtig. «In 6 Monaten unter dem Kostendeckel» ist eine Vorhersage über die Zukunft → Predictive. Das Modell lernt aus historischen Filialdaten (Umsatz, Kosten, Region, Saison)."},
+    {text:"Descriptive Analytics – ein Dashboard zeigt die aktuellen Kosten der Filialen.", correct:false, reason:"Ein Dashboard zeigt nur, <b>was ist</b> (descriptive). Die Frage zielt auf die <b>Zukunft</b> (nächste 6 Monate) — dafür braucht es eine Vorhersage, also Predictive."},
+    {text:"Prescriptive Analytics – das System entscheidet selbst, welche Filiale schliesst.", correct:false, reason:"Prescriptive gibt Handlungsempfehlungen. Aber die Frage ist erst mal eine <b>Vorhersage</b> (wer fällt unter den Deckel?). Erst danach könnte Prescriptive empfehlen, was zu tun ist."}
+  ]
+});
+
+/* Aufgabe 3: Szenario */
+KI.initScenario({
+  containerId:"sc-ua", chapter:"ua", taskId:"t3",
+  role:"Make the Call",
+  prompt:"Warum ist die Kundenbindung im letzten Quartal zurückgegangen? 4'000 Chat-Transkripte &amp; E-Mails liegen vor.",
+  options:[
+    {text:"Diagnostic Analytics: Themen aus den Transkripten extrahieren (z.&nbsp;B. per LLM/Text-Mining) und die Ursachen isolieren", good:true,
+     consequence:"Richtig. Die Frage ist «warum». Die unstrukturierten Texte werden nach wiederkehrenden Themen analysiert (Text-Mining/LLM), um die Ursachen der sinkenden Bindung zu finden — das ist Diagnostic."},
+    {text:"Descriptive Analytics: Ein Dashboard mit der Anzahl Chats pro Woche", good:false,
+     consequence:"Ein Dashboard zeigt nur, wie viele Chats es gab — nicht, <b>warum</b> die Bindung sinkt. Die eigentliche Frage bleibt unbeantwortet."},
+    {text:"Predictive Analytics: Vorhersagen, wie viele Kunden im nächsten Quartal kündigen", good:false,
+     consequence:"Das wäre nützlich, aber es beantwortet nicht die gestellte Frage («warum im letzten Quartal?»). Erst nach dem Verstanden der Ursachen (Diagnostic) macht eine Vorhersage Sinn."}
+  ]
+});
+</script>
+</body>
+</html>
