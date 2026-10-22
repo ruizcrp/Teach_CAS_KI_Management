@@ -35,12 +35,21 @@
     <p class="lead">
       Alles beginnt mit Daten. In diesem Kapitel verstehst du, wie aus rohen Daten Information,
       Wissen und Handlungsentscheidungen werden — und warum die <b>Qualität</b> dieser Daten
-      über den Erfolg jedes KI-Projekts entscheidet.
+      über den Erfolg jedes KI-Projekts entscheidet. Als rotes Fadenbeispiel begleitet dich die
+      fiktive <b>Alpenblick AG</b> — ein Schweizer Distributionsunternehmen mit vier
+      Vertriebsgebieten — durch alle sechs Kapitel.
     </p>
     <div class="row mt">
-      <div class="progressbar" style="width:240px"><span data-progress="k1" data-total="6" style="width:0%"></span></div>
-      <span class="small muted" data-progress-label="k1">0 / 6 Aufgaben</span>
+      <div class="progressbar" style="width:240px"><span data-progress="k1" data-total="7" style="width:0%"></span></div>
+      <span class="small muted" data-progress-label="k1">0 / 7 Aufgaben</span>
     </div>
+  </div>
+</section>
+
+<!-- ============ LERNZIELE (Rec. E) ============ -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div id="ch1-obj"></div>
   </div>
 </section>
 
@@ -180,6 +189,7 @@
         Damit aus den anonymen Spalten echte <b>Handlungsentscheidungen</b> werden, brauchst du am meisten…
       </p>
       <div id="sc-dataset"></div>
+      <div id="reason-dataset" style="margin-top:16px"></div>
     </div>
   </div>
 </section>
@@ -297,6 +307,44 @@
   </div>
 </section>
 
+<!-- ============ AUFGABE 7: Echte Daten lesen (Rec. B) ============ -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec">Echte Daten lesen: der Alpenblick-Vertrieb</h2>
+    <p class="sub">
+      Jetzt lade ich den <b>echten Datenbestand</b> der Alpenblick AG — <b>9'994 Verkäufe</b> aus
+      vier Vertriebsgebieten. Ich berechne daraus die Kennzahlen live und du liest sie ab.
+      Genau so arbeitet ein Data-Explorer: Rohdaten rein, aussagekräftige Zahlen raus.
+    </p>
+
+    <div class="task">
+      <div class="task-head">
+        <div class="icon">📊</div>
+        <div><div class="type">Aufgabe 7 · Echte Daten lesen</div><h3>Welches Gebiet ist am rentabelsten?</h3></div>
+      </div>
+      <p class="instr">
+        Lade den Datenbestand, lies die Kennzahlen ab und beantworte die Frage.
+        <span class="pill teal" id="live-status">lädt …</span>
+      </p>
+
+      <div class="explorer" style="margin-top:14px">
+        <div class="panel">
+          <h4>Alpenblick AG · Vertrieb (echte Daten)</h4>
+          <div id="live-stats" class="muted" style="padding:18px;text-align:center">⏳ Lade 9'994 Verkäufe …</div>
+        </div>
+        <div class="panel">
+          <h4>Marge pro Vertriebsgebiet</h4>
+          <div class="barchart" id="live-chart"></div>
+        </div>
+      </div>
+
+      <div id="mc-live" style="margin-top:18px"></div>
+      <div class="feedback" id="live-fb"></div>
+      <div id="reason-live" style="margin-top:16px"></div>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="wrap">
     <div class="row">
@@ -354,7 +402,7 @@
 (function(){
   const chips=[
     {id:"s1",text:"Excel-Transaktionen (Kasse)",key:"struct"},
-    {id:"s2",text:"CSV: Gemeindefinanzkennzahlen",key:"struct"},
+    {id:"s2",text:"CSV: Alpenblick-Verkaufsdaten (9'994 Zeilen)",key:"struct"},
     {id:"s3",text:"JSON-Log der Kampagnen",key:"semi"},
     {id:"s4",text:"XML-Datei vom Lieferanten",key:"semi"},
     {id:"s5",text:"Kunden-E-Mails & Reviews (frei)",key:"unstruct"},
@@ -576,6 +624,90 @@ KI.initScenario({
     });
     box.appendChild(btn);
     climb.appendChild(box);
+  });
+})();
+
+/* ---------- Lernziele (Rec. E) ---------- */
+KI.initObjectives({
+  containerId:"ch1-obj", chapter:"k1",
+  items:[
+    {text:"Ich kann die 4 Stufen der DIKW-Pyramide erklären und Beispiele zuordnen.", check:"Ich kann DIKW-Stufen zuordnen."},
+    {text:"Ich unterscheide strukturierte, semi-strukturierte und unstrukturierte Daten.", check:"Ich erkenne die drei Datentypen."},
+    {text:"Ich kenne die 5 V's von Big Data und weiss, welches in der Praxis zählt.", check:"Ich kann die 5 V's zuordnen."},
+    {text:"Ich erkenne Datenqualitätsprobleme (Fehlwert, Ausreisser, falsche Einheit) in echten Daten.", check:"Ich finde Fehler in Daten."},
+    {text:"Ich kann aus echten Kennzahlen eine begründete Geschäftsentcheidung ableiten.", check:"Ich treffe eine begründete Entscheidung."}
+  ]
+});
+
+/* ---------- Begründe in einem Satz (Rec. C) ---------- */
+KI.reasonBox({
+  containerId:"reason-dataset", chapter:"k1", taskId:"t4-reason",
+  prompt:"Begründe deine Entscheidung in einem Satz: Warum ist das der wichtigste Schritt?"
+});
+
+/* ---------- Aufgabe 7: Echte Daten lesen (Rec. B) ---------- */
+(function(){
+  const status = document.getElementById("live-status");
+  const stats  = document.getElementById("live-stats");
+  const chart  = document.getElementById("live-chart");
+  const fmt = n => Math.round(n).toLocaleString("de-CH");
+  KI.csvLoad("../files/alpenblick_vertrieb.csv").then(rows=>{
+    const f = x => { const v = parseFloat(String(x).replace(",",".")); return isNaN(v)?0:v; };
+    const reg = {};
+    let totU=0, totG=0;
+    rows.forEach(r=>{
+      const u=f(r["Umsatz"]), g=f(r["Gewinn"]);
+      totU+=u; totG+=g;
+      const key = r["Vertriebsgebiet"]||"?";
+      if(!reg[key]) reg[key]={u:0,g:0,n:0};
+      reg[key].u+=u; reg[key].g+=g; reg[key].n+=1;
+    });
+    const entries = Object.entries(reg).map(([k,v])=>({k, margin: v.u>0? v.g/v.u*100 : 0, u:v.u, g:v.g, n:v.n}));
+    entries.sort((a,b)=>b.margin-a.margin);
+    const best = entries[0], worst = entries[entries.length-1];
+
+    // Statistik-Panel
+    stats.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div><div class="small muted">Verkäufe</div><div style="font-size:24px;font-weight:800;color:var(--teal-800)">${fmt(rows.length)}</div></div>
+        <div><div class="small muted">Gesamtumsatz</div><div style="font-size:24px;font-weight:800;color:var(--teal-800)">${fmt(totU)} CHF</div></div>
+        <div><div class="small muted">Gesamtgewinn</div><div style="font-size:24px;font-weight:800;color:var(--green-600)">${fmt(totG)} CHF</div></div>
+        <div><div class="small muted">Ø Marge</div><div style="font-size:24px;font-weight:800;color:var(--green-600)">${(totG/totU*100).toFixed(1)} %</div></div>
+      </div>
+      <div class="small muted">Rentabelstes Gebiet: <b style="color:var(--teal-800)">${best.k} (${best.margin.toFixed(1)} %)</b> ·
+        schwächstes: <b style="color:var(--red-600)">${worst.k} (${worst.margin.toFixed(1)} %)</b></div>`;
+
+    // Balkendiagramm (Marge pro Gebiet, absteigend)
+    const maxM = best.margin || 1;
+    chart.innerHTML = entries.map(e=>`
+      <div class="bar-col">
+        <div class="bar-val">${e.margin.toFixed(1)}%</div>
+        <div class="bar ${e.k===best.k?"hl":""}" style="height:${Math.max(4, e.margin/maxM*100)}%"></div>
+        <div class="bar-lbl">${e.k}</div>
+      </div>`).join("");
+
+    status.textContent = "geladen ✓";
+    status.className = "pill green";
+
+    // MC: welches Gebiet hat die höchste Marge? (Reihenfolge = Diagramm, kein Shufflen)
+    KI.initMC({
+      containerId:"mc-live", chapter:"k1", taskId:"t7", shuffle:false,
+      options: entries.map(e=>({
+        text: `${e.k} — ${e.margin.toFixed(1)} % Marge`,
+        correct: e.k===best.k,
+        reason: e.k===best.k
+          ? `Richtig: ${e.k} hat mit ${e.margin.toFixed(1)} % die höchste Marge — der grösste Hebel für eine KI-Prognose.`
+          : `${e.k} liegt bei ${e.margin.toFixed(1)} %. Die höchste Marge hat ${best.k} (${best.margin.toFixed(1)} %).`
+      }))
+    });
+    KI.reasonBox({
+      containerId:"reason-live", chapter:"k1", taskId:"t7-reason",
+      prompt:"Wenn du ein Gebiet mit einer KI-Nachfrage-Prognose ausstatten könntest — welches wählst du und warum?"
+    });
+  }).catch(err=>{
+    status.textContent = "Fehler"; status.className = "pill red";
+    stats.innerHTML = `<div class="muted" style="padding:18px">⚠️ Datenbestand konnte nicht geladen werden (${err.message}).<br>
+      Bitte die Seite über einen Webserver öffnen (nicht per file://) — dann werden die echten 9'994 Verkäufe angezeigt.</div>`;
   });
 })();
 </script>

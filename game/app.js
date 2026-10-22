@@ -165,8 +165,18 @@
     const box = document.getElementById(cfg.containerId);
     if(!box) return;
     box.classList.add("mc");
+    // Rec. F: Antworten mischen, damit die richtige Antwort nicht immer an
+    // derselben Position steht (Positionsbias brechen). shuffle=false, wenn
+    // die Reihenfolge wichtig ist (z.B. passt zu einem Diagramm).
+    const options = cfg.options.slice();
+    if(cfg.shuffle !== false){
+      for(let i=options.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [options[i],options[j]] = [options[j],options[i]];
+      }
+    }
     let selected = -1;
-    cfg.options.forEach((o,i)=>{
+    options.forEach((o,i)=>{
       const el = document.createElement("div");
       el.className = "mc-opt";
       el.innerHTML = `<span class="radio"></span><span>${o.text}</span>`;
@@ -188,16 +198,16 @@
     btn.addEventListener("click", ()=>{
       if(selected<0){ reason.textContent = "Bitte zuerst eine Antwort wählen."; return; }
       const opts = box.querySelectorAll(".mc-opt");
-      const ok = cfg.options[selected].correct;
-      cfg.options.forEach((o,i)=>{
+      const ok = options[selected].correct;
+      options.forEach((o,i)=>{
         opts[i].classList.remove("correct","wrong");
         if(o.correct) opts[i].classList.add("correct");
         else if(i===selected) opts[i].classList.add("wrong");
       });
       const scope = box.closest(".task") || box.parentElement;
       const fb = scope ? scope.querySelector(".feedback") : null;
-      feedback(fb, ok, cfg.options[selected].reason || (ok?"Richtig!":"Leider nicht ganz."));
-      reason.textContent = cfg.options[selected].reason || "";
+      feedback(fb, ok, options[selected].reason || (ok?"Richtig!":"Leider nicht ganz."));
+      reason.textContent = options[selected].reason || "";
       if(ok && cfg.taskId) Store.mark(cfg.chapter, cfg.taskId);
       btn.disabled = true;
     });
@@ -270,9 +280,107 @@
     render();
   }
 
+  /* ============================================================
+     CSV-Loader (echte Daten) — fetch + Parser, ohne Bibliothek
+     csvLoad(url) -> Promise<Array<Object>>  (erste Zeile = Kopf)
+     ============================================================ */
+  function csvParse(text){
+    const lines = text.replace(/\r/g,"").split("\n").filter(l=>l.length>0);
+    const rows = lines.map(l=>{
+      const out=[]; let cur="", inQ=false;
+      for(let i=0;i<l.length;i++){
+        const ch=l[i];
+        if(inQ){
+          if(ch==='"' && l[i+1]==='"'){ cur+='"'; i++; }
+          else if(ch==='"'){ inQ=false; }
+          else cur+=ch;
+        } else {
+          if(ch==='"') inQ=true;
+          else if(ch===","){ out.push(cur); cur=""; }
+          else cur+=ch;
+        }
+      }
+      out.push(cur);
+      return out;
+    });
+    if(rows.length<2) return [];
+    const head=rows[0];
+    return rows.slice(1).map(r=>{
+      const o={};
+      head.forEach((h,i)=>{ o[h]=(r[i]!==undefined?r[i]:"").trim(); });
+      return o;
+    });
+  }
+  function csvLoad(url){
+    return fetch(url).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); })
+      .then(csvParse);
+  }
+
+  /* ============================================================
+     «Begründe in einem Satz» — freier Reflexions-Input (Rec. C)
+     cfg: { containerId, prompt, chapter, taskId }
+     Optional: taskId wird als erledigt markiert, wenn >= minChars Zeichen.
+     ============================================================ */
+  function reasonBox(cfg){
+    const box = document.getElementById(cfg.containerId);
+    if(!box) return;
+    box.classList.add("reasonwrap");
+    box.innerHTML = `<div class="reason-q">${cfg.prompt||"Begründe deine Antwort in einem Satz."}</div>`;
+    const ta = document.createElement("textarea");
+    ta.className = "reasonbox"; ta.rows = 2;
+    ta.placeholder = "Deine Begründung …";
+    box.appendChild(ta);
+    const note = document.createElement("div");
+    note.className = "reason-note"; note.textContent = "Frei formulieren — es gibt kein Richtig oder Falsch, aber: Argumente machen Entscheidungen überprüfbar.";
+    box.appendChild(note);
+    if(cfg.taskId){
+      const min = cfg.minChars || 15;
+      const done = document.createElement("div");
+      done.className = "reason-done"; done.style.display="none";
+      done.innerHTML = "✅ Notiert — gut so.";
+      box.appendChild(done);
+      ta.addEventListener("input", ()=>{
+        const ok = ta.value.trim().length >= min;
+        done.style.display = ok ? "block" : "none";
+        if(ok) Store.mark(cfg.chapter, cfg.taskId);
+      });
+    }
+  }
+
+  /* ============================================================
+     Lernziele + «Kann ich?»-Selbstcheck (Rec. E)
+     cfg: { containerId, items:[{text, key}] , chapter }
+     Selbstcheck-Checkboxen; wenn alle gesetzt -> Store.mark(chapter,"selfcheck")
+     ============================================================ */
+  function initObjectives(cfg){
+    const box = document.getElementById(cfg.containerId);
+    if(!box) return;
+    box.classList.add("objectives");
+    let html = `<div class="obj-head">🎯 Lernziele dieses Kapitels</div><ul class="obj-list">`;
+    (cfg.items||[]).forEach(it=>{ html += `<li>${it.text}</li>`; });
+    html += `</ul>`;
+    if(cfg.items && cfg.items.length){
+      html += `<div class="obj-self">Kann ich das jetzt?</div><ul class="obj-check">`;
+      cfg.items.forEach((it,i)=>{ html += `<li data-i="${i}"><span class="obox"></span>${it.check||it.text}</li>`; });
+      html += `</ul>`;
+    }
+    box.innerHTML = html;
+    const check = box.querySelector(".obj-check");
+    if(check){
+      const lis = [...check.querySelectorAll("li")];
+      const all = () => lis.every(li=>li.classList.contains("done"));
+      lis.forEach(li=>{
+        li.addEventListener("click", ()=>{
+          li.classList.toggle("done");
+          if(all() && cfg.chapter) Store.mark(cfg.chapter, "selfcheck");
+        });
+      });
+    }
+  }
+
   function autoInit(){ Store.refresh(); }
 
-  window.KI = { Store, feedback, dragKit, initMC, initScenario, initEditableTable };
+  window.KI = { Store, feedback, dragKit, initMC, initScenario, initEditableTable, csvLoad, csvParse, reasonBox, initObjectives };
 
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", autoInit);
