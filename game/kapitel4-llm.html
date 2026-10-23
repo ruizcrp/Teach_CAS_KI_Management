@@ -428,7 +428,7 @@ KI.initMC({
   const find   = document.getElementById("review-findings");
   const fmt = n => Math.round(n).toLocaleString("de-CH");
   const colors = {"Positiv":"#2f8f5b","Neutral":"#c9a227","Negativ":"#c0563f"};
-  KI.csvLoad("../files/alpenblick_kundenstimmen.csv").then(rows=>{
+  KI.csvLoad("files/alpenblick_kundenstimmen.csv").then(rows=>{
     const c = {Positiv:0, Neutral:0, Negativ:0};
     rows.forEach(r=>{ const s=r["Stimmung"]; if(c[s]!==undefined) c[s]++; });
     const total = rows.length;

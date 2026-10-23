@@ -248,12 +248,14 @@
     <div class="task">
       <div class="task-head">
         <div class="icon">🔍</div>
-        <div><div class="type">Aufgabe 6 · Daten erkunden &amp; bereinigen</div><h3>Finde die Fehler in den Daten</h3></div>
+        <div><div class="type">Aufgabe 6 · Daten erkunden, bereinigen &amp; entscheiden</div><h3>Finde die Fehler — und sieh, wie sie den Bericht verfälschen</h3></div>
       </div>
       <p class="instr">
-        <b>Schritt 1:</b> Erkunde die Tabelle. <b>Schritt 2:</b> Klicke auf jede Zelle, die dir
-        auffällt (Fehlwert, Ausreisser, falsche Einheit, unmöglicher Wert) — sie wird markiert.
-        <b>Schritt 3:</b> Korrigiere den markierten Wert direkt in der Zelle.
+        <b>Schritt 1:</b> Klicke auf jede Zelle, die dir auffällt (Fehlwert, Ausreisser, unmöglicher Wert,
+        falsche Grössenordnung).<br>
+        <b>Schritt 2:</b> Wende die Korrekturen an — der <b>Bericht</b> rechts aktualisiert sich live.
+        Achte besonders auf die <b>Prognose</b>.<br>
+        <b>Schritt 3:</b> Ziehe die richtige Schlussfolgerung für die Alpenblick AG.
       </p>
 
       <div class="explorer">
@@ -272,25 +274,48 @@
             <span class="lg-bad"><i></i> noch falsch</span>
             <span class="lg-fix"><i></i> korrekt</span>
           </div>
+          <div id="explore-hint" class="explore-hint" style="display:none"></div>
         </div>
         <div class="panel">
           <h4>Deine Funde</h4>
           <ul class="findings" id="findings">
-            <li data-issue="missing"><span class="fi">1</span> Fehlwert gefunden &amp; ergänzt</li>
-            <li data-issue="outlier"><span class="fi">2</span> Ausreisser korrigiert</li>
-            <li data-issue="unit"><span class="fi">3</span> Falsche Einheit behoben</li>
-            <li data-issue="negative"><span class="fi">4</span> Unmöglicher (negativer) Wert behoben</li>
+            <li data-issue="2015-pv"><span class="fi">1</span> Fehlwert: PV 2015 fehlt</li>
+            <li data-issue="2019-row"><span class="fi">2</span> Fehlwert: ganzes Jahr 2019</li>
+            <li data-issue="2020-pv"><span class="fi">3</span> Negativer Wert: PV 2020</li>
+            <li data-issue="2016-wind"><span class="fi">4</span> Ausreisser: Wind 2016</li>
+            <li data-issue="2018-w"><span class="fi">5</span> Falsche Grösse: Wasserkraft 2018</li>
           </ul>
           <div class="feedback" id="explore-fb" style="margin-top:14px"></div>
         </div>
       </div>
 
-      <!-- Teil B: Pyramide hochsteigen -->
+      <!-- Bericht: live aus den Daten -->
+      <div class="hr-soft"></div>
+      <h3 class="blk mt">Der Bericht — live aus den Daten oben</h3>
+      <p class="blk-sub">
+        Diese Kennzahlen und die <b>Prognose</b> werden direkt aus der Tabelle berechnet. Solange Fehler
+        in den Daten stecken, sind sie <b>falsch</b> — und die falschen Werte ziehen die Mittelwerte und
+        die Prognose mit. Bereinige die Daten, und der Bericht wird korrekt.
+      </p>
+      <div id="report" class="report-grid"></div>
+      <div id="forecast" class="forecast"></div>
+
+      <!-- Schlussfolgerung -->
+      <div class="hr-soft"></div>
+      <h3 class="blk mt">Die Schlussfolgerung für die Alpenblick AG</h3>
+      <p class="blk-sub">
+        Die Alpenblick AG will ihre Energie-Strategie 2021 festlegen. Auf Basis der
+        <b>bereinigten</b> Daten: Welche Aussage ist richtig?
+      </p>
+      <div id="decision" class="locked-note">🔒 Bereinige zuerst alle 5 Datenfehler — dann wird die Entscheidung freigeschaltet.</div>
+      <div class="feedback" id="decision-fb"></div>
+
+      <!-- DIKW Pyramide -->
       <div class="hr-soft"></div>
       <h3 class="blk mt">Nun steig die Pyramide hoch</h3>
       <p class="blk-sub">
-        Aus den <b>bereinigten</b> Daten wird schrittweise Mehrwert. Wähle bei jeder Stufe die
-        Aussage, die zu dieser Stufe passt — so baust du den Weg von Daten zur Entscheidung auf.
+        Aus den <b>bereinigten</b> Daten wird schrittweise Mehrwert. Wähle bei jeder Stufe die Aussage,
+        die zu dieser Stufe passt — so baust du den Weg von Daten zur Entscheidung auf.
       </p>
       <div id="climb"></div>
       <div class="feedback" id="climb-fb"></div>
@@ -480,79 +505,227 @@ KI.initScenario({
 
 /* ---------- Aufgabe 6: Data-Explorer ---------- */
 (function(){
-  // Jahreswerte mit 4 eingebauten Fehlern
-  const rows=[
-    {jahr:2014, wasserkraft:9075,  pv:30,  wind:4},
-    {jahr:2015, wasserkraft:8800,  pv:"",  wind:4,   issue:"missing",  col:"pv",  target:38},
-    {jahr:2016, wasserkraft:7717,  pv:48,  wind:999, issue:"outlier",  col:"wind",target:4},
-    {jahr:2017, wasserkraft:7047,  pv:54,  wind:4},
-    {jahr:2018, wasserkraft:101850,pv:61,  wind:5,   issue:"unit",     col:"wasserkraft",target:10185},
-    {jahr:2020, wasserkraft:6200,  pv:-12, wind:5,   issue:"negative", col:"pv",  target:78}
-  ];
-  const body=document.getElementById("explore-body");
-  const cols=["wasserkraft","pv","wind"];
-  rows.forEach((r,ri)=>{
-    const tr=document.createElement("tr");
-    let html="<td>"+r.jahr+"</td>";
-    cols.forEach(c=>{
-      const val = (r[c]==="" ? "" : r[c]);
-      const issue = (r.issue && r.col===c) ? ' data-issue="'+r.issue+'" data-target="'+r.target+'" class="editable-cell"' : "";
-      html += "<td data-col='"+c+"'"+issue+">"+val+"</td>";
-    });
-    tr.innerHTML=html;
-    body.appendChild(tr);
-  });
+  // --- Datenmodell: 7 Jahre, 3 Quellen. 5 versteckte Fehler. ---
+  // "state" ist der aktuelle (möglicherweise fehlerhafte) Stand der Tabelle.
+  const state = {
+    2014:{w:9075,  pv:30,  wind:4},
+    2015:{w:8800,  pv:null,wind:4},   // pv fehlt
+    2016:{w:7717,  pv:48,  wind:999}, // wind Ausreisser
+    2017:{w:7047,  pv:54,  wind:4},
+    2018:{w:101850,pv:61,  wind:5},   // w falsche Grösse
+    // 2019 fehlt komplett
+    2020:{w:6200,  pv:-12, wind:5}    // pv negativ
+  };
+  // Korrekte Werte, die beim Auffinden eingesetzt werden
+  const fixes = {
+    "2015-pv":    {col:"pv",   value:38},
+    "2016-wind":  {col:"wind", value:4},
+    "2018-w":     {col:"w",    value:10185},
+    "2020-pv":    {col:"pv",   value:78},
+    "2019-row":   {year:2019,  w:8500, pv:68, wind:5}
+  };
+  // Zuordnung: welche Fehler gehören zu welcher Spalte (für den Bericht)
+  const colIssues = {
+    w:    ["2018-w"],
+    pv:   ["2015-pv","2020-pv","2019-row"],
+    wind: ["2016-wind"]
+  };
+  const found = {}; // key -> true
 
-  const findings=document.getElementById("findings");
-  const fb=document.getElementById("explore-fb");
-  let solved=0;
+  const body = document.getElementById("explore-body");
+  const findings = document.getElementById("findings");
+  const fb = document.getElementById("explore-fb");
+  const hint = document.getElementById("explore-hint");
+  const report = document.getElementById("report");
+  const forecastEl = document.getElementById("forecast");
+  const decision = document.getElementById("decision");
+  const decisionFb = document.getElementById("decision-fb");
 
-  function num(td){ return parseFloat(String(td.textContent).replace(/\./g,"").replace(",",".")); }
-  function checkCell(td){
-    if(td.dataset.target===undefined) return;
-    const v=num(td);
-    if(!isNaN(v) && v===parseFloat(td.dataset.target)){
-      td.classList.remove("cell-flag","cell-flagged");
-      td.classList.add("cell-fixed");
-      const li=findings.querySelector('li[data-issue="'+td.dataset.issue+'"]');
-      if(li && !li.classList.contains("done")){
-        li.classList.add("done");
-        solved++;
-        if(solved===4){
-          KI.feedback(fb,true,"Ausgezeichnet — alle 4 Probleme behoben. Deine Daten sind jetzt bereinigt. Steig nun die Pyramide hoch →");
-          KI.Store.mark("k1","t6");
-        }
+  // --- Tabelle rendern (2019 als Lücke) ---
+  const years = [2014,2015,2016,2017,2018,2020];
+  const colKeys = ["w","pv","wind"];
+  function fmt(v){ return v===null||v===undefined ? "" : v; }
+  function buildTable(){
+    body.innerHTML = "";
+    years.forEach(y=>{
+      const tr = document.createElement("tr");
+      let html = "<td>"+y+"</td>";
+      colKeys.forEach(c=>{ html += "<td data-year='"+y+"' data-col='"+c+"' class='cell'>"+fmt(state[y][c])+"</td>"; });
+      tr.innerHTML = html;
+      body.appendChild(tr);
+      // Lücke nach 2018 → 2019 fehlt
+      if(y===2018){
+        const gap = document.createElement("tr");
+        gap.id = "gap-2019";
+        gap.innerHTML = "<td class='gap-year'>2019</td><td colspan='3' class='gap-cell'>⚠️ Hier fehlt ein Jahr — klicke, um 2019 wieder einzufügen</td>";
+        body.appendChild(gap);
       }
-    } else if(!isNaN(v) && v!==parseFloat(td.dataset.target)){
-      td.classList.add("cell-flagged");
+    });
+  }
+  buildTable();
+
+  // --- Kennzahlen ---
+  function colVals(col){
+    return Object.keys(state).map(Number).sort((a,b)=>a-b)
+      .map(y=>state[y][col]).filter(v=>v!==null && v!==undefined);
+  }
+  const mean = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  function linreg(pts){
+    const n=pts.length, sx=pts.reduce((s,p)=>s+p[0],0), sy=pts.reduce((s,p)=>s+p[1],0);
+    const sxy=pts.reduce((s,p)=>s+p[0]*p[1],0), sxx=pts.reduce((s,p)=>s+p[0]*p[0],0);
+    const slope=(n*sxy-sx*sy)/(n*sxx-sx*sx);
+    return [slope,(sy-slope*sx)/n];
+  }
+  function pvForecast(){
+    const pts = Object.keys(state).map(Number)
+      .filter(y=>state[y].pv!==null && state[y].pv!==undefined)
+      .sort((a,b)=>a-b).map(y=>[y,state[y].pv]);
+    if(pts.length<3) return null;
+    const [slope,intercept]=linreg(pts);
+    return {slope, val: slope*2021+intercept};
+  }
+  const fmtInt = n => Math.round(n).toLocaleString("de-CH");
+
+  // --- Bericht + Prognose live rendern ---
+  function renderReport(){
+    const cols=[{k:"w",name:"Wasserkraft"},{k:"pv",name:"Photovoltaik"},{k:"wind",name:"Wind"}];
+    report.innerHTML="";
+    cols.forEach(c=>{
+      const vals=colVals(c.k);
+      const dirty = colIssues[c.k].some(key=>!found[key]);
+      const card=document.createElement("div");
+      card.className="report-card "+(dirty?"dirty":"clean");
+      const m=mean(vals);
+      card.innerHTML =
+        "<div class='report-status "+(dirty?"dirty":"clean")+"'>"+(dirty?"⚠️ enthält Fehler":"✓ bereinigt")+"</div>"+
+        "<div class='rc-name'>"+c.name+"</div>"+
+        "<div class='rc-row'><span class='rc-k'>Mittelwert</span><span class='rc-v'>"+(m===null?"–":fmtInt(m))+"</span></div>"+
+        "<div class='rc-row'><span class='rc-k'>Minimum</span><span class='rc-v'>"+(vals.length?fmtInt(Math.min.apply(null,vals)):"–")+"</span></div>"+
+        "<div class='rc-row'><span class='rc-k'>Maximum</span><span class='rc-v'>"+(vals.length?fmtInt(Math.max.apply(null,vals)):"–")+"</span></div>"+
+        "<div class='rc-row'><span class='rc-k'>Jahre</span><span class='rc-v'>"+vals.length+" / 7</span></div>";
+      report.appendChild(card);
+    });
+    // Prognose
+    const fc=pvForecast();
+    const allFound = Object.keys(fixes).every(k=>found[k]);
+    forecastEl.className="forecast "+(allFound?"clean":"dirty");
+    if(fc){
+      const up = fc.slope>0;
+      const maxSeen = Math.max.apply(null, colVals("pv").concat([fc.val]));
+      const pct = Math.max(6, Math.min(100, fc.val/maxSeen*100));
+      forecastEl.innerHTML =
+        "<div class='fc-head'>"+
+          "<span class='fc-title'>Prognose Photovoltaik 2021</span>"+
+          "<span class='fc-val'>"+fmtInt(fc.val)+"<span class='unit'>Mio. kWh</span></span>"+
+          "<span class='fc-trend "+(up?"up":"down")+"'>"+(up?"↑ steigend":"↓ fallend")+"</span>"+
+        "</div>"+
+        "<div class='fc-line'><div class='fc-bar' style='width:"+pct+"%'></div></div>"+
+        "<div class='fc-note'>"+(allFound
+          ? "✓ Auf Basis der bereinigten Daten wächst die PV-Produktion weiter: 2021 voraussichtlich um die 85 Mio. kWh."
+          : "⚠️ Diese Prognose basiert auf fehlerhaften Daten. Negative Werte und der Ausreisser ziehen sie stark nach unten — sie ist noch <b>keine</b> Grundlage für eine Entscheidung.")+"</div>";
+    }
+  }
+  renderReport();
+
+  // --- Entscheidung (erst nach bereinigten Daten) ---
+  let decisionBuilt=false;
+  function buildDecision(){
+    if(decisionBuilt) return;
+    decisionBuilt=true;
+    decision.classList.remove("locked-note");
+    decision.classList.add("mc");
+    const opts=[
+      {t:"„Die PV-Produktion wächst weiter — der Ausbau lohnt sich, wir investieren in PV.“", ok:true,
+       reason:"Richtig. Auf den bereinigten Daten steigt PV von 30 auf 78 Mio. kWh und die Prognose 2021 liegt bei ~85. Das Wachstum ist robust."},
+      {t:"„Die PV-Produktion bricht ein — wir streichen die PV-Pläne.“", ok:false,
+       reason:"Das wäre die Falle: die <b>unbereinigten</b> Daten (negativer Wert, Ausreisser, fehlendes Jahr) zeigen genau das. Ein Datenfehler hat die Prognose umgekehrt."},
+      {t:"„Wasserkraft ist die einzige sichere Quelle — wir bauen ausschliesslich Wasserkraft aus.“", ok:false,
+       reason:"Wasserkraft ist zwar stabil, aber die bereinigten Daten zeigen, dass PV der am schnellsten wachsende Baustein ist. Nur Wasserkraft auszubauen, ignoriert das PV-Wachstum."}
+    ];
+    // mischen
+    for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+    let selected=-1;
+    opts.forEach((o,i)=>{
+      const el=document.createElement("div");
+      el.className="mc-opt";
+      el.innerHTML="<span class='radio'></span><span>"+o.t+"</span>";
+      el.addEventListener("click",()=>{
+        decision.querySelectorAll(".mc-opt").forEach(x=>x.classList.remove("selected"));
+        el.classList.add("selected"); selected=i;
+      });
+      decision.appendChild(el);
+    });
+    const btn=document.createElement("button");
+    btn.className="btn btn-primary mt"; btn.textContent="Prüfen";
+    btn.addEventListener("click",()=>{
+      if(selected<0) return;
+      const o=opts[selected];
+      const els=decision.querySelectorAll(".mc-opt");
+      opts.forEach((oo,ii)=>{
+        els[ii].classList.remove("correct","wrong");
+        if(oo.ok) els[ii].classList.add("correct");
+        else if(ii===selected) els[ii].classList.add("wrong");
+      });
+      KI.feedback(decisionFb, o.ok, o.reason);
+      btn.disabled=true;
+    });
+    decision.appendChild(btn);
+  }
+
+  // --- Klick-Logik: Fehler finden & korrigieren ---
+  function markFound(key, td){
+    if(found[key]) return;
+    found[key]=true;
+    const li=findings.querySelector('li[data-issue="'+key+'"]');
+    if(li) li.classList.add("done");
+    // Zelle grün markieren
+    if(td) td.classList.add("cell-fixed");
+    renderReport();
+    const total=Object.keys(fixes).length;
+    const done=Object.keys(fixes).filter(k=>found[k]).length;
+    if(done===total){
+      KI.feedback(fb,true,"Ausgezeichnet — alle 5 Fehler behoben. Der Bericht und die Prognose sind jetzt korrekt. Ziehe unten die Schlussfolgerung für die Alpenblick AG ↓");
+      hint.style.display="none";
+      KI.Store.mark("k1","t6");
+      buildDecision();
+    } else {
+      KI.feedback(fb,false,""+done+" von "+total+" behoben. Weiter so — es gibt noch "+(total-done)+" Fehler in den Daten.");
     }
   }
 
-  // Klick auf fehlerhafte Zelle → markieren
   body.addEventListener("click",e=>{
-    const td=e.target.closest("td[data-issue]");
+    // Lücke 2019
+    if(e.target.closest("#gap-2019")){
+      if(found["2019-row"]) return;
+      state[2019]={w:fixes["2019-row"].w, pv:fixes["2019-row"].pv, wind:fixes["2019-row"].wind};
+      // neu rendern (Lücke verschwindet, 2019 erscheint)
+      buildTable();
+      markFound("2019-row", null);
+      return;
+    }
+    const td=e.target.closest("td[data-year]");
     if(!td) return;
     if(td.classList.contains("cell-fixed")) return;
-    td.classList.add("cell-flag");
-    td.contentEditable="true";
-    td.focus();
-    // Auswahl markieren für einfaches Überschreiben
-    const range=document.createRange(); range.selectNodeContents(td);
-    const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
-  });
-  body.addEventListener("input",e=>{
-    const td=e.target.closest("td[data-issue]");
-    if(td) checkCell(td);
-  });
-  body.addEventListener("blur",e=>{
-    const td=e.target.closest("td[data-issue]");
-    if(td && !td.classList.contains("cell-fixed")){
-      if(num(td)===parseFloat(td.dataset.target)) checkCell(td);
-      else td.classList.add("cell-flagged");
+    const key=td.dataset.year+"-"+td.dataset.col;
+    if(fixes[key] && !found[key]){
+      // Fehler gefunden → korrigieren
+      const f=fixes[key];
+      state[td.dataset.year][f.col]=f.value;
+      td.textContent=f.value;
+      markFound(key, td);
+    } else if(!fixes[key]){
+      // saubere Zelle → kurzes Feedback
+      td.classList.add("cell-flag");
+      setTimeout(()=>td.classList.remove("cell-flag"),600);
+      KI.feedback(fb,false,"Diese Zelle sieht in Ordnung aus. Schau nach fehlenden Werten, negativen Zahlen oder unplausibel hohen Werten.");
     }
-  },true);
+  });
 
-  /* ---- Teil B: Pyramide hochsteigen (4 Stufen, je 1 richtige Antwort) ---- */
+  // Hinweis
+  hint.innerHTML="💡 <b>Hinweis:</b> Klicke dich durch die Tabelle. Achte auf: ein <b>leeres Feld</b>, ein <b>negatives</b> Zeichen, eine Zahl, die <b>deutlich zu gross</b> ist, und die <b>fehlende Zeile</b> zwischen 2018 und 2020.";
+  hint.style.display="block";
+
+  /* ---- Teil B: Pyramide hochsteigen (4 Stufen) ---- */
   const steps=[
     {level:"Daten", q:"Welche Aussage beschreibt die <b>bereinigten Rohdaten</b> (Stufe 1)?",
       opts:[
@@ -651,7 +824,7 @@ KI.reasonBox({
   const stats  = document.getElementById("live-stats");
   const chart  = document.getElementById("live-chart");
   const fmt = n => Math.round(n).toLocaleString("de-CH");
-  KI.csvLoad("../files/alpenblick_vertrieb.csv").then(rows=>{
+  KI.csvLoad("files/alpenblick_vertrieb.csv").then(rows=>{
     const f = x => { const v = parseFloat(String(x).replace(",",".")); return isNaN(v)?0:v; };
     const reg = {};
     let totU=0, totG=0;
