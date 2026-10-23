@@ -123,6 +123,9 @@ body{
 }
 .card h3{margin:0 0 6px;font-size:17px;letter-spacing:-.01em}
 .card p{margin:0;color:var(--ink-500);font-size:14px}
+.card .src-note{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);color:var(--ink-500);font-size:12px;line-height:1.5}
+.card .src-note a{color:var(--teal-700);text-decoration:underline;text-underline-offset:2px}
+.card .src-note a:hover{color:var(--teal-900)}
 .card .tag{
   position:absolute;top:18px;right:18px;font-size:11px;font-weight:700;
   padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--ink-500);
